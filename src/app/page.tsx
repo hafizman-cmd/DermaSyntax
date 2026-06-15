@@ -213,14 +213,15 @@ export default function Home() {
             initial={{ opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 flex flex-col h-full w-full"
+            className="relative z-10 flex flex-col min-h-screen lg:h-screen w-full"
           >
             <Navbar />
 
-            <main className="flex flex-1 overflow-hidden p-8 gap-8">
+            {/* Main container: Stacks vertically on mobile, row on desktop. Scrollable on mobile. */}
+            <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8">
 
-              {/* Left Side: Ingredient Arsenal */}
-              <section className="flex w-80 shrink-0 flex-col rounded-2xl border border-zinc-900/60 bg-zinc-950/30 backdrop-blur-md p-5">
+              {/* Left Side: Ingredient Arsenal (Takes full width on mobile, fixed 80 width on desktop) */}
+              <section className="flex w-full lg:w-80 shrink-0 flex-col rounded-2xl border border-zinc-900/60 bg-zinc-950/30 backdrop-blur-md p-5">
                 <div className="mb-4">
                   <div className="flex items-center justify-between">
                     <h2 className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
@@ -256,8 +257,8 @@ export default function Home() {
                         key={filter}
                         onClick={() => setActiveFilter(filter)}
                         className={`text-[8px] font-mono font-bold tracking-widest uppercase px-2 py-1 rounded-md border transition-all duration-200 ${isCurrent
-                            ? 'border-zinc-500 bg-zinc-900 text-zinc-100 shadow-[0_0_12px_rgba(255,255,255,0.03)]'
-                            : 'border-zinc-900/80 bg-zinc-950/20 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
+                          ? 'border-zinc-500 bg-zinc-900 text-zinc-100 shadow-[0_0_12px_rgba(255,255,255,0.03)]'
+                          : 'border-zinc-900/80 bg-zinc-950/20 text-zinc-500 hover:border-zinc-800 hover:text-zinc-300'
                           }`}
                       >
                         {filter}
@@ -267,7 +268,7 @@ export default function Home() {
                 </div>
 
                 {/* Scrollable list container */}
-                <div className="flex-1 overflow-y-auto px-1.5 py-1">
+                <div className="flex-1 overflow-y-auto max-h-[400px] lg:max-h-none px-1.5 py-1">
                   <motion.div layout className="grid grid-cols-1 gap-3">
                     <AnimatePresence mode="popLayout">
                       {filteredIngredients.map((ing) => (
@@ -297,9 +298,10 @@ export default function Home() {
                 {/* ──────────────────────────────────────────────── */}
               </section>
 
-              {/* Right Side: Workspaces */}
-              <section className="flex flex-1 flex-col gap-8 overflow-hidden">
-                <div className="flex flex-1 min-h-0 gap-8 overflow-hidden">
+              {/* Right Side: Workspaces (Renders cleanly underneath the sidebar on mobile views) */}
+              <section className="flex flex-col flex-1 gap-6 lg:gap-8">
+                {/* AM/PM Track Panel layout wrapper: stacks on mobile, splits on desktop tablets */}
+                <div className="flex flex-col md:flex-row flex-1 min-h-0 gap-6 lg:gap-8">
                   <RoutineSlotPanel slot="AM" ingredients={amRoutine} />
                   <RoutineSlotPanel slot="PM" ingredients={pmRoutine} />
                 </div>
