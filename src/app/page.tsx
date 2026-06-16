@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import IngredientCard from '@/components/IngredientCard';
@@ -9,7 +10,7 @@ import CompilerConsole from '@/components/CompilerConsole';
 import MechanismDrawer from '@/components/MechanismDrawer';
 import { INGREDIENTS } from '@/data/ingredients';
 import { useRoutineStore } from '@/store/useRoutineStore';
-import { Search, User, ArrowRight, Terminal, Sparkles, Flame, Droplets, RefreshCw, Shield } from 'lucide-react';
+import { Search, User, ArrowRight, Terminal, Sparkles, Flame, Droplets, RefreshCw, Shield, Binary } from 'lucide-react';
 import ExportPanel from '@/components/ExportPanel';
 import { SplineScene } from '@/components/SplineScene';
 
@@ -72,6 +73,8 @@ function ElegantShape({
 }
 
 export default function Home() {
+  const router = useRouter();
+
   const amRoutine = useRoutineStore((state) => state.amRoutine);
   const pmRoutine = useRoutineStore((state) => state.pmRoutine);
   const skinType = useRoutineStore((state) => state.skinType);
@@ -81,13 +84,16 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = React.useState<string>('ALL');
   const [isOnboarded, setIsOnboarded] = React.useState(false);
 
+  // Compiler execution toggle state controlling main routing benchmarks
+  const [compilerMode, setCompilerMode] = React.useState<'ingredients' | 'products'>('ingredients');
+
   const matrixFilters = ['ALL', 'ACIDS', 'RETINOIDS', 'VITAMINS', 'REPAIRS'];
 
   // Card parameters with detailed medical profiles maximizing space cleanly
   const skinCards = [
     {
       name: "Combination",
-      title: "Combination Profile",
+      title: "Combination Skin",
       description: "Multi-zone variable routing logic",
       extended: "Simultaneous T-zone sebum regulation and lipid buffering active. Balancing micro-zone epidermal environments.",
       date: "MATRIX SEC // 04",
@@ -99,7 +105,7 @@ export default function Home() {
     },
     {
       name: "Sensitive",
-      title: "Sensitive Profile",
+      title: "Sensitive Skin",
       description: "Hyper-reactive barrier framework",
       extended: "Inflammatory threshold critical. Restricting aggressive acid chains while deploying soothing molecular isolates.",
       date: "MATRIX SEC // 05",
@@ -111,7 +117,7 @@ export default function Home() {
     },
     {
       name: "Normal",
-      title: "Normal Profile",
+      title: "Normal Skin",
       description: "Baseline balance matrix calibration",
       extended: "Homeostasis verified. Stabilizing structural moisture barriers and protecting target skin cell turnover loops.",
       date: "MATRIX SEC // 01",
@@ -123,7 +129,7 @@ export default function Home() {
     },
     {
       name: "Oily",
-      title: "Oily Profile",
+      title: "Oily Skin",
       description: "High sebum routing rules",
       extended: "Hyperactive lipid gland synthesis detected. Routing lipophilic clearing complexes and weightless humectants.",
       date: "MATRIX SEC // 02",
@@ -135,7 +141,7 @@ export default function Home() {
     },
     {
       name: "Dry",
-      title: "Dry Profile",
+      title: "Dry Skin",
       description: "Cellular hydration patch log",
       extended: "Transepidermal water loss index elevated. Injecting dense water-binding agents to bridge surface lipid gaps.",
       date: "MATRIX SEC // 03",
@@ -229,9 +235,38 @@ export default function Home() {
                   An advanced algorithmic development environment designed to sequence active chemical components, map molecular application depths, and cross-examine pH variables to prevent skin barrier degradation.
                 </p>
 
+                {/* ── NEO-BRUTALIST ARCHITECTURAL ENGINE MODE SELECTOR SLIDER ── */}
+                <div className="mt-5 w-full rounded-xl border-2 border-black bg-zinc-100 p-1 dark:border-zinc-800 dark:bg-zinc-950/40 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.05)] relative h-9 flex items-center">
+                  <div
+                    className={cn(
+                      "absolute top-0.5 bottom-0.5 w-[calc(50%-4px)] rounded-lg border-2 border-black bg-white transition-all duration-300 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:border-emerald-400 dark:bg-zinc-900 dark:shadow-none",
+                      compilerMode === 'products' ? "left-[calc(50%+2px)]" : "left-0.5"
+                    )}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setCompilerMode('ingredients')}
+                    className={cn(
+                      "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
+                      compilerMode === 'ingredients' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
+                    )}
+                  >
+                    // INGREDIENT BASE
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCompilerMode('products')}
+                    className={cn(
+                      "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
+                      compilerMode === 'products' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
+                    )}
+                  >
+                    // PRODUCT BASE
+                  </button>
+                </div>
+
                 {/* ── HIGH-DENSITY CARD DECK ASSEMBLY ── */}
-                {/* ADJUSTED: Reduced mt and mb layout spaces to draw target indicator closer and tighter to the stack */}
-                <div className="relative flex items-center justify-start w-full h-[280px] z-30 mt-10 mb-2 overflow-visible">
+                <div className="relative flex items-center justify-start w-full h-[280px] z-30 mt-12 mb-2 overflow-visible">
                   <div className="grid [grid-template-areas:'stack'] place-items-start w-full h-full overflow-visible">
                     {skinCards.map((card, index) => {
                       const isCurrent = skinType === card.name;
@@ -244,13 +279,11 @@ export default function Home() {
                             setSkinType(card.name);
                           }}
                           style={{
-                            // UPGRADED: Forces subpixel rasterization directly on transformed context layers to completely bypass blurriness
                             WebkitFontSmoothing: 'subpixel-antialiased',
                             backfaceVisibility: 'hidden',
                           }}
                           className={cn(
                             "relative flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 px-4 py-3 transition-all duration-500 cursor-pointer text-left shadow-lg [grid-area:stack]",
-                            // UPGRADED: Replaced backdrop-blur with dense glass backgrounds to eliminate browser-level blur artifacts
                             "bg-zinc-100/98 border-zinc-300 text-zinc-800 hover:bg-zinc-200/50 hover:border-black/30 dark:bg-zinc-950/95 dark:border-zinc-800/80 dark:hover:bg-zinc-900/95 dark:hover:border-white/20",
                             isCurrent ? card.zIndex : "z-10",
                             isCurrent ? card.activePos : card.inactivePos,
@@ -297,13 +330,19 @@ export default function Home() {
 
                 {/* Selected Node Status Monitor */}
                 <div className="mt-2 py-2 px-4 rounded-xl bg-white dark:border-white dark:bg-zinc-950/40 font-mono text-[9px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest w-fit ">
-                  {skinType ? `NODE TARGET // ${skinType.toUpperCase()}_STABLE` : "SELECT YOUR SKIN TYPE"}
+                  {skinType ? `NODE TARGET // ${skinType.toUpperCase()}_STABLE` : "SELECT YOUR BASE & SKIN TYPE"}
                 </div>
 
                 {/* Primary Initializer Execution Button */}
                 <button
                   disabled={!skinType}
-                  onClick={() => setIsOnboarded(true)}
+                  onClick={() => {
+                    if (compilerMode === 'products') {
+                      router.push('/intersect-lab');
+                    } else {
+                      setIsOnboarded(true);
+                    }
+                  }}
                   className="group relative mt-6 flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-xl bg-zinc-900 border-2 border-black px-4 py-3 text-xs font-black tracking-wider text-white uppercase transition-all duration-300 hover:bg-black dark:border-white dark:bg-zinc-100 dark:text-black disabled:opacity-30 disabled:pointer-events-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
                 >
                   <span>Boot Formulation Rails</span>
@@ -329,7 +368,7 @@ export default function Home() {
           </>
         ) : (
 
-          /* VIEW B: ACTIVE FORMULATION LAB INTERFACE */
+          /* ── VIEW B: ACTIVE FORMULATION LAB INTERFACE ── */
           <motion.div
             key="workspace"
             initial={{ opacity: 0, scale: 1.02 }}
@@ -337,37 +376,44 @@ export default function Home() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-10 flex flex-col min-h-screen lg:h-screen w-full"
           >
-            <Navbar />
+            {/* UPGRADED: Included state driver handler callback to trigger onboarding drop-outs on request */}
+            <Navbar onHomeClick={() => setIsOnboarded(false)} />
 
             <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8 custom-scrollbar">
 
-              <section className="flex w-full lg:w-80 shrink-0 flex-col rounded-2xl border-2 border-black bg-white/75 dark:bg-zinc-950/30 backdrop-blur-lg dark:border-white p-5 transition-all duration-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+              {/* 🧪 UPGRADED: INGREDIENT ARSENAL CONTAINER STYLING MATRICES */}
+              {/* Copied from intersect-lab: swapped dark:border-white for dark:border-zinc-800 and muted the box shadows */}
+              <section className="flex w-full lg:w-80 shrink-0 flex-col rounded-2xl border-2 border-black bg-white/70 dark:bg-zinc-950/30 backdrop-blur-md dark:border-zinc-800 p-5 transition-all duration-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.05)] text-zinc-800 dark:text-zinc-100">
                 <div className="mb-4">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xs font-black tracking-widest text-black dark:text-white uppercase">
+                    {/* UPGRADED: Text shifted to text-zinc-900 / dark:text-zinc-400 for balanced tracking visual weights */}
+                    <h2 className="text-xs font-black tracking-widest text-zinc-900 dark:text-zinc-400 uppercase">
                       Ingredient Arsenal
                     </h2>
-                    <span className="text-[8px] tracking-widest font-black px-1.5 py-0.5 border-2 border-black bg-zinc-950 text-white dark:border-white dark:bg-zinc-900 dark:text-white uppercase rounded transition-colors duration-300">
+                    {/* UPGRADED: Customized configuration chip wrapper frame details */}
+                    <span className="text-[8px] tracking-widest font-black px-1.5 py-0.5 border-2 border-black bg-zinc-950 text-white dark:border-zinc-700 dark:bg-zinc-950/40 dark:text-zinc-300 uppercase rounded font-mono">
                       Profile: {skinType}
                     </span>
                   </div>
-                  <p className="mt-1 text-[10px] tracking-wide text-zinc-900 dark:text-zinc-300 uppercase font-bold">
+                  <p className="mt-1 text-[10px] tracking-wide text-zinc-500 dark:text-zinc-400 uppercase font-bold">
                     Select or drag actives to add to formulation
                   </p>
                 </div>
 
+                {/* UPGRADED: Search bar components fully integrated with matte colors and dark:border-zinc-800 boundaries */}
                 <div className="relative mb-3">
-                  <Search className="absolute left-3 top-3.5 h-3.5 w-3.5 text-black dark:text-white stroke-[2.5]" />
+                  <Search className="absolute left-3 top-3.5 h-3.5 w-3.5 text-zinc-400 dark:text-zinc-500 stroke-[2.5]" />
                   <input
                     type="text"
                     placeholder="Search active catalog..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-xl border-2 border-black bg-white py-2.5 pl-9 pr-3 text-xs font-bold placeholder-zinc-700 outline-none transition-all dark:border-white dark:bg-zinc-950/40 dark:text-white text-black"
+                    className="w-full rounded-xl border-2 border-black bg-white py-2.5 pl-9 pr-3 text-xs font-bold placeholder-zinc-400 outline-none transition-all dark:border-zinc-800 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50"
                   />
                 </div>
 
-                <div className="flex flex-wrap gap-1 mb-4 border-b-2 border-black dark:border-white pb-3.5">
+                {/* UPGRADED: Filter pill navigation bars adapted to custom asset colors */}
+                <div className="flex flex-wrap gap-1 mb-4 border-b-2 border-black dark:border-zinc-800 pb-3.5">
                   {matrixFilters.map((filter) => {
                     const isCurrent = activeFilter === filter;
                     return (
@@ -375,8 +421,8 @@ export default function Home() {
                         key={filter}
                         onClick={() => setActiveFilter(filter)}
                         className={`text-[8px] font-mono font-black tracking-widest uppercase px-2 py-1 rounded-md border-2 transition-all duration-200 ${isCurrent
-                          ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black'
-                          : 'border-black bg-white text-black hover:bg-zinc-100 dark:border-white dark:bg-zinc-950/20 dark:text-white'
+                          ? 'border-black bg-black text-white dark:border-emerald-400 dark:bg-zinc-900 dark:text-emerald-400'
+                          : 'border-black bg-white text-black hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950/20 dark:text-zinc-500 dark:hover:bg-zinc-900'
                           }`}
                       >
                         {filter}
@@ -404,7 +450,7 @@ export default function Home() {
                   </motion.div>
 
                   {filteredIngredients.length === 0 && (
-                    <div className="flex flex-col items-center justify-center p-8 text-center text-black dark:text-white text-[10px] uppercase tracking-wider font-extrabold mt-4">
+                    <div className="flex flex-col items-center justify-center p-8 text-center text-zinc-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-extrabold font-mono mt-4">
                       No matches found in matrix range.
                     </div>
                   )}
