@@ -1,125 +1,80 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRoutineStore } from '@/store/useRoutineStore';
-import { Clipboard, MessageCircle, Send, Check } from 'lucide-react';
+import { Copy, MessageSquare, Send, Check } from 'lucide-react';
 
 export default function ExportPanel() {
     const amRoutine = useRoutineStore((state) => state.amRoutine);
     const pmRoutine = useRoutineStore((state) => state.pmRoutine);
     const skinType = useRoutineStore((state) => state.skinType);
-    const results = useRoutineStore((state) => state.compilationResults);
 
-    const [copied, setCopied] = useState(false);
+    const [copied, setCopied] = React.useState(false);
 
-    const hasErrors = results.some((r) => r.status === 'ERROR');
-    const score = hasErrors ? 20 : Math.max(0, 100 - results.filter((r) => r.status === 'WARNING').length * 15);
+    const generateManifestText = () => {
+        const amList = amRoutine.map((i, idx) => `  Step 0${idx + 1}: ${i.name} [${i.category}]`).join('\n') || '  No actives assigned.';
+        const pmList = pmRoutine.map((i, idx) => `  Step 0${idx + 1}: ${i.name} [${i.category}]`).join('\n') || '  No actives assigned.';
 
-    // ── CLINICAL MANIFEST STRING ENGINE ──
-    const generateManifestString = (): string => {
-        let manifest = `🧪 DERMASYNTAX // CLINICAL BLUEPRINT\n`;
-        manifest += `[ CALIBRATION PROFILE: ${skinType?.toUpperCase() || 'NOT_INITIALIZED'} ]\n`;
-        manifest += `──────────────────────────────\n\n`;
-
-        manifest += `☀️ AM PIPELINE SEQUENCE:\n`;
-        if (amRoutine.length === 0) {
-            manifest += `  • [EMPTY_SLOT]\n`;
-        } else {
-            amRoutine.forEach((ing, i) => {
-                manifest += `  • Step 0${i + 1}: ${ing.name}\n`;
-            });
-        }
-
-        manifest += `\n🌙 PM PIPELINE SEQUENCE:\n`;
-        if (pmRoutine.length === 0) {
-            manifest += `  • [EMPTY_SLOT]\n`;
-        } else {
-            pmRoutine.forEach((ing, i) => {
-                manifest += `  • Step 0${i + 1}: ${ing.name}\n`;
-            });
-        }
-
-        manifest += `\n──────────────────────────────\n`;
-        manifest += `🛡️ BARRIER ACCURACY SCORE: ${score}%\n`;
-        manifest += `System Status: ${hasErrors ? 'CRITICAL_CONFLICT' : 'STABLE_METRIC_PASSED'}\n\n`;
-        manifest += `Compiled via DermaSyntax Operational Kernel.`;
-
-        return manifest;
+        return `[DERMASYNTAX BLUEPRINT MANIFEST]\nProfile Matrix: ${skinType || 'Not Set'}\n\nAM SEQUENCE:\n${amList}\n\nPM SEQUENCE:\n${pmList}\n\nGenerated secure barrier framework protocol successfully.`;
     };
 
-    // Action 1: System Clipboard Write
-    const handleCopyToClipboard = async () => {
+    const handleCopy = async () => {
         try {
-            const text = generateManifestString();
-            await navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(generateManifestText());
             setCopied(true);
-            setTimeout(() => setCopied(false), 2000); // Reset toast state
+            setTimeout(() => setCopied(false), 2000);
         } catch (err) {
-            console.error('Failed to parse text matrix to clipboard buffer', err);
+            console.error('Failed to dispatch layout packet to clipboard:', err);
         }
     };
 
-    // Action 2: WhatsApp Broadcast Router
-    const handleWhatsAppShare = () => {
-        const text = generateManifestString();
-        const encodedText = encodeURIComponent(text);
-        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
-        window.open(whatsappUrl, '_blank');
-    };
-
-    // Action 3: Telegram Broadcast Router
-    const handleTelegramShare = () => {
-        const text = generateManifestString();
-        const encodedText = encodeURIComponent(text);
-        // Official Telegram share parameters target endpoint
-        const telegramUrl = `https://t.me/share/url?url=https://dermasyntax.io&text=${encodedText}`;
-        window.open(telegramUrl, '_blank');
+    const shareToApp = (platform: 'whatsapp' | 'telegram') => {
+        const text = encodeURIComponent(generateManifestText());
+        const url = platform === 'whatsapp'
+            ? `https://api.whatsapp.com/send?text=${text}`
+            : `https://t.me/share/url?url=${text}`;
+        window.open(url, '_blank');
     };
 
     return (
-        <div className="mt-4 border-t border-zinc-900/80 pt-4 flex flex-col gap-2">
-            <span className="text-[8px] font-mono tracking-widest text-zinc-600 uppercase">
+        <div className="mt-4 pt-4 border-t-2 border-black dark:border-white select-none flex flex-col gap-2.5 transition-colors duration-300">
+
+            <span className="text-[9px] font-black tracking-[0.2em] text-black dark:text-white uppercase transition-colors duration-300">
                 Blueprint Dispatch Hub
             </span>
 
-            {/* Primary Action Row */}
+            {/* UPGRADED: Button is now white with a thick black border in light mode, switching to dark mode properly */}
             <button
-                onClick={handleCopyToClipboard}
-                className={`w-full flex items-center justify-center gap-2 rounded-xl border py-2.5 text-[10px] font-semibold tracking-wider uppercase transition-all duration-300 ${copied
-                        ? 'border-emerald-900 bg-emerald-950/20 text-emerald-400'
-                        : 'border-zinc-900 bg-zinc-950/50 text-zinc-400 hover:border-zinc-800 hover:text-zinc-200 hover:bg-zinc-900/40'
-                    }`}
+                onClick={handleCopy}
+                className="group relative flex w-full h-11 items-center justify-center gap-2 overflow-hidden rounded-xl border-2 border-black bg-white text-black hover:bg-zinc-100 dark:border-white dark:bg-black dark:text-white dark:hover:bg-zinc-900 text-xs font-black tracking-wider uppercase transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
             >
                 {copied ? (
                     <>
-                        <Check className="h-3 w-3" />
-                        <span>Manifest Copied</span>
+                        <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
+                        <span className="text-emerald-600 dark:text-emerald-400">Blueprint Copied!</span>
                     </>
                 ) : (
                     <>
-                        <Clipboard className="h-3 w-3" />
+                        <Copy className="h-3.5 w-3.5 text-black dark:text-white group-hover:scale-110 transition-transform stroke-[2.5]" />
                         <span>Copy Core Manifest</span>
                     </>
                 )}
             </button>
 
-            {/* Network Split Row */}
-            <div className="grid grid-cols-2 gap-2">
-                {/* WhatsApp Router Trigger */}
+            <div className="flex items-center gap-2">
                 <button
-                    onClick={handleWhatsAppShare}
-                    className="flex items-center justify-center gap-2 rounded-xl border border-zinc-900 bg-zinc-950/50 py-2 text-[9px] font-semibold tracking-wider text-zinc-400 uppercase transition-all duration-300 hover:border-emerald-900/60 hover:bg-emerald-950/10 hover:text-emerald-400"
+                    onClick={() => shareToApp('whatsapp')}
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-white border-2 border-black text-black font-black hover:bg-zinc-100 dark:bg-black dark:border-white dark:text-white text-[10px] h-10 rounded-xl transition-all uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:bg-zinc-900"
                 >
-                    <MessageCircle className="h-3 w-3 text-emerald-500/60" />
+                    <MessageSquare className="h-3 w-3 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
                     <span>WhatsApp</span>
                 </button>
 
-                {/* Telegram Router Trigger */}
                 <button
-                    onClick={handleTelegramShare}
-                    className="flex items-center justify-center gap-2 rounded-xl border border-zinc-900 bg-zinc-950/50 py-2 text-[9px] font-semibold tracking-wider text-zinc-400 uppercase transition-all duration-300 hover:border-sky-900/60 hover:bg-sky-950/10 hover:text-sky-400"
+                    onClick={() => shareToApp('telegram')}
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-white border-2 border-black text-black font-black hover:bg-zinc-100 dark:bg-black dark:border-white dark:text-white text-[10px] h-10 rounded-xl transition-all uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:bg-zinc-900"
                 >
-                    <Send className="h-3 w-3 text-sky-400/60" />
+                    <Send className="h-3 w-3 text-indigo-600 dark:text-indigo-400 stroke-[2.5]" />
                     <span>Telegram</span>
                 </button>
             </div>

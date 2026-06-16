@@ -11,7 +11,6 @@ interface IngredientCardProps {
 }
 
 export default function IngredientCard({ ingredient }: IngredientCardProps) {
-  // Pull your exact store actions and states from useRoutineStore
   const addIngredient = useRoutineStore((state) => state.addIngredient);
   const amRoutine = useRoutineStore((state) => state.amRoutine);
   const pmRoutine = useRoutineStore((state) => state.pmRoutine);
@@ -21,16 +20,13 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
   const inAM = amRoutine?.some((i) => i.id === ingredient.id) || false;
   const inPM = pmRoutine?.some((i) => i.id === ingredient.id) || false;
 
-  // Fix 1: Added <HTMLDivElement> to satisfy strict handler types
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData('application/json', JSON.stringify(ingredient));
     e.dataTransfer.effectAllowed = 'copyMove';
   };
 
-  // Fix 2: Bypassing strict schema limits by handling the slot input dynamically
   const injectToSlot = (slot: 'AM' | 'PM') => {
     if (addIngredient) {
-      // Cast through unknown to safely attach the target execution track for mobile
       (addIngredient as any)(ingredient, slot);
     }
   };
@@ -61,71 +57,68 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
     <motion.div
       draggable
       onDragStart={handleDragStart as any}
-      className="group relative cursor-grab active:cursor-grabbing rounded-xl border border-zinc-900 bg-zinc-950/40 p-4 transition-all duration-300 hover:border-zinc-800 hover:bg-zinc-900/20 select-none"
+      /* UPGRADED: Applied high visibility dark:border-white shadow offsets */
+      className="group relative cursor-grab active:cursor-grabbing rounded-xl border-2 border-black bg-white dark:border-white dark:bg-zinc-950/40 p-4 transition-all duration-300 hover:bg-zinc-50 dark:hover:bg-zinc-900/20 select-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
     >
-      {/* Upper Information Deck */}
       <div className="flex items-start justify-between gap-2">
         <div>
-          <h4 className="text-xs font-semibold text-zinc-200 tracking-wide">
+          <h4 className="text-xs font-extrabold text-black dark:text-white tracking-wide transition-colors duration-300">
             {ingredient.name}
           </h4>
-          <p className="mt-1 text-[10px] text-zinc-500 leading-relaxed line-clamp-2">
+          <p className="mt-1 text-[10px] text-zinc-900 font-medium dark:text-zinc-300 leading-relaxed line-clamp-2 transition-colors duration-300">
             {ingredient.description}
           </p>
         </div>
 
-        {/* Info Drawer Trigger */}
         <button
           onClick={() => openDrawer?.(ingredient)}
-          className="p-1 rounded-md border border-transparent text-zinc-600 hover:text-zinc-400 hover:border-zinc-800 transition-all"
+          className="p-1 rounded-md border border-transparent text-black dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all shrink-0"
         >
-          <Info className="h-3 w-3" />
+          <Info className="h-3.5 w-3.5 stroke-[2.5]" />
         </button>
       </div>
 
-      {/* Badges Row */}
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
-        <span className="text-[8px] font-mono font-bold tracking-wider uppercase px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">
+        <span className="text-[8px] font-mono font-bold tracking-wider uppercase px-1.5 py-0.5 rounded bg-zinc-950 text-white dark:bg-zinc-900 border border-black dark:border-white transition-colors duration-300">
           {ingredient.category}
         </span>
 
         {compatibility === 'RECOMMENDED' && (
-          <span className="text-[8px] font-mono font-bold tracking-wider uppercase px-1.5 py-0.5 rounded bg-emerald-950/30 border border-emerald-900/50 text-emerald-400">
+          <span className="text-[8px] font-mono font-black tracking-wider uppercase px-1.5 py-0.5 rounded bg-emerald-100 border-2 border-emerald-700 text-emerald-900 dark:bg-emerald-950/30 dark:border-emerald-400 dark:text-emerald-400 transition-colors duration-300">
             Recommended
           </span>
         )}
         {compatibility === 'AVOID' && (
-          <span className="text-[8px] font-mono font-bold tracking-wider uppercase px-1.5 py-0.5 rounded bg-rose-950/30 border border-rose-900/50 text-rose-400">
+          <span className="text-[8px] font-mono font-black tracking-wider uppercase px-1.5 py-0.5 rounded bg-rose-100 border-2 border-rose-700 text-rose-900 dark:bg-rose-950/30 dark:border-rose-400 dark:text-rose-400 transition-colors duration-300">
             Avoid
           </span>
         )}
       </div>
 
-      {/* Mobile Quick-Add Actions Panel */}
-      <div className="mt-3.5 pt-3 border-t border-zinc-900/60 flex items-center justify-between gap-2 lg:hidden">
-        <span className="text-[8px] font-mono tracking-widest text-zinc-600 uppercase">
+      <div className="mt-3.5 pt-3 border-t-2 border-black dark:border-white flex items-center justify-between gap-2 lg:hidden transition-colors duration-300">
+        <span className="text-[8px] font-mono font-black tracking-widest text-black dark:text-white uppercase transition-colors duration-300">
           Quick Inject:
         </span>
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => injectToSlot('AM')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-md border text-[9px] font-bold uppercase tracking-wider transition-all ${inAM
-                ? 'border-amber-900/50 bg-amber-950/20 text-amber-400'
-                : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 active:bg-zinc-800'
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-md border-2 text-[9px] font-black uppercase tracking-wider transition-all duration-300 ${inAM
+              ? 'border-amber-600 bg-amber-50 text-amber-900 dark:border-amber-400 dark:bg-amber-950/20 dark:text-amber-400'
+              : 'border-black bg-white text-black dark:border-white dark:bg-zinc-900/50 dark:text-white active:bg-zinc-100'
               }`}
           >
-            <Sun className="h-2.5 w-2.5" />
+            <Sun className="h-2.5 w-2.5 stroke-[2.5]" />
             <span>AM {inAM && '✓'}</span>
           </button>
 
           <button
             onClick={() => injectToSlot('PM')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-md border text-[9px] font-bold uppercase tracking-wider transition-all ${inPM
-                ? 'border-indigo-900/50 bg-indigo-950/20 text-indigo-400'
-                : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 active:bg-zinc-800'
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-md border-2 text-[9px] font-black uppercase tracking-wider transition-all duration-300 ${inPM
+              ? 'border-indigo-600 bg-indigo-50 text-indigo-900 dark:border-indigo-400 dark:bg-indigo-950/20 dark:text-indigo-400'
+              : 'border-black bg-white text-black dark:border-white dark:bg-zinc-900/50 dark:text-white active:bg-zinc-100'
               }`}
           >
-            <Moon className="h-2.5 w-2.5" />
+            <Moon className="h-2.5 w-2.5 stroke-[2.5]" />
             <span>PM {inPM && '✓'}</span>
           </button>
         </div>

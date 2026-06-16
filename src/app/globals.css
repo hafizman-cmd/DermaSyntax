@@ -5,39 +5,69 @@
 @tailwind utilities;
 
 /* ── Root / Reset ─────────────────────────────────────────────────────────── */
+/* UPGRADED: Allowed color scheme to switch dynamically with your class toggles */
 :root {
+  color-scheme: light;
+}
+
+.dark {
   color-scheme: dark;
 }
 
 html,
 body {
   height: 100%;
-  background-color: #09090b;
-  color: #f4f4f5;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* UPGRADED: Shifted default styles to use Tailwind's responsive dark: modifier utilities */
+  @apply bg-zinc-50 text-zinc-800 dark:bg-[#050505] dark:text-zinc-200 transition-colors duration-500;
 }
 
-/* ── Custom Scrollbar ─────────────────────────────────────────────────────── */
+/* ── Custom Scrollbar (Theme Aware) ───────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
 }
+
+/* UPGRADED: Set track to transparent so it disappears beautifully in both themes */
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: transparent;
 }
+
+/* LIGHT MODE: Soft gray minimalist scrollbar thumb */
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #d4d4d8;
+  /* Tailwind zinc-300 */
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+  /* Tailwind zinc-400 */
+}
+
+/* DARK MODE: Stealthy dark terminal scrollbar thumb overrides */
+.dark ::-webkit-scrollbar-thumb {
+  background: #27272a;
+  /* Tailwind zinc-800 */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
+  /* Tailwind zinc-700 */
 }
 
 /* ── Custom Premium Animations ────────────────────────────────────────────── */
 @keyframes reportFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .report-line {
@@ -48,11 +78,13 @@ body {
 .clinical-card {
   transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
+
 .clinical-card:hover {
   background-color: rgba(39, 39, 42, 0.4);
   border-color: rgba(63, 63, 70, 0.8);
   transform: translateY(-1px);
 }
+
 .clinical-card:active {
   transform: translateY(0);
 }
