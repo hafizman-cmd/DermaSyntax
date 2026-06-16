@@ -9,8 +9,12 @@ import CompilerConsole from '@/components/CompilerConsole';
 import MechanismDrawer from '@/components/MechanismDrawer';
 import { INGREDIENTS } from '@/data/ingredients';
 import { useRoutineStore } from '@/store/useRoutineStore';
-import { Search, User, ArrowRight, Terminal } from 'lucide-react';
+import { Search, User, ArrowRight, Terminal, Sparkles, Flame, Droplets, RefreshCw, Shield } from 'lucide-react';
 import ExportPanel from '@/components/ExportPanel';
+import { SplineScene } from '@/components/SplineScene';
+
+// Simple local alternative to combine Tailwind class strings safely without broken imports
+const cn = (...classes: (string | boolean | undefined | null)[]) => classes.filter(Boolean).join(' ');
 
 function ElegantShape({
   className = "",
@@ -73,15 +77,76 @@ export default function Home() {
   const skinType = useRoutineStore((state) => state.skinType);
   const setSkinType = useRoutineStore((state) => state.setSkinType);
 
-  // Interactive UI State Controllers
   const [searchQuery, setSearchQuery] = React.useState('');
   const [activeFilter, setActiveFilter] = React.useState<string>('ALL');
   const [isOnboarded, setIsOnboarded] = React.useState(false);
 
-  const skinTypes = ['Normal', 'Oily', 'Dry', 'Combination', 'Sensitive'];
   const matrixFilters = ['ALL', 'ACIDS', 'RETINOIDS', 'VITAMINS', 'REPAIRS'];
 
-  // ── MATRIX MULTI-CLASSIFICATION ROUTER ──
+  // Card parameters with detailed medical profiles maximizing space cleanly
+  const skinCards = [
+    {
+      name: "Combination",
+      title: "Combination Profile",
+      description: "Multi-zone variable routing logic",
+      extended: "Simultaneous T-zone sebum regulation and lipid buffering active. Balancing micro-zone epidermal environments.",
+      date: "MATRIX SEC // 04",
+      icon: <RefreshCw className="size-4 text-emerald-300" />,
+      titleClassName: "text-emerald-400",
+      zIndex: "z-10",
+      activePos: "translate-x-0 -translate-y-12",
+      inactivePos: "translate-x-0 translate-y-0 hover:-translate-y-8",
+    },
+    {
+      name: "Sensitive",
+      title: "Sensitive Profile",
+      description: "Hyper-reactive barrier framework",
+      extended: "Inflammatory threshold critical. Restricting aggressive acid chains while deploying soothing molecular isolates.",
+      date: "MATRIX SEC // 05",
+      icon: <Shield className="size-4 text-rose-300" />,
+      titleClassName: "text-rose-400",
+      zIndex: "z-20",
+      activePos: "translate-x-12 -translate-y-4",
+      inactivePos: "translate-x-12 translate-y-8 hover:translate-y-0",
+    },
+    {
+      name: "Normal",
+      title: "Normal Profile",
+      description: "Baseline balance matrix calibration",
+      extended: "Homeostasis verified. Stabilizing structural moisture barriers and protecting target skin cell turnover loops.",
+      date: "MATRIX SEC // 01",
+      icon: <Sparkles className="size-4 text-blue-300" />,
+      titleClassName: "text-blue-400",
+      zIndex: "z-30",
+      activePos: "translate-x-24 translate-y-4",
+      inactivePos: "translate-x-24 translate-y-16 hover:translate-y-8",
+    },
+    {
+      name: "Oily",
+      title: "Oily Profile",
+      description: "High sebum routing rules",
+      extended: "Hyperactive lipid gland synthesis detected. Routing lipophilic clearing complexes and weightless humectants.",
+      date: "MATRIX SEC // 02",
+      icon: <Flame className="size-4 text-amber-300" />,
+      titleClassName: "text-amber-400",
+      zIndex: "z-40",
+      activePos: "translate-x-36 translate-y-12",
+      inactivePos: "translate-x-36 translate-y-24 hover:translate-y-16",
+    },
+    {
+      name: "Dry",
+      title: "Dry Profile",
+      description: "Cellular hydration patch log",
+      extended: "Transepidermal water loss index elevated. Injecting dense water-binding agents to bridge surface lipid gaps.",
+      date: "MATRIX SEC // 03",
+      icon: <Droplets className="size-4 text-cyan-300" />,
+      titleClassName: "text-cyan-400",
+      zIndex: "z-50",
+      activePos: "translate-x-48 translate-y-20",
+      inactivePos: "translate-x-48 translate-y-32 hover:translate-y-24",
+    },
+  ];
+
   const filteredIngredients = INGREDIENTS.filter((ingredient) => {
     const matchesSearch =
       ingredient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -105,10 +170,7 @@ export default function Home() {
 
       {/* GLOBAL BACKGROUND CANVAS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        {/* UPGRADED: Boosted background gradient visibility thresholds for light canvas modes */}
         <div className="absolute inset-0 bg-gradient-to-br from-zinc-300/40 dark:from-zinc-500/[0.03] via-transparent to-emerald-300/30 dark:to-emerald-500/[0.02] blur-3xl" />
-
-        {/* UPGRADED: Enhanced Shape 1 to a rich zinc-300 mix at 35% opacity for light mode */}
         <ElegantShape
           delay={0.2}
           width={650}
@@ -120,8 +182,6 @@ export default function Home() {
           gradient="from-zinc-300/35 dark:from-zinc-500/[0.06]"
           className="left-[-10%] md:left-[-5%] top-[10%]"
         />
-
-        {/* UPGRADED: Enhanced Shape 2 to a clean emerald accent blend at 25% opacity for light mode */}
         <ElegantShape
           delay={0.4}
           width={500}
@@ -133,83 +193,140 @@ export default function Home() {
           gradient="from-emerald-300/25 dark:from-emerald-500/[0.05]"
           className="right-[-5%] md:right-[0%] top-[35%]"
         />
-
-        {/* UPGRADED: Trimmed down the opacity parameters of the light mode milk-white blanket layout */}
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-50/20 via-transparent to-zinc-50/40 dark:from-[#050505] dark:via-transparent dark:to-[#050505]/80 transition-colors duration-500" />
       </div>
 
-      {/* ANIMATED LAYER ROUTER */}
       <AnimatePresence mode="wait">
         {!isOnboarded ? (
+          <>
+            {/* ── HIGH-END UNIFIED PRESENTATION CONSOLE ── */}
+            <motion.div
+              key="onboarding"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0, scale: 0.98, y: 5 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="relative flex flex-col flex-1 items-center justify-center lg:items-start h-full w-full max-w-[1400px] mx-auto min-h-0 px-6 md:p-12 overflow-y-auto lg:overflow-visible custom-scrollbar"
+            >
 
-          <motion.div
-            key="onboarding"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 0.96, y: 10 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-20 flex flex-1 items-center justify-center p-6 h-full w-full"
-          >
-            <div className="w-full max-w-lg rounded-2xl border-2 border-black bg-white/90 dark:border-white dark:bg-zinc-950/85 backdrop-blur-xl p-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] text-center relative overflow-hidden transition-colors duration-500">
-              <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-200 dark:via-white to-transparent" />
+              {/* Invisible dismiss background overlay */}
+              {skinType && (
+                <div
+                  className="absolute inset-0 z-20 cursor-default bg-transparent"
+                  onClick={() => setSkinType('')}
+                />
+              )}
 
-              <div className="mb-6 pb-6 border-b-2 border-black dark:border-white">
-                <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-lg border-2 border-black bg-zinc-50 dark:border-white dark:bg-zinc-950/40 mb-3.5 text-zinc-800 dark:text-zinc-200">
-                  <Terminal className="h-4 w-4 stroke-[2.5]" />
-                </div>
-                <h1 className="text-sm font-black tracking-[0.35em] text-zinc-800 dark:text-zinc-100 uppercase">
+              {/* ── LEFT UNIFIED TERMINAL COLUMN ── */}
+              <div className="flex flex-col text-left max-w-md w-full z-30 shrink-0 pb-12 overflow-visible">
+
+                <h1 className="text-3xl font-black tracking-[0.3em] text-zinc-900 dark:text-zinc-50 uppercase leading-none">
                   DERMASYNTAX
                 </h1>
-                <p className="text-[9px] font-mono tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mt-0.5">
+                <p className="text-[10px] font-mono tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mt-2 border-b border-zinc-200 dark:border-zinc-800 pb-4">
                   Clinical Formulation Compiler // Core Engine
                 </p>
-                <p className="mt-3.5 text-[11px] text-zinc-800 dark:text-zinc-300 leading-relaxed max-w-sm mx-auto font-bold">
+                <p className="mt-4 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed font-bold uppercase tracking-wider">
                   An advanced algorithmic development environment designed to sequence active chemical components, map molecular application depths, and cross-examine pH variables to prevent skin barrier degradation.
                 </p>
+
+                {/* ── HIGH-DENSITY CARD DECK ASSEMBLY ── */}
+                {/* ADJUSTED: Reduced mt and mb layout spaces to draw target indicator closer and tighter to the stack */}
+                <div className="relative flex items-center justify-start w-full h-[280px] z-30 mt-10 mb-2 overflow-visible">
+                  <div className="grid [grid-template-areas:'stack'] place-items-start w-full h-full overflow-visible">
+                    {skinCards.map((card, index) => {
+                      const isCurrent = skinType === card.name;
+
+                      return (
+                        <div
+                          key={card.name}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSkinType(card.name);
+                          }}
+                          style={{
+                            // UPGRADED: Forces subpixel rasterization directly on transformed context layers to completely bypass blurriness
+                            WebkitFontSmoothing: 'subpixel-antialiased',
+                            backfaceVisibility: 'hidden',
+                          }}
+                          className={cn(
+                            "relative flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 px-4 py-3 transition-all duration-500 cursor-pointer text-left shadow-lg [grid-area:stack]",
+                            // UPGRADED: Replaced backdrop-blur with dense glass backgrounds to eliminate browser-level blur artifacts
+                            "bg-zinc-100/98 border-zinc-300 text-zinc-800 hover:bg-zinc-200/50 hover:border-black/30 dark:bg-zinc-950/95 dark:border-zinc-800/80 dark:hover:bg-zinc-900/95 dark:hover:border-white/20",
+                            isCurrent ? card.zIndex : "z-10",
+                            isCurrent ? card.activePos : card.inactivePos,
+                            isCurrent && "border-black dark:border-emerald-400 bg-white dark:bg-zinc-950 ring-2 ring-black/10 dark:ring-emerald-400/20 shadow-2xl z-50 scale-[1.02]"
+                          )}
+                        >
+                          {/* Top Heading Anchor Segment */}
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="relative inline-block rounded-full bg-zinc-950 p-1 border border-zinc-800 dark:border-zinc-700">
+                                {card.icon}
+                              </span>
+                              <p className={cn("text-xs font-black tracking-wider uppercase", card.titleClassName)}>
+                                {card.title}
+                              </p>
+                            </div>
+
+                            <p className="text-[9px] font-mono font-bold tracking-tight text-zinc-500 dark:text-zinc-500 uppercase mt-1">
+                              {card.description}
+                            </p>
+                          </div>
+
+                          {/* Extended diagnostic description body */}
+                          <p className="text-[10px] font-bold leading-normal text-zinc-600 dark:text-zinc-300 tracking-wide uppercase line-clamp-2 my-1.5">
+                            {card.extended}
+                          </p>
+
+                          {/* Footer System Identifiers */}
+                          <div className="flex items-center justify-between w-full border-t border-zinc-200 dark:border-zinc-900/60 pt-1.5">
+                            <p className="text-[8px] font-mono tracking-widest text-zinc-400 dark:text-zinc-600 uppercase">
+                              {card.date}
+                            </p>
+                            {isCurrent && (
+                              <span className="text-[8px] font-mono font-black text-emerald-500 tracking-widest bg-emerald-500/10 dark:bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 animate-pulse">
+                                SELECTED
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Selected Node Status Monitor */}
+                <div className="mt-2 py-2 px-4 rounded-xl bg-white dark:border-white dark:bg-zinc-950/40 font-mono text-[9px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest w-fit ">
+                  {skinType ? `NODE TARGET // ${skinType.toUpperCase()}_STABLE` : "SELECT YOUR SKIN TYPE"}
+                </div>
+
+                {/* Primary Initializer Execution Button */}
+                <button
+                  disabled={!skinType}
+                  onClick={() => setIsOnboarded(true)}
+                  className="group relative mt-6 flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-xl bg-zinc-900 border-2 border-black px-4 py-3 text-xs font-black tracking-wider text-white uppercase transition-all duration-300 hover:bg-black dark:border-white dark:bg-zinc-100 dark:text-black disabled:opacity-30 disabled:pointer-events-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
+                >
+                  <span>Boot Formulation Rails</span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 stroke-[2.5]" />
+                </button>
               </div>
 
-              <div>
-                <div className="flex items-center justify-center gap-1.5 text-zinc-800 dark:text-zinc-200">
-                  <User className="h-3 w-3 stroke-[2.5]" />
-                  <h2 className="text-[10px] font-black tracking-[0.2em] uppercase">
-                    Initialize Skin Profile
-                  </h2>
-                </div>
-                <p className="mt-1 text-[10px] text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xs mx-auto font-medium">
-                  Select your primary skin classification matrix to calibrate localized real-time diagnostic routing rules.
-                </p>
+            </motion.div>
 
-                <div className="mt-5 grid grid-cols-2 gap-2 max-w-md mx-auto">
-                  {skinTypes.map((type) => {
-                    const isCurrent = skinType === type;
-                    const isNormalProfile = type === 'Normal';
-
-                    return (
-                      <button
-                        key={type}
-                        onClick={() => setSkinType(type)}
-                        className={`rounded-xl border-2 py-2.5 px-4 text-center text-xs font-black tracking-wide transition-all duration-300 ${isNormalProfile ? 'col-span-2' : 'col-span-1'
-                          } ${isCurrent
-                            ? 'border-black bg-black text-white dark:border-emerald-400 dark:bg-emerald-950/30 dark:text-emerald-400 shadow-sm'
-                            : 'border-black bg-white text-black hover:bg-zinc-50 dark:border-white dark:bg-zinc-950/40 dark:text-zinc-200'
-                          }`}
-                      >
-                        {type}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <button
-                disabled={!skinType}
-                onClick={() => setIsOnboarded(true)}
-                className="group relative mt-6 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-zinc-900 border-2 border-black px-4 py-3 text-xs font-black tracking-wider text-white uppercase transition-all duration-300 hover:bg-black dark:border-white dark:bg-zinc-100 dark:text-black disabled:opacity-30 disabled:pointer-events-none"
-              >
-                <span>Boot Formulation Rails</span>
-                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 stroke-[2.5]" />
-              </button>
-            </div>
-          </motion.div>
+            {/* ── FLOATING OVERLAY: PERFECTLY BALANCED VIEWPORT DECK ── */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
+              className="hidden md:flex absolute right-[-15%] bottom-0 w-[80%] h-full items-end justify-center pointer-events-auto z-10 overflow-visible shrink-0"
+            >
+              <SplineScene
+                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                className="w-full h-full transform translate-y-[13%]"
+              />
+            </motion.div>
+          </>
         ) : (
 
           /* VIEW B: ACTIVE FORMULATION LAB INTERFACE */
@@ -222,9 +339,8 @@ export default function Home() {
           >
             <Navbar />
 
-            <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8">
+            <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8 custom-scrollbar">
 
-              {/* Left Side: Ingredient Arsenal */}
               <section className="flex w-full lg:w-80 shrink-0 flex-col rounded-2xl border-2 border-black bg-white/75 dark:bg-zinc-950/30 backdrop-blur-lg dark:border-white p-5 transition-all duration-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
                 <div className="mb-4">
                   <div className="flex items-center justify-between">
@@ -240,7 +356,6 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Search Input Bar */}
                 <div className="relative mb-3">
                   <Search className="absolute left-3 top-3.5 h-3.5 w-3.5 text-black dark:text-white stroke-[2.5]" />
                   <input
@@ -252,7 +367,6 @@ export default function Home() {
                   />
                 </div>
 
-                {/* HIGH-DEFINITION MATRIX FILTERS */}
                 <div className="flex flex-wrap gap-1 mb-4 border-b-2 border-black dark:border-white pb-3.5">
                   {matrixFilters.map((filter) => {
                     const isCurrent = activeFilter === filter;
@@ -271,8 +385,7 @@ export default function Home() {
                   })}
                 </div>
 
-                {/* Scrollable list container */}
-                <div className="flex-1 overflow-y-auto max-h-[400px] lg:max-h-none px-1.5 py-1">
+                <div className="flex-1 overflow-y-auto max-h-[400px] lg:max-h-none px-1.5 py-1 custom-scrollbar">
                   <motion.div layout className="grid grid-cols-1 gap-3">
                     <AnimatePresence mode="popLayout">
                       {filteredIngredients.map((ing) => (
@@ -300,7 +413,6 @@ export default function Home() {
                 <ExportPanel />
               </section>
 
-              {/* Right Side: Workspaces */}
               <section className="flex flex-col flex-1 gap-6 lg:gap-8">
                 <div className="flex flex-col md:flex-row flex-1 min-h-0 gap-6 lg:gap-8">
                   <RoutineSlotPanel slot="AM" ingredients={amRoutine} />
