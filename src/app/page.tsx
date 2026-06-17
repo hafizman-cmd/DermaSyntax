@@ -188,17 +188,6 @@ export default function Home() {
           gradient="from-zinc-300/35 dark:from-zinc-500/[0.06]"
           className="left-[-10%] md:left-[-5%] top-[10%]"
         />
-        <ElegantShape
-          delay={0.4}
-          width={500}
-          height={130}
-          rotate={-12}
-          duration={7.5}
-          driftX={-30}
-          driftY={50}
-          gradient="from-emerald-300/25 dark:from-emerald-500/[0.05]"
-          className="right-[-5%] md:right-[0%] top-[35%]"
-        />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-50/20 via-transparent to-zinc-50/40 dark:from-[#050505] dark:via-transparent dark:to-[#050505]/80 transition-colors duration-500" />
       </div>
 
@@ -284,7 +273,7 @@ export default function Home() {
                           }}
                           className={cn(
                             "relative flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 px-4 py-3 transition-all duration-500 cursor-pointer text-left shadow-lg [grid-area:stack]",
-                            "bg-zinc-100/98 border-zinc-300 text-zinc-800 hover:bg-zinc-200/50 hover:border-black/30 dark:bg-zinc-950/95 dark:border-zinc-800/80 dark:hover:bg-zinc-900/95 dark:hover:border-white/20",
+                            "bg-white border border-zinc-200 shadow-xl text-zinc-800 hover:bg-zinc-50 hover:border-zinc-300 dark:bg-zinc-900/90 dark:border-zinc-800 dark:hover:bg-zinc-900/95 dark:hover:border-white/20 dark:shadow-none",
                             isCurrent ? card.zIndex : "z-10",
                             isCurrent ? card.activePos : card.inactivePos,
                             isCurrent && "border-black dark:border-emerald-400 bg-white dark:bg-zinc-950 ring-2 ring-black/10 dark:ring-emerald-400/20 shadow-2xl z-50 scale-[1.02]"
