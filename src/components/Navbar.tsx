@@ -6,14 +6,23 @@ import { useRoutineStore } from '@/store/useRoutineStore';
 import { RefreshCw, ShieldAlert, ShieldCheck } from 'lucide-react';
 import AnimatedThemeToggler from './AnimatedThemeToggler';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+const NAV_LINKS = [
+  { label: 'INGREDIENT BASE', href: '/' },
+  { label: 'PRODUCT BASE', href: '/product-base' },
+  { label: 'MANUAL', href: '/manual' },
+  { label: 'DOCUMENTATION', href: '/docs' },
+] as const;
 
 interface NavbarProps {
   onReset?: () => void;
   resetLabel?: string;
-  onHomeClick?: () => void; // 👈 UPGRADED: Added structural interface token tracking
+  onHomeClick?: () => void;
 }
 
 export default function Navbar({ onReset, resetLabel, onHomeClick }: NavbarProps) {
+  const pathname = usePathname();
   const results = useRoutineStore((state) => state.compilationResults);
   const clearAll = useRoutineStore((state) => state.clearAll);
   const amCount = useRoutineStore((state) => state.amRoutine.length);
@@ -92,6 +101,29 @@ export default function Navbar({ onReset, resetLabel, onHomeClick }: NavbarProps
           </span>
         </div>
       </div>
+
+      <nav className="hidden md:flex items-center">
+        {NAV_LINKS.map((link) => {
+          const isActive =
+            link.href === '/'
+              ? pathname === '/'
+              : pathname.startsWith(link.href);
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-xs uppercase tracking-[0.15em] font-semibold transition-colors mx-4 ${
+                isActive
+                  ? 'text-zinc-900 dark:text-white'
+                  : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+              }`}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </nav>
 
       <div className="flex items-center gap-6">
 

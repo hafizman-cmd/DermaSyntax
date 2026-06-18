@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AnimatedThemeToggler from '@/components/AnimatedThemeToggler';
+import GatewayNav from '@/components/GatewayNav';
 
 const chapters = [
   {
@@ -78,39 +79,7 @@ export default function DocsPage() {
     <div className="min-h-screen bg-zinc-50 dark:bg-[#121212] text-zinc-800 dark:text-zinc-200 antialiased transition-colors duration-500">
 
       {/* ── FIXED GATEWAY TOP NAVIGATION BAR ── */}
-      <header className="fixed top-0 left-0 right-0 w-full h-16 z-50 flex items-center justify-between px-8 bg-zinc-50/70 dark:bg-[#121212]/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
-        <Link href="/" className="text-[10px] uppercase tracking-[0.25em] font-medium text-zinc-400 dark:text-zinc-500 select-none hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
-          DERMASYNTAX // DOCS_v1.0.4
-        </Link>
-
-        <nav className="flex items-center">
-          <Link
-            href="/"
-            className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
-          >
-            INGREDIENT BASE
-          </Link>
-          <Link
-            href="/intersect-lab"
-            className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
-          >
-            PRODUCT BASE
-          </Link>
-          <Link
-            href="/docs"
-            className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-900 dark:text-white mx-4"
-          >
-            DOCUMENTATION
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <AnimatedThemeToggler />
-          <span className="text-[9px] font-mono tracking-wider text-emerald-600 dark:text-emerald-400 uppercase select-none">
-            &bull; DOCS_READY
-          </span>
-        </div>
-      </header>
+      <GatewayNav statusLabel="DOCS_READY" logoLabel="DERMASYNTAX // DOCS_v1.0.4" />
 
       {/* ── MAIN SPLIT LAYOUT ── */}
       <div className="flex pt-16">

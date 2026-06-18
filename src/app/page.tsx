@@ -17,6 +17,7 @@ import { Search, User, ArrowRight, Terminal, Sparkles, Flame, Droplets, RefreshC
 import ExportPanel from '@/components/ExportPanel';
 import { SplineScene } from '@/components/SplineScene';
 import AnimatedThemeToggler from '@/components/AnimatedThemeToggler';
+import GatewayNav from '@/components/GatewayNav';
 
 // Simple local alternative to combine Tailwind class strings safely without broken imports
 const cn = (...classes: (string | boolean | undefined | null)[]) => classes.filter(Boolean).join(' ');
@@ -222,40 +223,7 @@ export default function Home() {
         {!isOnboarded ? (
           <>
             {/* ── FIXED GATEWAY TOP NAVIGATION BAR ── */}
-            <header className="fixed top-0 left-0 right-0 w-full h-16 z-50 flex items-center justify-between px-8 bg-zinc-50/70 dark:bg-[#121212]/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
-              <span className="text-[10px] uppercase tracking-[0.25em] font-medium text-zinc-400 dark:text-zinc-500 select-none">
-                DERMASYNTAX // GATEWAY_v1.0.0
-              </span>
-
-              <nav className="flex items-center">
-                <Link
-                  href="/"
-                  onClick={() => setIsOnboarded(true)}
-                  className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
-                >
-                  INGREDIENT BASE
-                </Link>
-                <Link
-                  href="/intersect-lab"
-                  className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
-                >
-                  PRODUCT BASE
-                </Link>
-                <Link
-                  href="/docs"
-                  className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
-                >
-                  DOCUMENTATION
-                </Link>
-              </nav>
-
-              <div className="flex items-center gap-3">
-                <AnimatedThemeToggler />
-                <span className="text-[9px] font-mono tracking-wider text-emerald-600 dark:text-emerald-400 uppercase select-none">
-                  &bull; GATEWAY_READY
-                </span>
-              </div>
-            </header>
+            <GatewayNav />
 
             {/* ── HIGH-END UNIFIED PRESENTATION CONSOLE ── */}
             <motion.div
@@ -407,7 +375,7 @@ export default function Home() {
                   disabled={!skinType}
                   onClick={() => {
                     if (compilerMode === 'products') {
-                      router.push('/intersect-lab');
+                      router.push('/product-base');
                     } else {
                       setIsOnboarded(true);
                     }
