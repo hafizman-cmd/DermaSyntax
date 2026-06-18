@@ -37,7 +37,7 @@ export default function ExportPanel() {
     };
 
     return (
-        <div className="mt-4 pt-4 border-t-2 border-black dark:border-white select-none flex flex-col gap-2.5 transition-colors duration-300">
+        <div className="mt-4 pt-4 border-t border-slate-700 select-none flex flex-col gap-2.5 transition-colors duration-300">
 
             <span className="text-[9px] font-black tracking-[0.2em] text-black dark:text-white uppercase transition-colors duration-300">
                 Blueprint Dispatch Hub
@@ -46,7 +46,7 @@ export default function ExportPanel() {
             {/* UPGRADED: Button is now white with a thick black border in light mode, switching to dark mode properly */}
             <button
                 onClick={handleCopy}
-                className="group relative flex w-full h-11 items-center justify-center gap-2 overflow-hidden rounded-xl border-2 border-black bg-white text-black hover:bg-zinc-100 dark:border-white dark:bg-black dark:text-white dark:hover:bg-zinc-900 text-xs font-black tracking-wider uppercase transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                className="group relative flex w-full h-11 items-center justify-center gap-2 overflow-hidden rounded-xl border border-zinc-300 dark:border-zinc-700 bg-transparent text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.06] text-xs font-black tracking-wider uppercase transition-all duration-300"
             >
                 {copied ? (
                     <>
@@ -62,18 +62,18 @@ export default function ExportPanel() {
             </button>
 
             <div className="flex items-center gap-2">
-                <button
+                  <button
                     onClick={() => shareToApp('whatsapp')}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-white border-2 border-black text-black font-black hover:bg-zinc-100 dark:bg-black dark:border-white dark:text-white text-[10px] h-10 rounded-xl transition-all uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:bg-zinc-900"
-                >
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white font-black hover:bg-zinc-100 dark:hover:bg-white/[0.06] text-[10px] h-10 rounded-xl transition-all uppercase tracking-wide"
+                  >
                     <MessageSquare className="h-3 w-3 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
                     <span>WhatsApp</span>
                 </button>
 
-                <button
+                  <button
                     onClick={() => shareToApp('telegram')}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-white border-2 border-black text-black font-black hover:bg-zinc-100 dark:bg-black dark:border-white dark:text-white text-[10px] h-10 rounded-xl transition-all uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:bg-zinc-900"
-                >
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white font-black hover:bg-zinc-100 dark:hover:bg-white/[0.06] text-[10px] h-10 rounded-xl transition-all uppercase tracking-wide"
+                  >
                     <Send className="h-3 w-3 text-indigo-600 dark:text-indigo-400 stroke-[2.5]" />
                     <span>Telegram</span>
                 </button>

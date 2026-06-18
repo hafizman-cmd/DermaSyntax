@@ -69,7 +69,7 @@ export default function IntersectLab() {
     // Renders a safe loading layout matching the main template styling while syncing elements
     if (!mounted || loading) {
         return (
-            <div className="relative flex min-h-screen flex-col bg-zinc-50 text-zinc-800 dark:bg-[#050505] dark:text-zinc-100 antialiased font-mono text-[10px] items-center justify-center tracking-widest uppercase">
+            <div className="relative flex min-h-screen flex-col bg-zinc-50 text-zinc-800 dark:bg-[#121212] dark:text-zinc-100 antialiased font-mono text-[10px] items-center justify-center tracking-widest uppercase">
                 <div className="flex items-center gap-2">
                     <RefreshCw className="h-4 w-4 animate-spin text-emerald-500" />
                     <span>Fetching Product Registry...</span>
@@ -79,7 +79,7 @@ export default function IntersectLab() {
     }
 
     return (
-        <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-zinc-50 text-zinc-800 dark:bg-[#050505] dark:text-zinc-100 antialiased transition-colors duration-500">
+        <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-zinc-50 text-zinc-800 dark:bg-[#121212] dark:text-zinc-100 antialiased transition-colors duration-500">
 
             {/* Background canvas lighting matrix */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -101,7 +101,7 @@ export default function IntersectLab() {
             <main className="relative z-10 flex flex-col flex-1 max-w-[1500px] w-full mx-auto px-4 py-6 md:p-8 overflow-y-auto">
 
                 {/* Core Deck Label Header Area */}
-                <div className="mb-8 border-b-2 border-black dark:border-zinc-800 pb-4">
+                <div className="mb-8 border-b border-zinc-300 dark:border-zinc-800 pb-4">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                         <div>
                             <div className="flex items-center gap-2 font-mono text-[9px] font-black tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">
@@ -111,7 +111,7 @@ export default function IntersectLab() {
                                 OPEN PRODUCT ANALYZER
                             </h1>
                         </div>
-                        <div className="py-1.5 px-3 rounded-lg border-2 border-black bg-white dark:border-zinc-700 dark:bg-zinc-950/40 font-mono text-[10px] text-zinc-600 dark:text-zinc-300 uppercase tracking-widest font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.1)]">
+                        <div className="py-1.5 px-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white/[0.03] font-mono text-[10px] text-zinc-600 dark:text-zinc-300 uppercase tracking-widest font-black">
                             PROFILE CONFIG // {skinType.toUpperCase()}_STABLE
                         </div>
                     </div>
@@ -121,7 +121,7 @@ export default function IntersectLab() {
                 <div className="grid grid-cols-1 xl:grid-cols-7 gap-6 items-start flex-1 min-h-0">
 
                     {/* ANALYTICAL CARD DOCK A */}
-                    <div className="xl:col-span-2 flex flex-col rounded-2xl border-2 border-black bg-white/70 dark:bg-zinc-950/30 backdrop-blur-md dark:border-zinc-800 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.05)] min-h-[360px]">
+                    <div className="xl:col-span-2 flex flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-xl shadow-sm p-5 min-h-[360px]">
                         <h2 className="text-xs font-black tracking-widest text-zinc-900 dark:text-zinc-400 uppercase mb-3 flex items-center gap-2">
                             <span className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse" /> COMPONENT CHAMBER A
                         </h2>
@@ -135,14 +135,14 @@ export default function IntersectLab() {
                                             placeholder="Filter Brands..."
                                             value={brandFilterA}
                                             onChange={(e) => setBrandFilterA(e.target.value)}
-                                            className="w-full rounded-xl border-2 border-black bg-white py-2 px-3 text-xs font-bold placeholder-zinc-400 outline-none dark:border-zinc-700 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-50 mb-3 shrink-0"
+                                            className="w-full rounded-xl border border-slate-700 bg-white/[0.03] py-2 px-3 text-xs font-bold placeholder-zinc-400 outline-none text-zinc-900 dark:text-zinc-50 mb-3 shrink-0"
                                         />
                                         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1 pr-1">
                                             {filteredBrandsA.map(brand => (
                                                 <button
                                                     key={brand}
                                                     onClick={() => setActiveBrandA(brand)}
-                                                    className="w-full text-left px-3 py-2.5 rounded-lg border border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                                                    className="w-full text-left px-3 py-2.5 rounded-lg border border-slate-700 bg-white/[0.02] hover:bg-white/[0.06] transition-colors"
                                                 >
                                                     <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wide">{brand}</span>
                                                     <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 ml-2">
@@ -229,8 +229,7 @@ export default function IntersectLab() {
                     </div>
 
                     {/* ⚡ UPGRADED: FIXED CENTER INTERSECT DIAGNOSTIC BOX INTERFACE */}
-                    {/* Added 'bg-white/70 dark:bg-zinc-950/30 backdrop-blur-md' to adapt perfectly across theme shifts */}
-                    <div className="xl:col-span-3 flex flex-col rounded-2xl border-2 border-black bg-white/70 dark:bg-zinc-950/30 backdrop-blur-md dark:border-zinc-800 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.05)] min-h-[360px] self-stretch justify-center items-center text-center relative overflow-hidden">
+                    <div className="xl:col-span-3 flex flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-xl shadow-sm p-5 min-h-[360px] self-stretch justify-center items-center text-center relative overflow-hidden">
 
                         <AnimatePresence mode="wait">
                             {!report ? (
@@ -241,13 +240,13 @@ export default function IntersectLab() {
                                     exit={{ opacity: 0 }}
                                     className="flex flex-col items-center p-6"
                                 >
-                                    <div className="h-12 w-12 rounded-xl border-2 border-dashed border-zinc-300 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-600 mb-4 animate-spin [animation-duration:12s]">
+                                    <div className="h-12 w-12 rounded-xl border border-dashed border-slate-600 flex items-center justify-center text-zinc-400 dark:text-zinc-600 mb-4 animate-spin [animation-duration:12s]">
                                         <ArrowLeftRight className="h-5 w-5" />
                                     </div>
                                     <h3 className="text-xs font-black tracking-widest text-zinc-900 dark:text-zinc-400 uppercase">
                                         Awaiting Analytical Datasets
                                     </h3>
-                                    <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 max-w-xs mt-1.5 uppercase leading-normal tracking-wide">
+                                    <p className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400 max-w-xs mt-1.5 uppercase leading-normal tracking-wide">
                                         Load retail skincare formulations into both Chamber A and Chamber B to compile cross-chemical alignment logs.
                                     </p>
                                 </motion.div>
@@ -260,7 +259,7 @@ export default function IntersectLab() {
                                     className="w-full h-full flex flex-col justify-between text-left"
                                 >
                                     <div>
-                                        <div className="flex items-center gap-2 border-b-2 border-black dark:border-zinc-800 pb-3 mb-4">
+                                        <div className="flex items-center gap-2 border-b border-slate-300 dark:border-zinc-700 pb-3 mb-4">
                                             {report.status === "conflict" ? (
                                                 <XCircle className="h-5 w-5 text-rose-500 shrink-0" />
                                             ) : report.status === "caution" ? (
@@ -290,7 +289,7 @@ export default function IntersectLab() {
                                                 </p>
                                             </div>
 
-                                            <div className="p-3 rounded-xl border-2 border-dashed border-black/10 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30">
+                                            <div className="p-3 rounded-xl border border-dashed border-slate-600 bg-white/[0.02]">
                                                 <span className="text-[8px] font-mono font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest block">// PROFILE STRUCTURAL TUNING:</span>
                                                 <p className="text-[11px] font-bold leading-normal text-zinc-600 dark:text-zinc-300 uppercase tracking-normal mt-1">
                                                     {report.tuning}
@@ -317,7 +316,7 @@ export default function IntersectLab() {
                     </div>
 
                     {/* ANALYTICAL CARD DOCK B */}
-                    <div className="xl:col-span-2 flex flex-col rounded-2xl border-2 border-black bg-white/70 dark:bg-zinc-950/30 backdrop-blur-md dark:border-zinc-800 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.05)] min-h-[360px]">
+                    <div className="xl:col-span-2 flex flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-xl shadow-sm p-5 min-h-[360px]">
                         <h2 className="text-xs font-black tracking-widest text-zinc-900 dark:text-zinc-400 uppercase mb-3 flex items-center gap-2">
                             <span className="h-2 w-2 rounded-full bg-purple-500 animate-pulse" /> COMPONENT CHAMBER B
                         </h2>
@@ -331,14 +330,14 @@ export default function IntersectLab() {
                                             placeholder="Filter Brands..."
                                             value={brandFilterB}
                                             onChange={(e) => setBrandFilterB(e.target.value)}
-                                            className="w-full rounded-xl border-2 border-black bg-white py-2 px-3 text-xs font-bold placeholder-zinc-400 outline-none dark:border-zinc-700 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-50 mb-3 shrink-0"
+                                            className="w-full rounded-xl border border-slate-700 bg-white/[0.03] py-2 px-3 text-xs font-bold placeholder-zinc-400 outline-none text-zinc-900 dark:text-zinc-50 mb-3 shrink-0"
                                         />
                                         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1 pr-1">
                                             {filteredBrandsB.map(brand => (
                                                 <button
                                                     key={brand}
                                                     onClick={() => setActiveBrandB(brand)}
-                                                    className="w-full text-left px-3 py-2.5 rounded-lg border border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                                                    className="w-full text-left px-3 py-2.5 rounded-lg border border-slate-700 bg-white/[0.02] hover:bg-white/[0.06] transition-colors"
                                                 >
                                                     <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wide">{brand}</span>
                                                     <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 ml-2">

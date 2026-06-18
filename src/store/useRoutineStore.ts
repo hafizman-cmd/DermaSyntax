@@ -72,6 +72,31 @@ export const useRoutineStore = create<RoutineState>((set) => ({
         return state;
       }
 
+      const isCeramide = ingredient.name.toLowerCase().includes('ceramide');
+      if (isCeramide) {
+        const existingIdx = currentList.findIndex((i) =>
+          i.name.toLowerCase().includes('ceramide')
+        );
+        if (existingIdx !== -1) {
+          const updatedList = [...currentList];
+          const existing = { ...updatedList[existingIdx] };
+          if (!existing.variants || existing.variants.length === 0) {
+            existing.variants = [existing.name, ingredient.name];
+          } else {
+            existing.variants = [...existing.variants, ingredient.name];
+          }
+          updatedList[existingIdx] = existing;
+
+          const nextAm = targetSlot === 'AM' ? updatedList : state.amRoutine;
+          const nextPm = targetSlot === 'PM' ? updatedList : state.pmRoutine;
+
+          return {
+            [key]: updatedList,
+            compilationResults: recompile(nextAm, nextPm),
+          };
+        }
+      }
+
       const newList = [...currentList, ingredient].sort(
         (a, b) => LAYER_WEIGHTS[a.category] - LAYER_WEIGHTS[b.category]
       );

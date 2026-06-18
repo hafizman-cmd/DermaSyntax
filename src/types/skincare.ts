@@ -33,6 +33,8 @@ export interface Ingredient {
   defaultTime: 'AM' | 'PM' | 'BOTH';
   /** Short educational description shown in cards and tooltips */
   description: string;
+  /** Consolidated ceramide variant names when multiple lipid forms are merged into one complex */
+  variants?: string[];
 }
 
 // ---------------------------------------------------------------------------

@@ -43,6 +43,18 @@ const idsOf = (
     .filter((i) => categories.includes(i.category))
     .map((i) => i.id);
 
+/** Classify an ingredient as a soothing botanical extract based on name markers */
+const isSoothingBotanical = (ingredient: Ingredient): boolean => {
+  const name = ingredient.name.toLowerCase();
+  return (
+    name.includes('centella') ||
+    name.includes('cica') ||
+    name.includes('madecassoside') ||
+    name.includes('allantoin') ||
+    name.includes('panthenol')
+  );
+};
+
 // ---------------------------------------------------------------------------
 // compileRoutineRules — The public API of this module
 // ---------------------------------------------------------------------------
@@ -142,9 +154,47 @@ export function compileRoutineRules(
         targetIngredients: idsOf(list, 'PURE_VIT_C', 'AHA', 'BHA'),
       });
     }
+
+    // ── Rule 6: Botanical Matrix Buffer (same slot) ───────────────────────────
+    const hasSoothingBotanical = list.some((i) => isSoothingBotanical(i));
+    const slotHasIssues = results.some(
+      (r) =>
+        (r.status === 'ERROR' || r.status === 'WARNING') &&
+        r.title.startsWith(`[${label}]`)
+    );
+    if (hasSoothingBotanical && slotHasIssues) {
+      results.push({
+        status: 'INFO',
+        title: `[${label}] MATRIX_BUFFER`,
+        message:
+          '[MATRIX_BUFFER] — Plant-derived cellular extracts detected (Centella). ' +
+          'Mitigating active stripping pathways and stabilizing epidermal stress levels.',
+        targetIngredients: list
+          .filter((i) => isSoothingBotanical(i))
+          .map((i) => i.id),
+      });
+    }
+
+    // ── Rule 7: Collagen Synergy — Centella + Pure Vitamin C (same slot) ──────
+    if (
+      hasCategory(list, 'PURE_VIT_C') &&
+      list.some(
+        (i) =>
+          isSoothingBotanical(i) && i.name.toLowerCase().includes('centella')
+      )
+    ) {
+      results.push({
+        status: 'SUCCESS',
+        title: `[${label}] SYNERGY_UNLOCKED — Collagen Synthesis Cascade`,
+        message:
+          '[SYNERGY_UNLOCKED] — Pure L-Ascorbic Acid + Centella Asiatica complex ' +
+          'dynamically accelerates fibroblast collagen synthesis.',
+        targetIngredients: idsOf(list, 'PURE_VIT_C'),
+      });
+    }
   }
 
-  // ── Rule 6: Retinoid + Niacinamide Synergy (PM slot only) ─────────────────
+  // ── Rule 8: Retinoid + Niacinamide Synergy (PM slot only) ─────────────────
   const niacinamideInPm = getByCategory(pmList, 'BRIGHTENER').some(
     (i) => i.id === 'niacinamide'
   );
@@ -159,7 +209,7 @@ export function compileRoutineRules(
     });
   }
 
-  // ── Rule 7: Vitamin C + Ferulic Acid Synergy (AM slot only) ───────────────
+  // ── Rule 9: Vitamin C + Ferulic Acid Synergy (AM slot only) ───────────────
   if (hasCategory(amList, 'PURE_VIT_C') && hasCategory(amList, 'ANTIOXIDANT')) {
     results.push({
       status: 'SUCCESS',
@@ -171,7 +221,7 @@ export function compileRoutineRules(
     });
   }
 
-  // ── Rule 8: Baseline — no errors or warnings detected ─────────────────────
+  // ── Rule 10: Baseline — no errors or warnings detected ─────────────────────
   const hasIssue = results.some(
     (r) => r.status === 'ERROR' || r.status === 'WARNING'
   );

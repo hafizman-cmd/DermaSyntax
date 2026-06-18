@@ -37,21 +37,21 @@ export default function CompilerConsole() {
   // Determine terminal node metrics
   let pulseColor = 'bg-zinc-600 shadow-[0_0_8px_rgba(113,113,122,0.4)]';
   /* UPGRADED: Set bg-white to bg-white/70 and appended backdrop-blur-md for a frosty, transparent effect */
-  let consoleBorder = 'border-2 border-black bg-white/70 backdrop-blur-md text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-zinc-950/40 dark:text-white dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]';
+  let consoleBorder = 'border border-white/10 bg-white/[0.03] backdrop-blur-md text-zinc-800 dark:text-zinc-100';
   let headerText = 'CORE_IDLE';
 
   if (isActive) {
     if (hasErrors) {
       pulseColor = 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.6)]';
-      consoleBorder = 'border-2 border-red-600 bg-red-50/70 backdrop-blur-md text-red-900 shadow-[4px_4px_0px_0px_rgba(220,38,38,1)] dark:border-red-500 dark:bg-red-950/20 dark:text-red-400 dark:shadow-none';
+      consoleBorder = 'border border-red-600 bg-red-50/70 backdrop-blur-md text-red-900 dark:border-red-500 dark:bg-red-950/20 dark:text-red-400';
       headerText = 'CRITICAL_CONFLICT';
     } else if (hasWarnings) {
       pulseColor = 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)]';
-      consoleBorder = 'border-2 border-amber-600 bg-amber-50/70 backdrop-blur-md text-amber-900 shadow-[4px_4px_0px_0px_rgba(217,119,6,1)] dark:border-amber-500 dark:bg-amber-950/20 dark:text-amber-400 dark:shadow-none';
+      consoleBorder = 'border border-amber-600 bg-amber-50/70 backdrop-blur-md text-amber-900 dark:border-amber-500 dark:bg-amber-950/20 dark:text-amber-400';
       headerText = 'PRECAUTION_WARNING';
     } else {
       pulseColor = 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.6)]';
-      consoleBorder = 'border-2 border-black bg-white/70 backdrop-blur-md text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-zinc-950/40 dark:text-white dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]';
+      consoleBorder = 'border border-white/10 bg-white/[0.03] backdrop-blur-md text-zinc-800 dark:text-zinc-100';
       headerText = 'SEQUENCE_STABLE';
     }
   }
@@ -65,22 +65,22 @@ export default function CompilerConsole() {
     >
 
       {/* ── MONITOR TERMINAL TOP HEADER BAR ── */}
-      <div className="flex items-center justify-between border-b-2 border-black dark:border-white pb-3 mb-4 text-[9px] font-black tracking-widest text-black dark:text-white transition-colors duration-300">
+      <div className="flex items-center justify-between border-b border-slate-700 pb-3 mb-4 text-[9px] font-black tracking-widest text-black dark:text-white transition-colors duration-300">
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2 text-black dark:text-white transition-colors duration-300">
             <Terminal className="h-3 w-3 stroke-[2.5]" />
             <span>[ DIAGNOSTIC_PARSER ]</span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 border-l-2 border-black dark:border-white pl-5 transition-colors duration-300">
+          <div className="hidden sm:flex items-center gap-2 border-l border-slate-600 pl-5 transition-colors duration-300">
             <Cpu className="h-3 w-3 text-black dark:text-white stroke-[2.5]" />
-            <span>STATE: <span className={hasErrors ? 'text-red-600 font-black' : hasWarnings ? 'text-amber-600 font-black' : isActive ? 'text-emerald-600 font-black' : 'text-black dark:text-white'}>[{headerText}]</span></span>
+            <span>STATE: <span className={hasErrors ? 'text-red-600 dark:text-red-400 font-black' : hasWarnings ? 'text-amber-600 dark:text-amber-400 font-black' : isActive ? 'text-emerald-600 dark:text-emerald-400 font-black' : 'text-black dark:text-white'}>[{headerText}]</span></span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <span className="text-black dark:text-white font-bold hidden md:inline transition-colors duration-300">SYS_MONITOR // LINK_01</span>
-          <span className="text-white bg-black dark:text-white font-black dark:bg-zinc-900/30 border-2 border-black dark:border-white px-2 py-0.5 rounded transition-colors duration-300">
+          <span className="text-slate-900 dark:text-white bg-slate-200 dark:bg-slate-700 font-black border border-slate-300 dark:border-slate-600 px-2 py-0.5 rounded transition-colors duration-300">
             {timestamp || 'INITIALIZING_CLOCK...'}
           </span>
 
@@ -110,7 +110,7 @@ export default function CompilerConsole() {
               initial={{ opacity: 0, y: 3 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="text-emerald-900 dark:text-emerald-400 tracking-wide font-black border-2 border-emerald-700 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-950/10 rounded-xl p-3.5 flex items-start gap-2.5 transition-colors duration-300"
+              className="text-emerald-900 dark:text-emerald-400 tracking-wide font-black border border-emerald-700 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-950/10 rounded-xl p-3.5 flex items-start gap-2.5 transition-colors duration-300"
             >
               <span className="shrink-0 font-extrabold">[ OK_STATUS ] ──</span>
               <p className="text-black dark:text-zinc-200 font-bold transition-colors duration-300">
@@ -120,12 +120,31 @@ export default function CompilerConsole() {
           ) : (
             results.map((log, index) => {
               const isErr = log.status === 'ERROR';
+              const isWarn = log.status === 'WARNING';
+              const isSuccess = log.status === 'SUCCESS';
+              const isInfo = log.status === 'INFO';
 
-              const textVariantColor = isErr
-                ? 'text-red-900 border-2 border-red-600 bg-red-50 dark:text-red-400 dark:border-red-950/50 dark:bg-red-950/10'
-                : 'text-amber-900 border-2 border-amber-600 bg-amber-50 dark:text-amber-400 dark:border-amber-950/50 dark:bg-amber-950/10';
+              let textVariantColor = '';
+              let bracketLabel = '';
 
-              const bracketLabel = isErr ? 'SYNTAX_ERROR' : 'METRIC_CAUTION';
+              if (isErr) {
+                textVariantColor =
+                  'text-red-900 border border-red-600 bg-red-50 dark:text-red-400 dark:border-red-950/50 dark:bg-red-950/10';
+                bracketLabel = 'SYNTAX_ERROR';
+              } else if (isWarn) {
+                textVariantColor =
+                  'text-amber-900 border border-amber-600 bg-amber-50 dark:text-amber-400 dark:border-amber-950/50 dark:bg-amber-950/10';
+                bracketLabel = 'METRIC_CAUTION';
+              } else if (isSuccess) {
+                textVariantColor =
+                  'text-emerald-900 border border-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:border-emerald-950/50 dark:bg-emerald-950/10';
+                bracketLabel = 'SYNERGY_DETECTED';
+              } else if (isInfo) {
+                textVariantColor =
+                  'text-slate-900 border border-slate-500 bg-slate-50 dark:text-slate-300 dark:border-slate-700 dark:bg-slate-950/20';
+                bracketLabel = 'MATRIX_INFO';
+              }
+
               const processIndex = String(index + 1).padStart(2, '0');
 
               return (

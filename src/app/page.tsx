@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import IngredientCard from '@/components/IngredientCard';
@@ -10,9 +11,12 @@ import CompilerConsole from '@/components/CompilerConsole';
 import MechanismDrawer from '@/components/MechanismDrawer';
 import { INGREDIENTS } from '@/data/ingredients';
 import { useRoutineStore } from '@/store/useRoutineStore';
+import { fetchIngredientsByQuery } from '@/lib/api-fetcher';
+import type { Ingredient } from '@/types/skincare';
 import { Search, User, ArrowRight, Terminal, Sparkles, Flame, Droplets, RefreshCw, Shield, Binary } from 'lucide-react';
 import ExportPanel from '@/components/ExportPanel';
 import { SplineScene } from '@/components/SplineScene';
+import AnimatedThemeToggler from '@/components/AnimatedThemeToggler';
 
 // Simple local alternative to combine Tailwind class strings safely without broken imports
 const cn = (...classes: (string | boolean | undefined | null)[]) => classes.filter(Boolean).join(' ');
@@ -87,7 +91,30 @@ export default function Home() {
   // Compiler execution toggle state controlling main routing benchmarks
   const [compilerMode, setCompilerMode] = React.useState<'ingredients' | 'products'>('ingredients');
 
+  // Live ingredient search from Open Beauty Facts taxonomy
+  const [liveIngredients, setLiveIngredients] = React.useState<Ingredient[]>([]);
+  const [isSearching, setIsSearching] = React.useState(false);
+
   const matrixFilters = ['ALL', 'ACIDS', 'RETINOIDS', 'VITAMINS', 'REPAIRS'];
+
+  // Debounced live ingredient search when the user types
+  React.useEffect(() => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed) {
+      setLiveIngredients([]);
+      setIsSearching(false);
+      return;
+    }
+    setIsSearching(true);
+    const timer = setTimeout(async () => {
+      const results = await fetchIngredientsByQuery(trimmed);
+      setLiveIngredients(results);
+      setIsSearching(false);
+    }, 350);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
 
   // Card parameters with detailed medical profiles maximizing space cleanly
   const skinCards = [
@@ -100,8 +127,8 @@ export default function Home() {
       icon: <RefreshCw className="size-4 text-emerald-300" />,
       titleClassName: "text-emerald-400",
       zIndex: "z-10",
-      activePos: "translate-x-0 -translate-y-12",
-      inactivePos: "translate-x-0 translate-y-0 hover:-translate-y-8",
+      activePos: "left-0 -top-12",
+      inactivePos: "left-0 top-0",
     },
     {
       name: "Sensitive",
@@ -112,8 +139,8 @@ export default function Home() {
       icon: <Shield className="size-4 text-rose-300" />,
       titleClassName: "text-rose-400",
       zIndex: "z-20",
-      activePos: "translate-x-12 -translate-y-4",
-      inactivePos: "translate-x-12 translate-y-8 hover:translate-y-0",
+      activePos: "left-12 -top-4",
+      inactivePos: "left-12 top-8",
     },
     {
       name: "Normal",
@@ -124,8 +151,8 @@ export default function Home() {
       icon: <Sparkles className="size-4 text-blue-300" />,
       titleClassName: "text-blue-400",
       zIndex: "z-30",
-      activePos: "translate-x-24 translate-y-4",
-      inactivePos: "translate-x-24 translate-y-16 hover:translate-y-8",
+      activePos: "left-24 top-4",
+      inactivePos: "left-24 top-16",
     },
     {
       name: "Oily",
@@ -136,8 +163,8 @@ export default function Home() {
       icon: <Flame className="size-4 text-amber-300" />,
       titleClassName: "text-amber-400",
       zIndex: "z-40",
-      activePos: "translate-x-36 translate-y-12",
-      inactivePos: "translate-x-36 translate-y-24 hover:translate-y-16",
+      activePos: "left-36 top-12",
+      inactivePos: "left-36 top-24",
     },
     {
       name: "Dry",
@@ -148,8 +175,8 @@ export default function Home() {
       icon: <Droplets className="size-4 text-cyan-300" />,
       titleClassName: "text-cyan-400",
       zIndex: "z-50",
-      activePos: "translate-x-48 translate-y-20",
-      inactivePos: "translate-x-48 translate-y-32 hover:translate-y-24",
+      activePos: "left-48 top-20",
+      inactivePos: "left-48 top-32",
     },
   ];
 
@@ -172,7 +199,7 @@ export default function Home() {
   });
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden bg-zinc-50 text-zinc-800 dark:bg-[#050505] dark:text-zinc-100 antialiased select-none transition-colors duration-500">
+    <div className="relative flex h-screen flex-col overflow-hidden bg-zinc-50 text-zinc-800 dark:bg-[#121212] dark:text-zinc-100 antialiased select-none transition-colors duration-500">
 
       {/* GLOBAL BACKGROUND CANVAS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -188,19 +215,55 @@ export default function Home() {
           gradient="from-zinc-300/35 dark:from-zinc-500/[0.06]"
           className="left-[-10%] md:left-[-5%] top-[10%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-50/20 via-transparent to-zinc-50/40 dark:from-[#050505] dark:via-transparent dark:to-[#050505]/80 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-50/20 via-transparent to-zinc-50/40 dark:from-[#121212] dark:via-transparent dark:to-[#121212]/80 transition-colors duration-500" />
       </div>
 
       <AnimatePresence mode="wait">
         {!isOnboarded ? (
           <>
+            {/* ── FIXED GATEWAY TOP NAVIGATION BAR ── */}
+            <header className="fixed top-0 left-0 right-0 w-full h-16 z-50 flex items-center justify-between px-8 bg-zinc-50/70 dark:bg-[#121212]/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
+              <span className="text-[10px] uppercase tracking-[0.25em] font-medium text-zinc-400 dark:text-zinc-500 select-none">
+                DERMASYNTAX // GATEWAY_v1.0.0
+              </span>
+
+              <nav className="flex items-center">
+                <Link
+                  href="/"
+                  onClick={() => setIsOnboarded(true)}
+                  className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
+                >
+                  INGREDIENT BASE
+                </Link>
+                <Link
+                  href="/intersect-lab"
+                  className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
+                >
+                  PRODUCT BASE
+                </Link>
+                <Link
+                  href="/docs"
+                  className="text-xs uppercase tracking-[0.15em] font-semibold text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white mx-4"
+                >
+                  DOCUMENTATION
+                </Link>
+              </nav>
+
+              <div className="flex items-center gap-3">
+                <AnimatedThemeToggler />
+                <span className="text-[9px] font-mono tracking-wider text-emerald-600 dark:text-emerald-400 uppercase select-none">
+                  &bull; GATEWAY_READY
+                </span>
+              </div>
+            </header>
+
             {/* ── HIGH-END UNIFIED PRESENTATION CONSOLE ── */}
             <motion.div
               key="onboarding"
               initial={{ opacity: 1 }}
               exit={{ opacity: 0, scale: 0.98, y: 5 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex flex-col flex-1 items-center justify-center lg:items-start h-full w-full max-w-[1400px] mx-auto min-h-0 px-6 md:p-12 overflow-y-auto lg:overflow-visible custom-scrollbar"
+              className="relative flex flex-col flex-1 items-center justify-center lg:items-start h-full w-full max-w-[1400px] mx-auto min-h-0 px-6 pt-20 md:px-12 md:pb-12 pb-24 overflow-y-auto lg:overflow-visible custom-scrollbar"
             >
 
               {/* Invisible dismiss background overlay */}
@@ -224,92 +287,109 @@ export default function Home() {
                   An advanced algorithmic development environment designed to sequence active chemical components, map molecular application depths, and cross-examine pH variables to prevent skin barrier degradation.
                 </p>
 
-                {/* ── NEO-BRUTALIST ARCHITECTURAL ENGINE MODE SELECTOR SLIDER ── */}
-                <div className="mt-5 w-full rounded-xl border-2 border-black bg-zinc-100 p-1 dark:border-zinc-800 dark:bg-zinc-950/40 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.05)] relative h-9 flex items-center">
-                  <div
-                    className={cn(
-                      "absolute top-0.5 bottom-0.5 w-[calc(50%-4px)] rounded-lg border-2 border-black bg-white transition-all duration-300 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:border-emerald-400 dark:bg-zinc-900 dark:shadow-none",
-                      compilerMode === 'products' ? "left-[calc(50%+2px)]" : "left-0.5"
-                    )}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setCompilerMode('ingredients')}
-                    className={cn(
-                      "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
-                      compilerMode === 'ingredients' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
-                    )}
-                  >
-                    // INGREDIENT BASE
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCompilerMode('products')}
-                    className={cn(
-                      "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
-                      compilerMode === 'products' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
-                    )}
-                  >
-                    // PRODUCT BASE
-                  </button>
+                {/* ── BASE SELECTION + TELEMETRY CLUSTER ── */}
+                <div className="flex flex-col gap-y-2 mt-5">
+                  {/* ── ENGINE MODE SELECTOR SLIDER ── */}
+                  <div className="w-full rounded-xl border border-slate-700 bg-white/[0.03] p-1 relative h-9 flex items-center">
+                    <div
+                      className={cn(
+                        "absolute top-0.5 bottom-0.5 w-[calc(50%-4px)] rounded-lg border border-slate-600 bg-white/[0.06] backdrop-blur-md transition-all duration-300",
+                        compilerMode === 'products' ? "left-[calc(50%+2px)]" : "left-0.5"
+                      )}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setCompilerMode('ingredients')}
+                      className={cn(
+                        "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
+                        compilerMode === 'ingredients' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
+                      )}
+                    >
+                      // INGREDIENT BASE
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCompilerMode('products')}
+                      className={cn(
+                        "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
+                        compilerMode === 'products' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
+                      )}
+                    >
+                      // PRODUCT BASE
+                    </button>
+                  </div>
+
+                  {/* ── STEP / STATE INDICATOR ── */}
+                  <span className="block font-mono text-[10px] tracking-[0.22em] font-semibold text-zinc-500 dark:text-zinc-400 uppercase select-none">
+                    INITIALIZING USER PROFILE // PHASE 01: DEFINE TARGET EPIDERMAL MATRIX
+                  </span>
                 </div>
 
                 {/* ── HIGH-DENSITY CARD DECK ASSEMBLY ── */}
-                <div className="relative flex items-center justify-start w-full h-[280px] z-30 mt-12 mb-2 overflow-visible">
+                <div className="relative flex items-center justify-start w-full h-[280px] z-30 mt-8 mb-2 overflow-visible group/deck">
                   <div className="grid [grid-template-areas:'stack'] place-items-start w-full h-full overflow-visible">
                     {skinCards.map((card, index) => {
-                      const isCurrent = skinType === card.name;
+                      const cardId = card.name.toLowerCase();
+                      const isCurrent = skinType === cardId;
 
                       return (
                         <div
                           key={card.name}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSkinType(card.name);
-                          }}
-                          style={{
-                            WebkitFontSmoothing: 'subpixel-antialiased',
-                            backfaceVisibility: 'hidden',
-                          }}
                           className={cn(
-                            "relative flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 px-4 py-3 transition-all duration-500 cursor-pointer text-left shadow-lg [grid-area:stack]",
-                            "bg-white border border-zinc-200 shadow-xl text-zinc-800 hover:bg-zinc-50 hover:border-zinc-300 dark:bg-zinc-900/90 dark:border-zinc-800 dark:hover:bg-zinc-900/95 dark:hover:border-white/20 dark:shadow-none",
-                            isCurrent ? card.zIndex : "z-10",
-                            isCurrent ? card.activePos : card.inactivePos,
-                            isCurrent && "border-black dark:border-emerald-400 bg-white dark:bg-zinc-950 ring-2 ring-black/10 dark:ring-emerald-400/20 shadow-2xl z-50 scale-[1.02]"
+                            "group relative [grid-area:stack] w-[22rem] h-36",
+                            isCurrent ? "z-50" : card.zIndex,
+                            isCurrent ? card.activePos : card.inactivePos
                           )}
                         >
-                          {/* Top Heading Anchor Segment */}
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="relative inline-block rounded-full bg-zinc-950 p-1 border border-zinc-800 dark:border-zinc-700">
-                                {card.icon}
-                              </span>
-                              <p className={cn("text-xs font-black tracking-wider uppercase", card.titleClassName)}>
-                                {card.title}
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSkinType(cardId);
+                            }}
+                            style={{
+                              WebkitFontSmoothing: 'subpixel-antialiased',
+                              backfaceVisibility: 'hidden',
+                            }}
+                            className={cn(
+                              "relative flex h-full w-full -skew-y-[8deg] select-none flex-col justify-between rounded-xl border px-4 py-3 transition-all duration-300 ease-out cursor-pointer text-left",
+                              "group-hover/deck:opacity-40 group-hover:!opacity-100",
+                              "border-zinc-200 dark:border-white/10 bg-white/95 dark:bg-[#161616]/70 backdrop-blur-xl shadow-lg shadow-zinc-200/50 dark:shadow-none text-zinc-800 dark:text-zinc-100",
+                              "group-hover:-translate-y-8 group-hover:translate-x-3 group-hover:scale-[1.02] group-hover:z-50 group-hover:border-zinc-400 dark:group-hover:border-white/30",
+                              isCurrent && "!border-slate-500 dark:!border-slate-400 !bg-white dark:!bg-[#1a1a1a]/90 !ring-1 !ring-slate-500/30 !z-50 !scale-[1.02] !opacity-100"
+                            )}
+                          >
+                            {/* Top Heading Anchor Segment */}
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="relative inline-block rounded-full bg-slate-200 dark:bg-slate-700 p-1 border border-slate-300 dark:border-slate-600">
+                                  {card.icon}
+                                </span>
+                                <p className={cn("text-xs font-black tracking-wider uppercase", card.titleClassName)}>
+                                  {card.title}
+                                </p>
+                              </div>
+
+                              <p className="text-[9px] font-mono font-bold tracking-tight text-zinc-500 dark:text-zinc-500 uppercase mt-1">
+                                {card.description}
                               </p>
                             </div>
 
-                            <p className="text-[9px] font-mono font-bold tracking-tight text-zinc-500 dark:text-zinc-500 uppercase mt-1">
-                              {card.description}
+                            {/* Extended diagnostic description body */}
+                            <p className="text-[10px] font-bold leading-normal text-zinc-600 dark:text-zinc-300 tracking-wide uppercase line-clamp-2 my-1.5">
+                              {card.extended}
                             </p>
-                          </div>
 
-                          {/* Extended diagnostic description body */}
-                          <p className="text-[10px] font-bold leading-normal text-zinc-600 dark:text-zinc-300 tracking-wide uppercase line-clamp-2 my-1.5">
-                            {card.extended}
-                          </p>
-
-                          {/* Footer System Identifiers */}
-                          <div className="flex items-center justify-between w-full border-t border-zinc-200 dark:border-zinc-900/60 pt-1.5">
-                            <p className="text-[8px] font-mono tracking-widest text-zinc-400 dark:text-zinc-600 uppercase">
-                              {card.date}
-                            </p>
-                            {isCurrent && (
-                              <span className="text-[8px] font-mono font-black text-emerald-500 tracking-widest bg-emerald-500/10 dark:bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 animate-pulse">
-                                SELECTED
-                              </span>
-                            )}
+                            {/* Footer System Identifiers */}
+                            <div className="flex items-center justify-between w-full border-t border-slate-700 pt-1.5">
+                              <p className="text-[8px] font-mono tracking-widest text-zinc-400 dark:text-zinc-600 uppercase">
+                                {card.date}
+                              </p>
+                              {isCurrent && (
+                                <span className="text-[8px] font-mono font-black text-emerald-500 tracking-widest bg-emerald-500/10 dark:bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 animate-pulse">
+                                  SELECTED
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       );
@@ -318,7 +398,7 @@ export default function Home() {
                 </div>
 
                 {/* Selected Node Status Monitor */}
-                <div className="mt-2 py-2 px-4 rounded-xl bg-white dark:border-white dark:bg-zinc-950/40 font-mono text-[9px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest w-fit ">
+                <div className="mt-2 py-2 px-4 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md font-mono text-[9px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest w-fit ">
                   {skinType ? `NODE TARGET // ${skinType.toUpperCase()}_STABLE` : "SELECT YOUR BASE & SKIN TYPE"}
                 </div>
 
@@ -332,7 +412,7 @@ export default function Home() {
                       setIsOnboarded(true);
                     }
                   }}
-                  className="group relative mt-6 flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-xl bg-zinc-900 border-2 border-black px-4 py-3 text-xs font-black tracking-wider text-white uppercase transition-all duration-300 hover:bg-black dark:border-white dark:bg-zinc-100 dark:text-black disabled:opacity-30 disabled:pointer-events-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
+                  className="group relative mt-6 flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-xl bg-zinc-200 dark:bg-white/[0.06] border border-slate-300 dark:border-slate-600 px-4 py-3 text-xs font-black tracking-wider text-zinc-900 dark:text-white uppercase transition-all duration-300 hover:bg-zinc-300 dark:hover:bg-white/[0.1] disabled:opacity-30 disabled:pointer-events-none"
                 >
                   <span>Boot Formulation Rails</span>
                   <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 stroke-[2.5]" />
@@ -354,6 +434,16 @@ export default function Home() {
                 className="w-full h-full transform translate-y-[13%]"
               />
             </motion.div>
+
+            {/* ── CLINICAL REALISM GATEWAY FOOTER ── */}
+            <footer className="fixed bottom-0 left-0 right-0 w-full py-6 px-8 flex items-end justify-between z-40 select-none pointer-events-none">
+              <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-zinc-400 dark:text-zinc-600 max-w-[60%] leading-relaxed">
+                [SYSTEM NOTICE] — DERMASYNTAX IS A DATA SYNTHESIS ENVIRONMENT FOR INFORMATIONAL TAXONOMY. IT DOES NOT SUBSTITUTE FOR PROFESSIONAL DERMATOLOGICAL ADVICE.
+              </span>
+              <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-zinc-400 dark:text-zinc-600 whitespace-nowrap">
+                &copy; 2026 DERMASYNTAX // SYS_REF: BUILD_V1.0.4
+              </span>
+            </footer>
           </>
         ) : (
 
@@ -370,17 +460,14 @@ export default function Home() {
 
             <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8 custom-scrollbar">
 
-              {/* 🧪 UPGRADED: INGREDIENT ARSENAL CONTAINER STYLING MATRICES */}
-              {/* Copied from intersect-lab: swapped dark:border-white for dark:border-zinc-800 and muted the box shadows */}
-              <section className="flex w-full lg:w-80 shrink-0 flex-col rounded-2xl border-2 border-black bg-white/70 dark:bg-zinc-950/30 backdrop-blur-md dark:border-zinc-800 p-5 transition-all duration-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.05)] text-zinc-800 dark:text-zinc-100">
+              {/* 🧪 INGREDIENT ARSENAL — GLASSMORPHIC LUXURY LAB PANEL */}
+              <section className="flex w-full lg:w-80 shrink-0 flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-md shadow-sm p-5 transition-all duration-500 text-zinc-800 dark:text-zinc-100">
                 <div className="mb-4">
                   <div className="flex items-center justify-between">
-                    {/* UPGRADED: Text shifted to text-zinc-900 / dark:text-zinc-400 for balanced tracking visual weights */}
                     <h2 className="text-xs font-black tracking-widest text-zinc-900 dark:text-zinc-400 uppercase">
                       Ingredient Arsenal
                     </h2>
-                    {/* UPGRADED: Customized configuration chip wrapper frame details */}
-                    <span className="text-[8px] tracking-widest font-black px-1.5 py-0.5 border-2 border-black bg-zinc-950 text-white dark:border-zinc-700 dark:bg-zinc-950/40 dark:text-zinc-300 uppercase rounded font-mono">
+                    <span className="text-[8px] tracking-widest font-black px-1.5 py-0.5 border border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-700/50 text-slate-900 dark:text-zinc-300 uppercase rounded font-mono">
                       Profile: {skinType}
                     </span>
                   </div>
@@ -389,7 +476,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* UPGRADED: Search bar components fully integrated with matte colors and dark:border-zinc-800 boundaries */}
+                {/* Search bar */}
                 <div className="relative mb-3">
                   <Search className="absolute left-3 top-3.5 h-3.5 w-3.5 text-zinc-400 dark:text-zinc-500 stroke-[2.5]" />
                   <input
@@ -397,21 +484,21 @@ export default function Home() {
                     placeholder="Search active catalog..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-xl border-2 border-black bg-white py-2.5 pl-9 pr-3 text-xs font-bold placeholder-zinc-400 outline-none transition-all dark:border-zinc-800 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50"
+                    className="w-full rounded-xl border border-slate-700 bg-white/[0.03] py-2.5 pl-9 pr-3 text-xs font-bold placeholder-zinc-400 outline-none transition-all text-zinc-900 dark:text-zinc-50"
                   />
                 </div>
 
-                {/* UPGRADED: Filter pill navigation bars adapted to custom asset colors */}
-                <div className="flex flex-wrap gap-1 mb-4 border-b-2 border-black dark:border-zinc-800 pb-3.5">
+                {/* Filter pills */}
+                <div className="flex flex-wrap gap-1 mb-4 border-b border-slate-700 pb-3.5">
                   {matrixFilters.map((filter) => {
                     const isCurrent = activeFilter === filter;
                     return (
                       <button
                         key={filter}
                         onClick={() => setActiveFilter(filter)}
-                        className={`text-[8px] font-mono font-black tracking-widest uppercase px-2 py-1 rounded-md border-2 transition-all duration-200 ${isCurrent
-                          ? 'border-black bg-black text-white dark:border-emerald-400 dark:bg-zinc-900 dark:text-emerald-400'
-                          : 'border-black bg-white text-black hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950/20 dark:text-zinc-500 dark:hover:bg-zinc-900'
+                        className={`text-[8px] font-mono font-black tracking-widest uppercase px-2 py-1 rounded-md border transition-all duration-200 ${isCurrent
+                          ? 'border-slate-300 dark:border-slate-600 bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-emerald-400'
+                          : 'border-slate-700 bg-transparent text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.05]'
                           }`}
                       >
                         {filter}
@@ -421,27 +508,81 @@ export default function Home() {
                 </div>
 
                 <div className="flex-1 overflow-y-auto max-h-[400px] lg:max-h-none px-1.5 py-1 custom-scrollbar">
-                  <motion.div layout className="grid grid-cols-1 gap-3">
-                    <AnimatePresence mode="popLayout">
-                      {filteredIngredients.map((ing) => (
-                        <motion.div
-                          key={ing.id}
-                          layout
-                          initial={{ opacity: 0, scale: 0.92 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.92 }}
-                          transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-                        >
-                          <IngredientCard ingredient={ing} />
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
-                  </motion.div>
+                  {searchQuery.trim() ? (
+                    <>
+                      <div className="mb-2 flex items-center gap-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-[7px] font-mono font-black text-emerald-500 uppercase tracking-widest">
+                          Live &middot; Open Beauty Facts
+                        </span>
+                      </div>
+                      <motion.div layout className="grid grid-cols-1 gap-3">
+                        <AnimatePresence mode="popLayout">
+                          {isSearching ? (
+                            <motion.div
+                              key="searching"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              className="flex flex-col items-center justify-center py-10 gap-3"
+                            >
+                              <RefreshCw className="h-5 w-5 animate-spin text-emerald-500" />
+                              <span className="text-[9px] font-mono font-black text-zinc-500 uppercase tracking-widest">
+                                Searching ingredient taxonomy...
+                              </span>
+                            </motion.div>
+                          ) : liveIngredients.length === 0 ? (
+                            <motion.div
+                              key="no-results"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              className="flex flex-col items-center justify-center p-8 text-center text-zinc-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-extrabold font-mono mt-4"
+                            >
+                              No ingredients found for &quot;{searchQuery.trim()}&quot;
+                            </motion.div>
+                          ) : (
+                            liveIngredients.map((ing) => (
+                              <motion.div
+                                key={ing.id}
+                                layout
+                                initial={{ opacity: 0, scale: 0.92 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.92 }}
+                                transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+                              >
+                                <IngredientCard ingredient={ing} />
+                              </motion.div>
+                            ))
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    </>
+                  ) : (
+                    <>
+                      <motion.div layout className="grid grid-cols-1 gap-3">
+                        <AnimatePresence mode="popLayout">
+                          {filteredIngredients.map((ing) => (
+                            <motion.div
+                              key={ing.id}
+                              layout
+                              initial={{ opacity: 0, scale: 0.92 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.92 }}
+                              transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+                            >
+                              <IngredientCard ingredient={ing} />
+                            </motion.div>
+                          ))}
+                        </AnimatePresence>
+                      </motion.div>
 
-                  {filteredIngredients.length === 0 && (
-                    <div className="flex flex-col items-center justify-center p-8 text-center text-zinc-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-extrabold font-mono mt-4">
-                      No matches found in matrix range.
-                    </div>
+                      {filteredIngredients.length === 0 && (
+                        <div className="flex flex-col items-center justify-center p-8 text-center text-zinc-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-extrabold font-mono mt-4">
+                          No matches found in matrix range.
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
 
@@ -457,6 +598,16 @@ export default function Home() {
               </section>
 
             </main>
+
+            {/* ── CLINICAL REALISM FOOTER ── */}
+            <footer className="shrink-0 border-t border-zinc-200 dark:border-zinc-800 px-8 py-3 flex items-center justify-between gap-4 select-none">
+              <span className="text-[9px] font-mono tracking-wider text-zinc-400 dark:text-zinc-600 uppercase leading-relaxed">
+                [SYSTEM NOTICE] — DERMASYNTAX is a data synthesis environment for informational taxonomy. It does not substitute for professional dermatological advice.
+              </span>
+              <span className="text-[9px] font-mono tracking-wider text-zinc-400 dark:text-zinc-600 uppercase whitespace-nowrap">
+                &copy; 2026 DERMASYNTAX // BUILD_V1.0.4
+              </span>
+            </footer>
           </motion.div>
         )}
       </AnimatePresence>

@@ -53,9 +53,9 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       /* UPGRADED: Added backdrop-blur-md globally and swapped bg-white/80 to translucent bg-white/70 */
-      className={`flex flex-1 flex-col rounded-2xl border-2 p-6 transition-all duration-500 relative overflow-hidden backdrop-blur-md ${isOver
-        ? 'border-zinc-500 bg-zinc-100/50 dark:border-zinc-400 dark:bg-zinc-950/10 shadow-inner'
-        : 'border-black bg-white/70 dark:border-white dark:bg-zinc-900/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]'
+      className={`flex flex-1 flex-col rounded-xl border p-6 transition-all duration-500 relative overflow-hidden backdrop-blur-md shadow-sm ${isOver
+        ? 'border-slate-400 dark:border-slate-500 bg-zinc-100 dark:bg-white/[0.06] shadow-inner'
+        : 'border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03]'
         }`}
     >
 
@@ -89,7 +89,7 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
       </AnimatePresence>
 
       {/* Panel Header Content Area */}
-      <div className="mb-6 flex items-center justify-between border-b-2 border-black dark:border-white pb-4 relative z-10">
+      <div className="mb-6 flex items-center justify-between border-b border-slate-700 pb-4 relative z-10">
         <div className="flex items-center gap-2">
           {slot === 'AM' ? (
             <Sun className="h-4 w-4 text-amber-600 dark:text-amber-400 stroke-[2.5]" />
@@ -108,7 +108,7 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
       {/* Active Formula List Viewport */}
       <div className="flex flex-1 flex-col gap-2.5 overflow-y-auto relative z-10 custom-scrollbar">
         {ingredients.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-400 dark:border-white p-8 text-center bg-zinc-50/50 dark:bg-zinc-950/10 transition-colors duration-300">
+          <div className="flex flex-1 flex-col items-center justify-center rounded-xl border border-dashed border-slate-600 p-8 text-center bg-white/[0.02] transition-colors duration-300">
             <span className="text-[11px] text-black dark:text-white font-extrabold tracking-wide uppercase">
               Empty routine slot
             </span>
@@ -122,25 +122,29 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
             const hasWarn = isTargetedByWarning(ingredient.id);
             const hasSuccess = isTargetedBySuccess(ingredient.id);
 
-            let borderStyle = 'border-black dark:border-white';
+            let borderStyle = 'border-white/10';
             if (hasErr) {
-              borderStyle = 'border-2 border-red-600 bg-red-50 dark:border-red-500 dark:bg-red-950/20';
+              borderStyle = 'border-red-600 bg-red-50 dark:border-red-500 dark:bg-red-950/20';
             } else if (hasWarn) {
-              borderStyle = 'border-2 border-amber-600 bg-amber-50 dark:border-amber-500 dark:bg-amber-950/20';
+              borderStyle = 'border-amber-600 bg-amber-50 dark:border-amber-500 dark:bg-amber-950/20';
             } else if (hasSuccess) {
-              borderStyle = 'border-2 border-emerald-600 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-950/20';
+              borderStyle = 'border-emerald-600 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-950/20';
             }
 
             const stepNumber = String(index + 1).padStart(2, '0');
+            const hasVariants = ingredient.variants && ingredient.variants.length > 0;
+            const displayName = hasVariants
+              ? 'Ceramide Complex (Multi-Lipid Blend)'
+              : ingredient.name;
 
             return (
               <div
                 key={ingredient.id}
-                className={`group flex items-center justify-between rounded-xl border-2 bg-white dark:bg-zinc-950/40 p-4 transition-all duration-300 shadow-sm ${borderStyle}`}
+                className={`group flex items-center justify-between rounded-xl border bg-white/[0.04] backdrop-blur-md p-4 transition-all duration-300 ${borderStyle}`}
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
 
-                  <div className="flex flex-col items-center justify-center shrink-0 border-r-2 border-black dark:border-white pr-4 min-w-[2.5rem] select-none">
+                  <div className="flex flex-col items-center justify-center shrink-0 border-r border-slate-600 pr-4 min-w-[2.5rem] select-none">
                     <span className="text-[7px] font-black tracking-[0.15em] text-black dark:text-white uppercase">
                       Step
                     </span>
@@ -152,7 +156,7 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
                   <div className="flex flex-col gap-1 flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-xs font-bold text-black dark:text-white truncate">
-                        {ingredient.name}
+                        {displayName}
                       </span>
                       {hasErr && (
                         <span className="rounded border-2 border-red-700 bg-red-100 px-1.5 py-0.25 text-[8px] font-black tracking-widest text-red-800 dark:border-red-400 dark:bg-red-950/40 dark:text-red-400 uppercase">
@@ -170,6 +174,18 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
                         </span>
                       )}
                     </div>
+                    {hasVariants && (
+                      <div className="flex flex-wrap gap-1">
+                        {ingredient.variants!.map((variant, vi) => (
+                          <span
+                            key={vi}
+                            className="rounded-md border border-slate-600 bg-white/[0.06] px-1.5 py-0.5 text-[9px] font-medium text-zinc-700 shadow-[2px_2px_4px_rgba(0,0,0,0.08),-1px_-1px_3px_rgba(255,255,255,0.8)] dark:text-zinc-300 dark:shadow-[2px_2px_4px_rgba(0,0,0,0.4),-1px_-1px_3px_rgba(255,255,255,0.06)]"
+                          >
+                            {variant}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <span className="text-[10px] tracking-wider text-zinc-900 dark:text-zinc-400 uppercase font-bold">
                       {ingredient.category.replace(/_/g, ' ')}
                     </span>

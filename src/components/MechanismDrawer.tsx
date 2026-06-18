@@ -66,11 +66,11 @@ export default function MechanismDrawer() {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-                className="fixed inset-y-0 right-0 z-50 w-full max-w-sm border-l border-zinc-900 bg-zinc-950/80 backdrop-blur-2xl p-6 shadow-[-10px_0_50px_rgba(0,0,0,0.8)] flex flex-col justify-between"
+                className="fixed inset-y-0 right-0 z-50 w-full max-w-sm border-l border-slate-700 bg-zinc-950/80 backdrop-blur-2xl p-6 shadow-[-10px_0_50px_rgba(0,0,0,0.8)] flex flex-col justify-between"
             >
                 <div>
                     {/* Header Panel */}
-                    <div className="flex items-center justify-between border-b border-zinc-900 pb-5">
+                    <div className="flex items-center justify-between border-b border-slate-700 pb-5">
                         <div className="flex flex-col gap-1">
                             <span className="text-[9px] font-mono tracking-widest text-zinc-500 uppercase">
                                 Molecular Inspection Engine
@@ -81,7 +81,7 @@ export default function MechanismDrawer() {
                         </div>
                         <button
                             onClick={closeDrawer}
-                            className="rounded-lg border border-zinc-900 bg-zinc-950/40 p-2 text-zinc-500 hover:border-zinc-800 hover:text-zinc-200 transition-all"
+                             className="rounded-lg border border-slate-700 bg-zinc-950/40 p-2 text-zinc-500 hover:border-slate-600 hover:text-zinc-200 transition-all"
                         >
                             <X className="h-3.5 w-3.5" />
                         </button>
@@ -91,8 +91,8 @@ export default function MechanismDrawer() {
                     <div className="mt-8 space-y-4">
 
                         {/* Stat Box 1: pH Layer */}
-                        <div className="rounded-xl border border-zinc-900 bg-zinc-900/10 p-4 flex items-start gap-3.5">
-                            <div className="p-2 rounded-lg border border-zinc-900 bg-zinc-950 text-zinc-400 mt-0.5">
+                        <div className="rounded-xl border border-slate-700 bg-slate-700/10 p-4 flex items-start gap-3.5">
+                            <div className="p-2 rounded-lg border border-slate-700 bg-zinc-950 text-zinc-400 mt-0.5">
                                 <Activity className="h-3.5 w-3.5" />
                             </div>
                             <div className="flex flex-col gap-0.5">
@@ -102,8 +102,8 @@ export default function MechanismDrawer() {
                         </div>
 
                         {/* Stat Box 2: Target Depth */}
-                        <div className="rounded-xl border border-zinc-900 bg-zinc-900/10 p-4 flex items-start gap-3.5">
-                            <div className="p-2 rounded-lg border border-zinc-900 bg-zinc-950 text-zinc-400 mt-0.5">
+                        <div className="rounded-xl border border-slate-700 bg-slate-700/10 p-4 flex items-start gap-3.5">
+                            <div className="p-2 rounded-lg border border-slate-700 bg-zinc-950 text-zinc-400 mt-0.5">
                                 <Layers className="h-3.5 w-3.5" />
                             </div>
                             <div className="flex flex-col gap-0.5">
@@ -114,8 +114,8 @@ export default function MechanismDrawer() {
                         </div>
 
                         {/* Stat Box 3: Mechanism Text Block */}
-                        <div className="rounded-xl border border-zinc-900 bg-zinc-900/10 p-4 flex items-start gap-3.5">
-                            <div className="p-2 rounded-lg border border-zinc-900 bg-zinc-950 text-zinc-400 mt-0.5">
+                        <div className="rounded-xl border border-slate-700 bg-slate-700/10 p-4 flex items-start gap-3.5">
+                            <div className="p-2 rounded-lg border border-slate-700 bg-zinc-950 text-zinc-400 mt-0.5">
                                 <Droplet className="h-3.5 w-3.5" />
                             </div>
                             <div className="flex flex-col gap-0.5">
@@ -128,14 +128,14 @@ export default function MechanismDrawer() {
                 </div>
 
                 {/* Footer Bio-Compatibility Alignment Readout */}
-                <div className="border-t border-zinc-900 pt-5">
-                    <div className="rounded-xl border border-zinc-900/80 bg-zinc-950/40 p-4 flex flex-col gap-2">
+                <div className="border-t border-slate-700 pt-5">
+                    <div className="rounded-xl border border-slate-700/80 bg-zinc-950/40 p-4 flex flex-col gap-2">
                         <span className="text-[9px] font-mono tracking-widest text-zinc-500 uppercase">
                             Active Calibration Parameters
                         </span>
                         <div className="flex items-center justify-between mt-1 text-xs">
                             <span className="text-zinc-400">Target Profile:</span>
-                            <span className="font-bold tracking-widest text-zinc-200 uppercase text-[10px] px-2 py-0.5 border border-zinc-900 bg-zinc-900 rounded">
+                            <span className="font-bold tracking-widest text-zinc-200 uppercase text-[10px] px-2 py-0.5 border border-slate-700 bg-slate-700 rounded">
                                 {skinType || 'None'}
                             </span>
                         </div>

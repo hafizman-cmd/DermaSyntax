@@ -20,7 +20,7 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   /* UPGRADED: Shifted default styles to use Tailwind's responsive dark: modifier utilities */
-  @apply bg-zinc-50 text-zinc-800 dark:bg-[#050505] dark:text-zinc-200 transition-colors duration-500;
+  @apply bg-zinc-50 text-zinc-800 dark:bg-[#121212] dark:text-zinc-200 transition-colors duration-500;
 }
 
 /* ── Custom Scrollbar (Theme Aware) ───────────────────────────────────────── */
@@ -46,15 +46,15 @@ body {
   /* Tailwind zinc-400 */
 }
 
-/* DARK MODE: Stealthy dark terminal scrollbar thumb overrides */
+/* DARK MODE: Cool Slate terminal scrollbar thumb overrides */
 .dark ::-webkit-scrollbar-thumb {
-  background: #27272a;
-  /* Tailwind zinc-800 */
+  background: #334155;
+  /* Tailwind slate-700 */
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
-  /* Tailwind zinc-700 */
+  background: #475569;
+  /* Tailwind slate-600 */
 }
 
 /* ── Custom Premium Animations ────────────────────────────────────────────── */
@@ -80,8 +80,8 @@ body {
 }
 
 .clinical-card:hover {
-  background-color: rgba(39, 39, 42, 0.4);
-  border-color: rgba(63, 63, 70, 0.8);
+  background-color: rgba(51, 65, 85, 0.3);
+  border-color: rgba(51, 65, 85, 0.6);
   transform: translateY(-1px);
 }
 
