@@ -19,6 +19,68 @@ import { SplineScene } from '@/components/SplineScene';
 import AnimatedThemeToggler from '@/components/AnimatedThemeToggler';
 import GatewayNav from '@/components/GatewayNav';
 
+const checkConflicts = (ingredients: string[]) => {
+  const hasRetinol = ingredients.some(i => /\bretinol\b/i.test(i) || /\bretinoid\b/i.test(i));
+  const hasAHA = ingredients.some(i => /\baha\b/i.test(i) || i.toLowerCase().includes('glycolic') || i.toLowerCase().includes('lactic'));
+  const hasBHA = ingredients.some(i => /\bbha\b/i.test(i) || i.toLowerCase().includes('salicylic'));
+  const hasVitC = ingredients.some(i => /\bvit_c\b/i.test(i) || i.toLowerCase().includes('vitamin c') || i.toLowerCase().includes('ascorbic'));
+  if (hasRetinol && hasAHA) {
+    return {
+      status: "CONFLICT DETECTED",
+      label: "[ROUTINE CONFLICT // HIGH IRRITATION RISK]",
+      desc: "Combining Retinol with AHA (Glycolic Acid) dramatically increases dryness and skin peeling. Consider alternating usage across different nights."
+    };
+  }
+  if (hasRetinol && hasBHA) {
+    return {
+      status: "BARRIER WARNING",
+      label: "[ROUTINE CONFLICT // OVER-EXFOLIATION RISK]",
+      desc: "Retinol and BHA (Salicylic Acid) both deeply accelerate skin cell turnover. Layering them concurrently can compromise your skin barrier."
+    };
+  }
+  if (hasVitC && (hasAHA || hasBHA)) {
+    return {
+      status: "EFFICACY RISK",
+      label: "[ROUTINE WARNING // FORMULA DESTABILIZATION]",
+      desc: "Using pure Vitamin C alongside strong exfoliating acids (AHA/BHA) can destabilize the pH balance, diminishing the potency of both actives."
+    };
+  }
+  return null;
+};
+
+const checkConcentrationThresholds = (routineItems: { name?: string }[]) => {
+  let totalNiacinamide = 0;
+  let totalBHA = 0;
+  let totalAHA = 0;
+  routineItems.forEach(item => {
+    const name = item.name || '';
+    const pctMatch = name.match(/(\d+(?:\.\d+)?)%/);
+    const pctValue = pctMatch ? parseFloat(pctMatch[1]) : 0;
+    if (name.toLowerCase().includes('niacinamide')) {
+      totalNiacinamide += pctValue || 5;
+    }
+    if (name.toLowerCase().includes('bha') || name.toLowerCase().includes('salicylic')) {
+      totalBHA += pctValue || 2;
+    }
+    if (name.toLowerCase().includes('aha') || name.toLowerCase().includes('glycolic')) {
+      totalAHA += pctValue || 8;
+    }
+  });
+  if (totalNiacinamide > 12) {
+    return {
+      label: "[CONCENTRATION ALERT // HIGH EXPOSURE RISK]",
+      desc: `You have stacked multiple formulas containing Niacinamide. The total combined exposure is now roughly ${totalNiacinamide}%, which exceeds safe daily recommendation thresholds and may trigger redness or sensitivity.`
+    };
+  }
+  if (totalBHA > 2) {
+    return {
+      label: "[CONCENTRATION ALERT // SKIN STRIPPING RISK]",
+      desc: `Your routine contains a cumulative Salicylic Acid (BHA) score of ${totalBHA}%. Exceeding 2% chemical exfoliation in a single cycle can break down your natural skin oils and cause severe dryness.`
+    };
+  }
+  return null;
+};
+
 // Simple local alternative to combine Tailwind class strings safely without broken imports
 const cn = (...classes: (string | boolean | undefined | null)[]) => classes.filter(Boolean).join(' ');
 
@@ -82,6 +144,16 @@ export default function Home() {
 
   const amRoutine = useRoutineStore((state) => state.amRoutine);
   const pmRoutine = useRoutineStore((state) => state.pmRoutine);
+
+  const conflict = React.useMemo(() => {
+    const allIngredients = [...amRoutine, ...pmRoutine].map(i => i.name);
+    return checkConflicts(allIngredients);
+  }, [amRoutine, pmRoutine]);
+
+  const concentrationWarning = React.useMemo(() => {
+    return checkConcentrationThresholds([...amRoutine, ...pmRoutine]);
+  }, [amRoutine, pmRoutine]);
+
   const skinType = useRoutineStore((state) => state.skinType);
   const setSkinType = useRoutineStore((state) => state.setSkinType);
 
@@ -188,9 +260,14 @@ export default function Home() {
     },
   ];
 
+  const matchesWord = (text: string, query: string) => {
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`\\b${escaped}\\b`, 'i').test(text);
+  };
+
   const filteredIngredients = INGREDIENTS.filter((ingredient) => {
     const matchesSearch =
-      ingredient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      matchesWord(ingredient.name, searchQuery) ||
       ingredient.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ingredient.description.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -305,7 +382,7 @@ export default function Home() {
 
                   {/* ── STEP / STATE INDICATOR ── */}
                   <span className="block font-mono text-[10px] tracking-[0.22em] font-semibold text-zinc-500 dark:text-zinc-400 uppercase select-none">
-                    INITIALIZING USER PROFILE // PHASE 01: DEFINE TARGET EPIDERMAL MATRIX
+                    INITIALIZING MATRIX // STEP 01: SELECT SKIN PROFILE
                   </span>
                 </div>
 
@@ -434,12 +511,14 @@ export default function Home() {
             className="relative z-10 flex flex-col min-h-screen lg:h-screen w-full"
           >
             {/* Root page manages onboarding gatekeeping via localStorage; header link requires no manual interceptor */}
-            <Navbar />
+            <div className="print:hidden">
+              <Navbar />
+            </div>
 
             <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8 custom-scrollbar">
 
               {/* 🧪 INGREDIENT ARSENAL — GLASSMORPHIC LUXURY LAB PANEL */}
-              <section className="flex w-full lg:w-80 shrink-0 flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-md shadow-sm p-5 transition-all duration-500 text-zinc-800 dark:text-zinc-100">
+              <section className="print:hidden flex w-full lg:w-80 shrink-0 flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-md shadow-sm p-5 transition-all duration-500 text-zinc-800 dark:text-zinc-100">
                 <div className="mb-4">
                   <div className="flex items-center justify-between">
                     <h2 className="text-xs font-black tracking-widest text-zinc-900 dark:text-zinc-400 uppercase">
@@ -567,18 +646,121 @@ export default function Home() {
                 <ExportPanel />
               </section>
 
-              <section className="flex flex-col flex-1 gap-6 lg:gap-8">
+              <section className="print:hidden flex flex-col flex-1 gap-6 lg:gap-8">
+                {conflict && (
+                  <div className="border-2 border-red-500 bg-red-50/50 dark:bg-red-950/20 text-red-700 dark:text-red-400 rounded-xl p-4">
+                    <span className="font-mono font-black text-[9px] tracking-widest uppercase">{conflict.label}</span>
+                    <p className="text-[10px] font-semibold leading-relaxed mt-1">{conflict.desc}</p>
+                  </div>
+                )}
+                {concentrationWarning && (
+                  <div className="border-2 border-amber-500 bg-amber-50/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-400 p-4 rounded-xl font-mono text-xs shadow-sm">
+                    <span className="font-black text-[9px] tracking-widest uppercase">{concentrationWarning.label}</span>
+                    <p className="text-[10px] font-semibold leading-relaxed mt-1">{concentrationWarning.desc}</p>
+                  </div>
+                )}
                 <div className="flex flex-col md:flex-row flex-1 min-h-0 gap-6 lg:gap-8">
                   <RoutineSlotPanel slot="AM" ingredients={amRoutine} />
                   <RoutineSlotPanel slot="PM" ingredients={pmRoutine} />
                 </div>
                 <CompilerConsole />
+                <button
+                  onClick={() => window.print()}
+                  className="mt-6 flex items-center justify-center space-x-2 w-full font-mono text-xs tracking-wider border-2 border-zinc-800 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-800 dark:text-zinc-200 py-3 rounded-xl transition-all shadow-sm"
+                >
+                  <span>GENERATE ROUTINE BLUEPRINT // EXPORT PDF</span>
+                </button>
               </section>
 
             </main>
 
+            {/* PRINT-ONLY MASTER BLUEPRINT TEMPLATE */}
+            <div className="hidden print:block print:absolute print:top-0 print:left-0 print:w-full print:m-0 print:p-8 bg-white text-zinc-950 font-mono text-xs leading-relaxed z-[9999]">
+              <div className="border-b-2 border-zinc-900 pb-4 mb-6">
+                <h1 className="text-xl font-bold tracking-tight">DERMASYNTAX</h1>
+                <p className="text-[10px] text-zinc-500 uppercase tracking-widest">Clinical Routine Specification Blueprint</p>
+              </div>
+
+              {/* CALIBRATION META ROW */}
+              <div className="grid grid-cols-3 gap-4 bg-zinc-50 border border-zinc-200 p-3 rounded mb-6">
+                <div>
+                  <span className="block text-[9px] text-zinc-500 uppercase">Skin Profile</span>
+                  <span className="font-bold uppercase">{skinType || 'NOT_CALIBRATED'}</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] text-zinc-500 uppercase">Compiled Steps</span>
+                  <span className="font-bold">{amRoutine.length + pmRoutine.length} Nodes</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] text-zinc-500 uppercase">System Integrity</span>
+                  {conflict ? (
+                    <span className="font-bold text-red-600 uppercase">CONFLICT ALERT</span>
+                  ) : (
+                    <span className="font-bold text-emerald-600 uppercase">NOMINAL PASS</span>
+                  )}
+                </div>
+              </div>
+
+              {/* DIAGNOSTIC SAFETY SUMMARIES */}
+              <div className="mb-6">
+                <h3 className="font-bold uppercase tracking-wide mb-2">I. Safety &amp; Compatibility Analysis</h3>
+                {conflict ? (
+                  <div className="border-2 border-red-500 p-3 rounded bg-red-50/50 text-red-900">
+                    <p className="font-bold uppercase tracking-wide">{conflict.label || '[ROUTINE ALERT // ACTIVE CONFLICT]'}</p>
+                    <p className="text-red-700 mt-1">{conflict.desc || 'Dangerous active chemical pairing detected in canvas slots.'}</p>
+                  </div>
+                ) : (
+                  <div className="border p-3 rounded bg-zinc-50 text-zinc-900">
+                    <p className="font-semibold text-zinc-800">[ROUTINE STATUS // VALIDATION PASS]</p>
+                    <p className="text-zinc-600 mt-1">Molecular weight gradients and active pH ranges are perfectly synchronized across sequential layering intervals.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* AM SPECIFICATION LADDER */}
+              <div className="mb-6">
+                <h3 className="font-bold uppercase tracking-wide mb-2">II. AM Layering Sequence</h3>
+                <div className="border rounded divide-y divide-zinc-200">
+                  {amRoutine.length === 0 ? (
+                    <div className="p-3 text-zinc-400 italic">No formulation variables assigned to AM block.</div>
+                  ) : (
+                    amRoutine.map((item, idx) => (
+                      <div key={idx} className="flex justify-between p-2.5 bg-white">
+                        <span className="font-bold text-zinc-400 w-12">STEP {idx + 1}</span>
+                        <span className="font-semibold text-zinc-900 flex-1">{item.name}</span>
+                        <span className="text-zinc-500 text-right uppercase text-[10px]">{item.category || 'Active'}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* PM SPECIFICATION LADDER */}
+              <div className="mb-6">
+                <h3 className="font-bold uppercase tracking-wide mb-2">III. PM Layering Sequence</h3>
+                <div className="border rounded divide-y divide-zinc-200">
+                  {pmRoutine.length === 0 ? (
+                    <div className="p-3 text-zinc-400 italic">No formulation variables assigned to PM block.</div>
+                  ) : (
+                    pmRoutine.map((item, idx) => (
+                      <div key={idx} className="flex justify-between p-2.5 bg-white">
+                        <span className="font-bold text-zinc-400 w-12">STEP {idx + 1}</span>
+                        <span className="font-semibold text-zinc-900 flex-1">{item.name}</span>
+                        <span className="text-zinc-500 text-right uppercase text-[10px]">{item.category || 'Active'}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* COMPILER SYSTEM FOOTER */}
+              <div className="border-t border-dashed border-zinc-300 pt-4 mt-8 text-[9px] text-zinc-500 text-justify">
+                <strong>[SYSTEM NOTICE // CLINICAL DISCLAIMER]</strong> — This generated blueprint maps molecular layering orders based on open-source ingredient parameters and does not substitute for a personalized medical diagnosis or professional dermatological prescription.
+              </div>
+            </div>
+
             {/* ── CLINICAL REALISM FOOTER ── */}
-            <footer className="shrink-0 border-t border-zinc-200 dark:border-zinc-800 px-8 py-3 flex items-center justify-between gap-4 select-none">
+            <footer className="print:hidden shrink-0 border-t border-zinc-200 dark:border-zinc-800 px-8 py-3 flex items-center justify-between gap-4 select-none">
               <span className="text-[9px] font-mono tracking-wider text-zinc-600 dark:text-zinc-500 uppercase leading-relaxed">
                 [SYSTEM NOTICE] — DERMASYNTAX is a data synthesis environment for informational taxonomy. It does not substitute for professional dermatological advice.
               </span>

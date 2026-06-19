@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import AnimatedThemeToggler from '@/components/AnimatedThemeToggler';
 import GatewayNav from '@/components/GatewayNav';
@@ -39,6 +40,135 @@ const chapters = [
     accentBg: 'bg-cyan-400/10',
   },
 ] as const;
+
+type ApiSchemaLine =
+  | { text: string; type: 'comment' }
+  | { text: string; type: 'plain' }
+  | { key: string; type: 'key'; value: string; valType: string; comment: string };
+
+const apiSchemaLines: ApiSchemaLine[] = [
+  { text: "// Sanitized Product Scheme — post-adapter output", type: "comment" },
+  { text: "interface Product {", type: "plain" },
+  { key: "  id", type: "key", value: ": string;", valType: "type", comment: " // URL-safe slug" },
+  { key: "  name", type: "key", value: ": string;", valType: "type", comment: " // Trimmed display name" },
+  { key: "  brand", type: "key", value: ": string;", valType: "type", comment: " // Normalized brand" },
+  { key: "  ingredients", type: "key", value: ": string[];", valType: "type", comment: " // Alias-mapped list" },
+  { key: "  category", type: "key", value: ": string;", valType: "type", comment: " // e.g., 'Cleanser'" },
+  { key: "  pH", type: "key", value: ": number | null;", valType: "type", comment: " // Parsed float or null" },
+  { key: "  solubility", type: "key", value: ": 'aqueous' | 'lipophilic';", valType: "type", comment: " // Solvent class" },
+  { key: "  molecularWeightProfile", type: "key", value: ": 'Low' | 'Mid' | 'High';", valType: "type", comment: " // Density matrix" },
+  { key: "  applicationSequence", type: "key", value: ": 'AM' | 'PM' | 'ALL';", valType: "type", comment: " // Routine lock" },
+  { text: "}", type: "plain" }
+];
+
+function tokenizeLine(line: ApiSchemaLine): { text: string; className: string }[] {
+  if (line.type === 'comment') {
+    return [{ text: line.text, className: 'text-zinc-500' }];
+  }
+  if (line.type === 'plain') {
+    const text = line.text;
+    if (text === '}') return [{ text: '}', className: 'text-zinc-400' }];
+    const match = text.match(/^(interface)\s+(\w+)\s*(\{)$/);
+    if (match && match[2]) {
+      return [
+        { text: 'interface ', className: 'text-purple-400' },
+        { text: match[2], className: 'text-cyan-300' },
+        { text: ' {', className: 'text-zinc-400' },
+      ];
+    }
+    return [{ text, className: 'text-zinc-300' }];
+  }
+  if (line.type === 'key') {
+    const segments: { text: string; className: string }[] = [];
+    segments.push({ text: line.key, className: 'text-blue-300' });
+    const value = line.value;
+    const tokens = value.match(/('(?:[^'\\]|\\.)*')|(\bstring\b|\bnumber\b|\bnull\b|\bboolean\b)|(\||:|;)|(\s+)/g) || [value];
+    for (const token of tokens) {
+      if (/^'/.test(token)) {
+        segments.push({ text: token, className: 'text-amber-400' });
+      } else if (/^(string|number|null|boolean)$/.test(token)) {
+        segments.push({ text: token, className: 'text-emerald-400' });
+      } else {
+        segments.push({ text: token, className: 'text-zinc-500' });
+      }
+    }
+    if (line.comment) {
+      segments.push({ text: line.comment, className: 'text-zinc-600' });
+    }
+    return segments;
+  }
+  return [];
+}
+
+function TerminalTypist({ lines }: { lines: ApiSchemaLine[] }) {
+  const lineInfos = React.useMemo(
+    () => lines.map((l) => tokenizeLine(l)),
+    [lines]
+  );
+
+  const [progress, setProgress] = useState({ line: 0, char: 0 });
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (done) return;
+    if (progress.line >= lineInfos.length) {
+      setDone(true);
+      return;
+    }
+
+    const currentSegments = lineInfos[progress.line];
+    const lineText = currentSegments.map(s => s.text).join('');
+
+    if (progress.char >= lineText.length) {
+      const timer = setTimeout(() => {
+        setProgress({ line: progress.line + 1, char: 0 });
+      }, 220);
+      return () => clearTimeout(timer);
+    }
+
+    const timer = setTimeout(() => {
+      setProgress(p => ({ ...p, char: p.char + 1 }));
+    }, 14);
+    return () => clearTimeout(timer);
+  }, [progress, done, lineInfos]);
+
+  return (
+    <div className="text-[11px] font-mono leading-relaxed">
+      {lineInfos.map((segments, li) => {
+        if (li > progress.line) return null;
+
+        const lineText = segments.map(s => s.text).join('');
+        const visibleLen = li === progress.line ? progress.char : lineText.length;
+
+        let rem = visibleLen;
+        const visibleParts: { text: string; className: string }[] = [];
+        for (const seg of segments) {
+          if (rem <= 0) break;
+          const take = Math.min(rem, seg.text.length);
+          if (take > 0) {
+            visibleParts.push({ text: seg.text.slice(0, take), className: seg.className });
+          }
+          rem -= take;
+        }
+
+        return (
+          <div key={li}>
+            {visibleParts.map((p, i) => (
+              <span key={i} className={p.className}>{p.text}</span>
+            ))}
+            {li === progress.line && !done && (
+              <motion.span
+                className="inline-block w-[7px] h-[14px] bg-cyan-400 ml-[1px]"
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function DocsPage() {
   const [activeSection, setActiveSection] = useState<string>(chapters[0].id);
@@ -319,71 +449,9 @@ export default function DocsPage() {
                   </span>
                 </div>
 
-                {/* Code content */}
+                {/* Animated code content */}
                 <div className="p-5 overflow-x-auto custom-scrollbar">
-                  <pre className="text-[11px] font-mono leading-relaxed">
-                    <code>
-                      <span className="text-zinc-500">{'// Sanitized Product Schema — post-adapter output'}</span>{'\n'}
-                      <span className="text-purple-400">interface</span>{' '}
-                      <span className="text-cyan-300">Product</span>{' {'}{'\n'}
-                      {'  '}<span className="text-blue-300">id</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-emerald-400">string</span>
-                      <span className="text-zinc-500">;</span>{'                    '}
-                      <span className="text-zinc-600">{'// URL-safe slug'}</span>{'\n'}
-                      {'  '}<span className="text-blue-300">name</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-emerald-400">string</span>
-                      <span className="text-zinc-500">;</span>{'                  '}
-                      <span className="text-zinc-600">{'// Trimmed display name'}</span>{'\n'}
-                      {'  '}<span className="text-blue-300">brand</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-emerald-400">string</span>
-                      <span className="text-zinc-500">;</span>{'                 '}
-                      <span className="text-zinc-600">{'// Normalized brand'}</span>{'\n'}
-                      {'  '}<span className="text-blue-300">ingredients</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-emerald-400">string</span>
-                      <span className="text-zinc-500">[];</span>{'           '}
-                      <span className="text-zinc-600">{'// Alias-mapped list'}</span>{'\n'}
-                      {'  '}<span className="text-blue-300">category</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-emerald-400">string</span>
-                      <span className="text-zinc-500">;</span>{'              '}
-                      <span className="text-zinc-600">{'// e.g. "Cleanser"'}</span>{'\n'}
-                      {'  '}<span className="text-blue-300">pH</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-emerald-400">number</span>{' '}
-                      <span className="text-zinc-500">|</span>{' '}
-                      <span className="text-emerald-400">null</span>
-                      <span className="text-zinc-500">;</span>{'              '}
-                      <span className="text-zinc-600">{'// Parsed float or null'}</span>{'\n'}
-                      {'  '}<span className="text-blue-300">solubility</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-amber-400">&apos;aqueous&apos;</span>{' '}
-                      <span className="text-zinc-500">|</span>{' '}
-                      <span className="text-amber-400">&apos;lipophilic&apos;</span>
-                      <span className="text-zinc-500">;</span>{'    '}
-                      <span className="text-zinc-600">{'// Solvent class'}</span>{'\n'}
-                      {'  '}<span className="text-blue-300">molecularWeightProfile</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-amber-400">&apos;low&apos;</span>{' '}
-                      <span className="text-zinc-500">|</span>{' '}
-                      <span className="text-amber-400">&apos;mid&apos;</span>{' '}
-                      <span className="text-zinc-500">|</span>{' '}
-                      <span className="text-amber-400">&apos;high&apos;</span>
-                      <span className="text-zinc-500">;</span>{'\n'}
-                      {'  '}<span className="text-blue-300">applicationSequence</span>
-                      <span className="text-zinc-500">:</span>{' '}
-                      <span className="text-amber-400">&apos;AM&apos;</span>{' '}
-                      <span className="text-zinc-500">|</span>{' '}
-                      <span className="text-amber-400">&apos;PM&apos;</span>{' '}
-                      <span className="text-zinc-500">|</span>{' '}
-                      <span className="text-amber-400">&apos;All-Day&apos;</span>
-                      <span className="text-zinc-500">;</span>{'\n'}
-                      {'}'}
-                    </code>
-                  </pre>
+                  <TerminalTypist lines={apiSchemaLines} />
                 </div>
               </div>
 

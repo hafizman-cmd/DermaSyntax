@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useScroll, motion } from 'framer-motion';
 import GatewayNav from '@/components/GatewayNav';
 
 type Mode = 'ingredient' | 'product';
@@ -103,6 +104,15 @@ export default function ManualPage() {
   const [mode, setMode] = useState<Mode>('ingredient');
   const [activeStep, setActiveStep] = useState(0);
 
+  const { scrollYProgress } = useScroll();
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   const steps = mode === 'ingredient' ? INGREDIENT_STEPS : PRODUCT_STEPS;
   const currentStep = steps[activeStep];
 
@@ -128,7 +138,7 @@ export default function ManualPage() {
               />
               <button
                 type="button"
-                onClick={() => { setMode('ingredient'); setActiveStep(0); }}
+                onClick={() => { setMode('ingredient'); setActiveStep(0); setTimeout(() => scrollToSection('step-01'), 50); }}
                 className={`w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300 ${mode === 'ingredient' ? 'text-zinc-950 dark:text-emerald-400' : 'text-zinc-600 dark:text-zinc-500'
                   }`}
               >
@@ -136,7 +146,7 @@ export default function ManualPage() {
               </button>
               <button
                 type="button"
-                onClick={() => { setMode('product'); setActiveStep(0); }}
+                onClick={() => { setMode('product'); setActiveStep(0); setTimeout(() => scrollToSection('step-01'), 50); }}
                 className={`w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300 ${mode === 'product' ? 'text-zinc-950 dark:text-emerald-400' : 'text-zinc-600 dark:text-zinc-500'
                   }`}
               >
@@ -152,7 +162,7 @@ export default function ManualPage() {
               return (
                 <button
                   key={step.index}
-                  onClick={() => setActiveStep(i)}
+                  onClick={() => { setActiveStep(i); scrollToSection(`step-${String(i + 1).padStart(2, '0')}`); }}
                   className={`w-full text-left px-4 py-3 rounded-lg border transition-all duration-200 group ${isActive
                     ? `${step.accentBg} ${step.accentBorder} border`
                     : 'border-transparent hover:bg-zinc-100 dark:hover:bg-white/[0.03] hover:border-zinc-200 dark:hover:border-zinc-800'
@@ -195,7 +205,14 @@ export default function ManualPage() {
 
         {/* ── MAIN CONTENT PANE ── */}
         <main className="flex-1 lg:ml-72 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-3xl mx-auto px-6 md:px-12 py-12 space-y-12">
+          <div className="max-w-3xl mx-auto px-6 md:px-12 py-12 space-y-12 relative">
+            {/* Tracing beam */}
+            <div className="absolute left-4 md:left-8 top-0 bottom-0 w-[2px] bg-zinc-200 dark:bg-zinc-800/50 hidden sm:block pointer-events-none">
+              <motion.div
+                style={{ scaleY: scrollYProgress, transformOrigin: "top" }}
+                className="w-full h-full bg-gradient-to-b from-emerald-400 via-teal-400 to-emerald-500 shadow-[0_0_15px_rgba(52,211,153,0.6)]"
+              />
+            </div>
             {/* Page Header */}
             <div className="space-y-4">
               <span className="text-[9px] font-mono tracking-[0.25em] font-bold text-zinc-600 dark:text-zinc-500 uppercase">
@@ -224,7 +241,7 @@ export default function ManualPage() {
               />
               <button
                 type="button"
-                onClick={() => { setMode('ingredient'); setActiveStep(0); }}
+                onClick={() => { setMode('ingredient'); setActiveStep(0); setTimeout(() => scrollToSection('step-01'), 50); }}
                 className={`w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300 ${mode === 'ingredient' ? 'text-zinc-950 dark:text-emerald-400' : 'text-zinc-600 dark:text-zinc-500'
                   }`}
               >
@@ -232,7 +249,7 @@ export default function ManualPage() {
               </button>
               <button
                 type="button"
-                onClick={() => { setMode('product'); setActiveStep(0); }}
+                onClick={() => { setMode('product'); setActiveStep(0); setTimeout(() => scrollToSection('step-01'), 50); }}
                 className={`w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300 ${mode === 'product' ? 'text-zinc-950 dark:text-emerald-400' : 'text-zinc-600 dark:text-zinc-500'
                   }`}
               >
@@ -241,13 +258,13 @@ export default function ManualPage() {
             </div>
 
             {/* ── PROCESS DIAGRAM: ALL STEPS ── */}
-            <div className="space-y-6">
+            <div className="space-y-6 pl-10 sm:pl-16">
               {steps.map((step, i) => {
                 const isActive = activeStep === i;
                 return (
                   <section
                     key={step.index}
-                    id={`step-${step.index}`}
+                    id={`step-${String(i + 1).padStart(2, '0')}`}
                     className="scroll-mt-24 space-y-4"
                   >
                     {/* Step divider */}
@@ -315,7 +332,7 @@ export default function ManualPage() {
                 {steps.map((step, i) => (
                   <React.Fragment key={step.index}>
                     <button
-                      onClick={() => setActiveStep(i)}
+                      onClick={() => { setActiveStep(i); scrollToSection(`step-${String(i + 1).padStart(2, '0')}`); }}
                       className={`text-[9px] font-mono font-black tracking-wider px-2.5 py-1 rounded-md border transition-all ${activeStep === i
                         ? `${step.accent} ${step.accentBorder} ${step.accentBg}`
                         : 'text-zinc-600 dark:text-zinc-500 border-zinc-800 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600'
