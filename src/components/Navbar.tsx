@@ -9,8 +9,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
-  { label: 'INGREDIENT BASE', href: '/' },
-  { label: 'PRODUCT BASE', href: '/product-base' },
   { label: 'MANUAL', href: '/manual' },
   { label: 'DOCUMENTATION', href: '/docs' },
 ] as const;
@@ -18,10 +16,9 @@ const NAV_LINKS = [
 interface NavbarProps {
   onReset?: () => void;
   resetLabel?: string;
-  onHomeClick?: () => void;
 }
 
-export default function Navbar({ onReset, resetLabel, onHomeClick }: NavbarProps) {
+export default function Navbar({ onReset, resetLabel }: NavbarProps) {
   const pathname = usePathname();
   const results = useRoutineStore((state) => state.compilationResults);
   const clearAll = useRoutineStore((state) => state.clearAll);
@@ -76,14 +73,13 @@ export default function Navbar({ onReset, resetLabel, onHomeClick }: NavbarProps
 
       <div className="flex items-center gap-4">
         {/* ── HIGH-TECH LOGO HOME BUTTON ROUTER ── */}
-        {/* UPGRADED: Attached a default behavior prevent interceptor to handle local page memory overrides smoothly */}
+        {/* SYSTEM RESET: Clicking DermaSyntax logo clears onboarding key and reboots to / */}
         <Link
           href="/"
           onClick={(e) => {
-            if (onHomeClick) {
-              e.preventDefault();
-              onHomeClick();
-            }
+            e.preventDefault();
+            localStorage.removeItem('dermasyntax_onboarded');
+            window.location.href = '/';
           }}
           className="hover:opacity-80 transition-opacity duration-300"
         >
@@ -103,11 +99,18 @@ export default function Navbar({ onReset, resetLabel, onHomeClick }: NavbarProps
       </div>
 
       <nav className="hidden md:flex items-center">
+        <div className="hidden lg:flex items-center space-x-4 font-mono text-[10px] tracking-widest text-zinc-500 dark:text-zinc-500 mr-6 border-r border-zinc-200 dark:border-zinc-800 pr-6">
+          <div className="flex items-center space-x-1.5">
+            <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+            <span>CORE // NOMINAL</span>
+          </div>
+          <span className="text-zinc-300 dark:text-zinc-800">|</span>
+          <span>NET_LATENCY // 14MS</span>
+          <span className="text-zinc-300 dark:text-zinc-800">|</span>
+          <span>SYS_SECURE</span>
+        </div>
         {NAV_LINKS.map((link) => {
-          const isActive =
-            link.href === '/'
-              ? pathname === '/'
-              : pathname.startsWith(link.href);
+          const isActive = pathname.startsWith(link.href);
 
           return (
             <Link

@@ -87,7 +87,14 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = React.useState('');
   const [activeFilter, setActiveFilter] = React.useState<string>('ALL');
-  const [isOnboarded, setIsOnboarded] = React.useState(false);
+  const [isOnboarded, setIsOnboarded] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    const storedStatus = localStorage.getItem('dermasyntax_onboarded');
+    if (storedStatus === 'true') {
+      setIsOnboarded(true);
+    }
+  }, []);
 
   // Compiler execution toggle state controlling main routing benchmarks
   const [compilerMode, setCompilerMode] = React.useState<'ingredients' | 'products'>('ingredients');
@@ -199,6 +206,15 @@ export default function Home() {
     return true;
   });
 
+  const handleBootEngine = () => {
+    if (compilerMode === 'products') {
+      router.push('/product-base');
+    } else {
+      localStorage.setItem('dermasyntax_onboarded', 'true');
+      setIsOnboarded(true);
+    }
+  };
+
   return (
     <div className="relative flex h-screen flex-col overflow-hidden bg-zinc-50 text-zinc-800 dark:bg-[#121212] dark:text-zinc-100 antialiased select-none transition-colors duration-500">
 
@@ -270,7 +286,7 @@ export default function Home() {
                       onClick={() => setCompilerMode('ingredients')}
                       className={cn(
                         "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
-                        compilerMode === 'ingredients' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
+                        compilerMode === 'ingredients' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-600 dark:text-zinc-500"
                       )}
                     >
                       // INGREDIENT BASE
@@ -280,7 +296,7 @@ export default function Home() {
                       onClick={() => setCompilerMode('products')}
                       className={cn(
                         "w-1/2 h-full relative z-10 font-mono text-[9px] font-black uppercase tracking-widest transition-colors duration-300",
-                        compilerMode === 'products' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-600"
+                        compilerMode === 'products' ? "text-zinc-950 dark:text-emerald-400" : "text-zinc-600 dark:text-zinc-500"
                       )}
                     >
                       // PRODUCT BASE
@@ -349,7 +365,7 @@ export default function Home() {
 
                             {/* Footer System Identifiers */}
                             <div className="flex items-center justify-between w-full border-t border-slate-700 pt-1.5">
-                              <p className="text-[8px] font-mono tracking-widest text-zinc-400 dark:text-zinc-600 uppercase">
+                              <p className="text-[8px] font-mono tracking-widest text-zinc-600 dark:text-zinc-500 uppercase">
                                 {card.date}
                               </p>
                               {isCurrent && (
@@ -373,13 +389,7 @@ export default function Home() {
                 {/* Primary Initializer Execution Button */}
                 <button
                   disabled={!skinType}
-                  onClick={() => {
-                    if (compilerMode === 'products') {
-                      router.push('/product-base');
-                    } else {
-                      setIsOnboarded(true);
-                    }
-                  }}
+                  onClick={handleBootEngine}
                   className="group relative mt-6 flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-xl bg-zinc-200 dark:bg-white/[0.06] border border-slate-300 dark:border-slate-600 px-4 py-3 text-xs font-black tracking-wider text-zinc-900 dark:text-white uppercase transition-all duration-300 hover:bg-zinc-300 dark:hover:bg-white/[0.1] disabled:opacity-30 disabled:pointer-events-none"
                 >
                   <span>Boot Formulation Rails</span>
@@ -405,10 +415,10 @@ export default function Home() {
 
             {/* ── CLINICAL REALISM GATEWAY FOOTER ── */}
             <footer className="fixed bottom-0 left-0 right-0 w-full py-6 px-8 flex items-end justify-between z-40 select-none pointer-events-none">
-              <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-zinc-400 dark:text-zinc-600 max-w-[60%] leading-relaxed">
+              <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-zinc-600 dark:text-zinc-500 max-w-[60%] leading-relaxed">
                 [SYSTEM NOTICE] — DERMASYNTAX IS A DATA SYNTHESIS ENVIRONMENT FOR INFORMATIONAL TAXONOMY. IT DOES NOT SUBSTITUTE FOR PROFESSIONAL DERMATOLOGICAL ADVICE.
               </span>
-              <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-zinc-400 dark:text-zinc-600 whitespace-nowrap">
+              <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-zinc-600 dark:text-zinc-500 whitespace-nowrap">
                 &copy; 2026 DERMASYNTAX // SYS_REF: BUILD_V1.0.4
               </span>
             </footer>
@@ -423,8 +433,8 @@ export default function Home() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-10 flex flex-col min-h-screen lg:h-screen w-full"
           >
-            {/* UPGRADED: Included state driver handler callback to trigger onboarding drop-outs on request */}
-            <Navbar onHomeClick={() => setIsOnboarded(false)} />
+            {/* Root page manages onboarding gatekeeping via localStorage; header link requires no manual interceptor */}
+            <Navbar />
 
             <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8 custom-scrollbar">
 
@@ -569,10 +579,10 @@ export default function Home() {
 
             {/* ── CLINICAL REALISM FOOTER ── */}
             <footer className="shrink-0 border-t border-zinc-200 dark:border-zinc-800 px-8 py-3 flex items-center justify-between gap-4 select-none">
-              <span className="text-[9px] font-mono tracking-wider text-zinc-400 dark:text-zinc-600 uppercase leading-relaxed">
+              <span className="text-[9px] font-mono tracking-wider text-zinc-600 dark:text-zinc-500 uppercase leading-relaxed">
                 [SYSTEM NOTICE] — DERMASYNTAX is a data synthesis environment for informational taxonomy. It does not substitute for professional dermatological advice.
               </span>
-              <span className="text-[9px] font-mono tracking-wider text-zinc-400 dark:text-zinc-600 uppercase whitespace-nowrap">
+              <span className="text-[9px] font-mono tracking-wider text-zinc-600 dark:text-zinc-500 uppercase whitespace-nowrap">
                 &copy; 2026 DERMASYNTAX // BUILD_V1.0.4
               </span>
             </footer>
