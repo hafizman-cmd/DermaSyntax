@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Ingredient } from '@/types/skincare';
 import { useRoutineStore } from '@/store/useRoutineStore';
-import { Sun, Moon, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -95,33 +95,25 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
         )}
       </div>
 
-      <div className="mt-3.5 pt-3 border-t border-slate-700 flex items-center justify-between gap-2 lg:hidden transition-colors duration-300">
-        <span className="text-[8px] font-mono font-black tracking-widest text-black dark:text-white uppercase transition-colors duration-300">
-          Quick Inject:
-        </span>
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => injectToSlot('AM')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-md border text-[9px] font-black uppercase tracking-wider transition-all duration-300 ${inAM
-              ? 'border-amber-600 bg-amber-50 text-amber-900 dark:border-amber-400 dark:bg-amber-950/20 dark:text-amber-400'
-              : 'border-slate-600 dark:border-slate-500 bg-transparent text-slate-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.06]'
-              }`}
-          >
-            <Sun className="h-2.5 w-2.5 stroke-[2.5]" />
-            <span>AM {inAM && '✓'}</span>
-          </button>
-
-          <button
-            onClick={() => injectToSlot('PM')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-md border text-[9px] font-black uppercase tracking-wider transition-all duration-300 ${inPM
-              ? 'border-indigo-600 bg-indigo-50 text-indigo-900 dark:border-indigo-400 dark:bg-indigo-950/20 dark:text-indigo-400'
-              : 'border-slate-600 dark:border-slate-500 bg-transparent text-slate-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.06]'
-              }`}
-          >
-            <Moon className="h-2.5 w-2.5 stroke-[2.5]" />
-            <span>PM {inPM && '✓'}</span>
-          </button>
-        </div>
+      <div className="mt-3 grid grid-cols-2 gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800/60">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            injectToSlot('AM');
+          }}
+          className="font-mono text-[9px] font-bold uppercase tracking-wider text-center border border-zinc-800 dark:border-white/10 hover:bg-zinc-800 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 py-1.5 rounded transition-all"
+        >
+          + AM{inAM && ' \u2713'}
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            injectToSlot('PM');
+          }}
+          className="font-mono text-[9px] font-bold uppercase tracking-wider text-center border border-zinc-800 dark:border-white/10 hover:bg-zinc-800 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 py-1.5 rounded transition-all"
+        >
+          + PM{inPM && ' \u2713'}
+        </button>
       </div>
     </motion.div>
   );

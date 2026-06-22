@@ -11,6 +11,7 @@ import { usePathname } from 'next/navigation';
 const NAV_LINKS = [
   { label: 'MANUAL', href: '/manual' },
   { label: 'DOCUMENTATION', href: '/docs' },
+  { label: 'SHOP', href: '/shop' },
 ] as const;
 
 interface NavbarProps {

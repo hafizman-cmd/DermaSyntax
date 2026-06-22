@@ -30,9 +30,20 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
     e.preventDefault();
     setIsOver(false);
     try {
-      const dataStr = e.dataTransfer.getData('application/json');
-      if (dataStr) {
-        const ingredient = JSON.parse(dataStr) as Ingredient;
+      // Cross-lane transfer: payload carries { item, sourceLane, index }
+      const plainData = e.dataTransfer.getData('text/plain');
+      if (plainData) {
+        const parsed = JSON.parse(plainData) as { item: Ingredient; sourceLane: RoutineSlot; index: number };
+        if (parsed.item && parsed.sourceLane && parsed.sourceLane !== slot) {
+          removeIngredient(parsed.item.id, parsed.sourceLane);
+          addIngredient(parsed.item, slot);
+          return;
+        }
+      }
+      // Arsenal drag: payload is a bare Ingredient (copy, no source removal)
+      const jsonData = e.dataTransfer.getData('application/json');
+      if (jsonData) {
+        const ingredient = JSON.parse(jsonData) as Ingredient;
         addIngredient(ingredient, slot);
       }
     } catch (err) {
@@ -140,7 +151,12 @@ export default function RoutineSlotPanel({ slot, ingredients }: RoutineSlotPanel
             return (
               <div
                 key={ingredient.id}
-                className={`group flex items-center justify-between rounded-xl border bg-white/[0.04] backdrop-blur-md p-4 transition-all duration-300 ${borderStyle}`}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData('text/plain', JSON.stringify({ item: ingredient, sourceLane: slot, index }));
+                  e.dataTransfer.effectAllowed = 'move';
+                }}
+                className={`group flex items-center justify-between rounded-xl border bg-white/[0.04] backdrop-blur-md p-4 transition-all duration-300 cursor-grab active:cursor-grabbing ${borderStyle}`}
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
 

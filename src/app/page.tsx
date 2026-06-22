@@ -351,12 +351,12 @@ export default function Home() {
                 {/* ── BASE SELECTION + TELEMETRY CLUSTER ── */}
                 <div className="flex flex-col gap-y-2 mt-5">
                   {/* ── ENGINE MODE SELECTOR SLIDER ── */}
-                  <div className="w-full rounded-xl border border-slate-700 bg-white/[0.03] p-1 relative h-9 flex items-center">
+                  <div className="w-full rounded-xl border-2 border-zinc-800 dark:border-white/10 bg-white dark:bg-[#0c0c0e] text-zinc-900 dark:text-zinc-300 font-bold font-mono text-xs p-1 relative h-9 flex items-center">
                     <div
-                      className={cn(
-                        "absolute top-0.5 bottom-0.5 w-[calc(50%-4px)] rounded-lg border border-slate-600 bg-white/[0.06] backdrop-blur-md transition-all duration-300",
-                        compilerMode === 'products' ? "left-[calc(50%+2px)]" : "left-0.5"
-                      )}
+                        className={cn(
+                          "absolute top-0.5 bottom-0.5 w-[calc(50%-4px)] rounded-lg border-2 border-zinc-800 dark:border-white/10 bg-zinc-100 dark:bg-white/[0.06] backdrop-blur-md transition-all duration-300",
+                          compilerMode === 'products' ? "left-[calc(50%+2px)]" : "left-0.5"
+                        )}
                     />
                     <button
                       type="button"
@@ -381,7 +381,7 @@ export default function Home() {
                   </div>
 
                   {/* ── STEP / STATE INDICATOR ── */}
-                  <span className="block font-mono text-[10px] tracking-[0.22em] font-semibold text-zinc-500 dark:text-zinc-400 uppercase select-none">
+                  <span className="block font-mono text-[10px] tracking-[0.22em] text-zinc-600 dark:text-zinc-400 font-bold uppercase select-none">
                     INITIALIZING MATRIX // STEP 01: SELECT SKIN PROFILE
                   </span>
                 </div>
@@ -396,9 +396,9 @@ export default function Home() {
                       return (
                         <div
                           key={card.name}
+                          style={{ zIndex: isCurrent ? 50 : 10 + index }}
                           className={cn(
-                            "group relative [grid-area:stack] w-[22rem] h-36",
-                            isCurrent ? "z-50" : card.zIndex,
+                            "group relative [grid-area:stack] w-[22rem] h-36 transition-all duration-300 ease-out",
                             isCurrent ? card.activePos : card.inactivePos
                           )}
                         >
@@ -412,9 +412,9 @@ export default function Home() {
                               backfaceVisibility: 'hidden',
                             }}
                             className={cn(
-                              "relative flex h-full w-full -skew-y-[8deg] select-none flex-col justify-between rounded-xl border px-4 py-3 transition-all duration-300 ease-out cursor-pointer text-left",
+                              "relative flex h-full w-full -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 px-4 py-3 transition-all duration-300 ease-out cursor-pointer text-left",
                               "group-hover/deck:opacity-40 group-hover:!opacity-100",
-                              "border-zinc-200 dark:border-white/10 bg-white/95 dark:bg-[#161616]/70 backdrop-blur-xl shadow-lg shadow-zinc-200/50 dark:shadow-none text-zinc-800 dark:text-zinc-100",
+                              "bg-white dark:bg-[#0c0c0e] border-zinc-800 dark:border-white/10 shadow-[4px_4px_0px_0px_rgba(9,9,11,1)] dark:shadow-none text-zinc-800 dark:text-zinc-100",
                               "group-hover:-translate-y-8 group-hover:translate-x-3 group-hover:scale-[1.02] group-hover:z-50 group-hover:border-zinc-400 dark:group-hover:border-white/30",
                               isCurrent && "!border-slate-500 dark:!border-slate-400 !bg-white dark:!bg-[#1a1a1a]/90 !ring-1 !ring-slate-500/30 !z-50 !scale-[1.02] !opacity-100"
                             )}
@@ -436,7 +436,7 @@ export default function Home() {
                             </div>
 
                             {/* Extended diagnostic description body */}
-                            <p className="text-[10px] font-bold leading-normal text-zinc-600 dark:text-zinc-300 tracking-wide uppercase line-clamp-2 my-1.5">
+                            <p className="text-[10px] leading-normal text-zinc-700 dark:text-zinc-400 font-medium tracking-wide uppercase line-clamp-2 my-1.5">
                               {card.extended}
                             </p>
 
@@ -467,7 +467,7 @@ export default function Home() {
                 <button
                   disabled={!skinType}
                   onClick={handleBootEngine}
-                  className="group relative mt-6 flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-xl bg-zinc-200 dark:bg-white/[0.06] border border-slate-300 dark:border-slate-600 px-4 py-3 text-xs font-black tracking-wider text-zinc-900 dark:text-white uppercase transition-all duration-300 hover:bg-zinc-300 dark:hover:bg-white/[0.1] disabled:opacity-30 disabled:pointer-events-none"
+                  className="group relative mt-6 flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-xl border-2 border-zinc-800 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 dark:border-transparent px-4 py-3 text-xs font-black tracking-wider uppercase transition-all duration-300 hover:bg-zinc-800 dark:hover:opacity-90 disabled:opacity-30 disabled:pointer-events-none"
                 >
                   <span>Boot Formulation Rails</span>
                   <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 stroke-[2.5]" />
@@ -484,9 +484,11 @@ export default function Home() {
               transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
               className="hidden md:flex absolute right-[-15%] bottom-0 w-[80%] h-full items-end justify-center pointer-events-auto z-10 overflow-visible shrink-0"
             >
+              {/* Ambient lighting ring anchor */}
+              <div className="absolute -z-10 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100 via-zinc-100 to-transparent dark:from-emerald-950/20 dark:via-transparent dark:to-transparent rounded-full blur-3xl opacity-80 dark:opacity-40 pointer-events-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
               <SplineScene
                 scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full transform translate-y-[13%]"
+                className="w-full h-full transform translate-y-[13%] object-contain filter brightness-[1.03] contrast-[0.97] dark:brightness-100 dark:contrast-100 transition-all duration-300"
               />
             </motion.div>
 
