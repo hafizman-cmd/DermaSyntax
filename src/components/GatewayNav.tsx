@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AnimatedThemeToggler from './AnimatedThemeToggler';
@@ -21,6 +21,23 @@ export default function GatewayNav({
   logoLabel = 'DERMASYNTAX // GATEWAY_v1.0.0',
 }: GatewayNavProps) {
   const pathname = usePathname();
+
+  const [headerSkinType, setHeaderSkinType] = useState<string | null>(null);
+  useEffect(() => {
+    // Function to read the saved skin type fresh from memory
+    const updateHeaderType = () => {
+      const savedType = localStorage.getItem('selectedSkinType');
+      setHeaderSkinType(savedType);
+    };
+    // Run it once when the page first loads
+    updateHeaderType();
+    // Listen for the silent broadcast signal from the boot button
+    window.addEventListener('skinTypeChanged', updateHeaderType);
+    // Clean up the listener if the user leaves the page
+    return () => {
+      window.removeEventListener('skinTypeChanged', updateHeaderType);
+    };
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 w-full h-16 z-50 flex items-center justify-between px-8 bg-zinc-50/70 dark:bg-[#121212]/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
@@ -46,6 +63,11 @@ export default function GatewayNav({
           <span>NET_LATENCY // 14MS</span>
           <span className="text-zinc-300 dark:text-zinc-800">|</span>
           <span>SYS_SECURE</span>
+          <span className="text-zinc-300 dark:text-zinc-800">|</span>
+          <span className="text-zinc-600 dark:text-zinc-400 font-mono text-[10px] tracking-wider uppercase flex items-center">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1.5" />
+            SKIN TYPE // {headerSkinType ? headerSkinType : 'NOT SELECTED'}
+          </span>
         </div>
         {NAV_LINKS.map((link) => {
           const isActive = pathname.startsWith(link.href);

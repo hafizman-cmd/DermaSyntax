@@ -4,649 +4,1444 @@
     "brand": "Skintific",
     "name": "Skin Barrier Matcha Cleansing Foam",
     "category": "Cleanser",
-    "ingredients": ["matcha_extract", "ceramide_np", "glycerin", "salicylic_acid"],
+    "ingredients": [
+      "matcha_extract",
+      "ceramide_np",
+      "glycerin",
+      "salicylic_acid"
+    ],
     "safetyRating": 4,
-    "pH": 5.0,
+    "pH": 5,
     "solubility": "aqueous",
-    "functionalGroups": ["catechin", "ceramide", "polyol", "beta_hydroxy_acid"],
+    "functionalGroups": [
+      "catechin",
+      "ceramide",
+      "polyol",
+      "beta_hydroxy_acid"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Amino Acids",
+      "5X Ceramides",
+      "White Truffle"
+    ],
+    "howToUse": "Massage into wet skin morning and night, then rinse thoroughly."
   },
   {
     "id": "prod-skintific-toner",
     "brand": "Skintific",
     "name": "5% Niacinamide Brightening Toner",
     "category": "Toner",
-    "ingredients": ["niacinamide", "hyaluronic_acid", "centella_asiatica", "allantoin"],
+    "ingredients": [
+      "niacinamide",
+      "hyaluronic_acid",
+      "centella_asiatica",
+      "allantoin"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["pyridine_carboxamide", "glycosaminoglycan", "triterpenoid", "urea_derivative"],
+    "functionalGroups": [
+      "pyridine_carboxamide",
+      "glycosaminoglycan",
+      "triterpenoid",
+      "urea_derivative"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Niacinamide",
+      "Hyaluronic Acid",
+      "Centella Asiatica"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-skintific-serum",
     "brand": "Skintific",
     "name": "5X Ceramide Barrier Repair Serum",
     "category": "Serum",
-    "ingredients": ["ceramide_np", "hyaluronic_acid", "cholesterol", "centella_asiatica"],
+    "ingredients": [
+      "ceramide_np",
+      "hyaluronic_acid",
+      "cholesterol",
+      "centella_asiatica"
+    ],
     "safetyRating": 5,
     "pH": 5.8,
     "solubility": "amphiphilic",
-    "functionalGroups": ["ceramide", "glycosaminoglycan", "sterol", "triterpenoid"],
+    "functionalGroups": [
+      "ceramide",
+      "glycosaminoglycan",
+      "sterol",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Ceramide NP",
+      "Hyaluronic Acid",
+      "Cholesterol"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-skintific-moisturizer",
     "brand": "Skintific",
     "name": "5X Ceramide Moisture Gel",
     "category": "Moisturizer",
-    "ingredients": ["ceramide_np", "hyaluronic_acid", "centella_asiatica", "cholesterol"],
+    "ingredients": [
+      "ceramide_np",
+      "hyaluronic_acid",
+      "centella_asiatica",
+      "cholesterol"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "lipophilic",
-    "functionalGroups": ["ceramide", "glycosaminoglycan", "triterpenoid", "sterol"],
+    "functionalGroups": [
+      "ceramide",
+      "glycosaminoglycan",
+      "triterpenoid",
+      "sterol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "5X Ceramides",
+      "Hyaluronic Acid",
+      "Centella"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-skintific-sunscreen",
     "brand": "Skintific",
     "name": "UV Shield Sunscreen SPF 50 PA++++",
     "category": "Sunscreen",
-    "ingredients": ["uv_filters", "niacinamide", "tocopherol", "centella_asiatica"],
+    "ingredients": [
+      "uv_filters",
+      "niacinamide",
+      "tocopherol",
+      "centella_asiatica"
+    ],
     "safetyRating": 4,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "lipophilic",
-    "functionalGroups": ["triazine", "pyridine_carboxamide", "phenol", "triterpenoid"],
+    "functionalGroups": [
+      "triazine",
+      "pyridine_carboxamide",
+      "phenol",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "UV Filters",
+      "Niacinamide",
+      "Tocopherol"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-cosrx-cleanser",
     "brand": "COSRX",
     "name": "Salicylic Acid Daily Gentle Cleanser",
     "category": "Cleanser",
-    "ingredients": ["salicylic_acid", "tea_tree_oil", "betaine_salicylate"],
+    "ingredients": [
+      "salicylic_acid",
+      "tea_tree_oil",
+      "betaine_salicylate"
+    ],
     "safetyRating": 4,
     "pH": 4.5,
     "solubility": "aqueous",
-    "functionalGroups": ["beta_hydroxy_acid", "phenol", "terpene"],
+    "functionalGroups": [
+      "beta_hydroxy_acid",
+      "phenol",
+      "terpene"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Salicylic Acid",
+      "Tea Tree Oil",
+      "Betaine Salicylate"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-cosrx-toner",
     "brand": "COSRX",
     "name": "AHA/BHA Clarifying Treatment Toner",
     "category": "Toner",
-    "ingredients": ["glycolic_acid", "salicylic_acid", "betaine_salicylate", "pyrus_malus_fruit_water"],
+    "ingredients": [
+      "glycolic_acid",
+      "salicylic_acid",
+      "betaine_salicylate",
+      "pyrus_malus_fruit_water"
+    ],
     "safetyRating": 3,
-    "pH": 4.0,
+    "pH": 4,
     "solubility": "aqueous",
-    "functionalGroups": ["alpha_hydroxy_acid", "beta_hydroxy_acid", "phenol"],
+    "functionalGroups": [
+      "alpha_hydroxy_acid",
+      "beta_hydroxy_acid",
+      "phenol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Glycolic Acid",
+      "Salicylic Acid",
+      "Betaine Salicylate"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-cosrx-serum",
     "brand": "COSRX",
     "name": "Advanced Snail 96 Mucin Power Essence",
     "category": "Serum",
-    "ingredients": ["snail_mucin", "hyaluronic_acid", "allantoin", "panthenol"],
+    "ingredients": [
+      "snail_mucin",
+      "hyaluronic_acid",
+      "allantoin",
+      "panthenol"
+    ],
     "safetyRating": 5,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "amphiphilic",
-    "functionalGroups": ["glycosaminoglycan", "carboxylic_acid", "urea"],
+    "functionalGroups": [
+      "glycosaminoglycan",
+      "carboxylic_acid",
+      "urea"
+    ],
     "molecularWeightProfile": "high",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Snail Mucin",
+      "Hyaluronic Acid",
+      "Allantoin"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-cosrx-moisturizer",
     "brand": "COSRX",
     "name": "Advanced Snail 92 All In One Cream",
     "category": "Moisturizer",
-    "ingredients": ["snail_mucin", "hyaluronic_acid", "allantoin", "adenosine"],
+    "ingredients": [
+      "snail_mucin",
+      "hyaluronic_acid",
+      "allantoin",
+      "adenosine"
+    ],
     "safetyRating": 5,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "amphiphilic",
-    "functionalGroups": ["glycosaminoglycan", "carboxylic_acid", "urea", "nucleoside"],
+    "functionalGroups": [
+      "glycosaminoglycan",
+      "carboxylic_acid",
+      "urea",
+      "nucleoside"
+    ],
     "molecularWeightProfile": "high",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Snail Mucin",
+      "Hyaluronic Acid",
+      "Allantoin"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-cosrx-sunscreen",
     "brand": "COSRX",
     "name": "Aloe Soothing Sun Cream SPF 50+",
     "category": "Sunscreen",
-    "ingredients": ["aloe_barbadensis_extract", "uv_filters", "tocopherol", "hyaluronic_acid"],
+    "ingredients": [
+      "aloe_barbadensis_extract",
+      "uv_filters",
+      "tocopherol",
+      "hyaluronic_acid"
+    ],
     "safetyRating": 5,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "amphiphilic",
-    "functionalGroups": ["polysaccharide", "triazine", "phenol", "glycosaminoglycan"],
+    "functionalGroups": [
+      "polysaccharide",
+      "triazine",
+      "phenol",
+      "glycosaminoglycan"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "Aloe Vera Extract",
+      "UV Filters",
+      "Tocopherol"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-hadalabo-cleanser",
     "brand": "Hada Labo",
     "name": "Gokujyun Hyaluronic Acid Foaming Cleanser",
     "category": "Cleanser",
-    "ingredients": ["hyaluronic_acid", "sodium_hyaluronate", "glycerin", "cocoyl_glutamate"],
+    "ingredients": [
+      "hyaluronic_acid",
+      "sodium_hyaluronate",
+      "glycerin",
+      "cocoyl_glutamate"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["glycosaminoglycan", "carboxylic_acid", "polyol", "amino_acid_surfactant"],
+    "functionalGroups": [
+      "glycosaminoglycan",
+      "carboxylic_acid",
+      "polyol",
+      "amino_acid_surfactant"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Hyaluronic Acid",
+      "Sodium Hyaluronate",
+      "Glycerin"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-hadalabo-toner",
     "brand": "Hada Labo",
     "name": "Gokujyun Premium Hyaluronic Acid Lotion",
     "category": "Toner",
-    "ingredients": ["hyaluronic_acid", "acetyl_hyaluronate", "sodium_hyaluronate", "hydrolyzed_hyaluronic_acid"],
+    "ingredients": [
+      "hyaluronic_acid",
+      "acetyl_hyaluronate",
+      "sodium_hyaluronate",
+      "hydrolyzed_hyaluronic_acid"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["glycosaminoglycan", "carboxylic_acid", "amide"],
+    "functionalGroups": [
+      "glycosaminoglycan",
+      "carboxylic_acid",
+      "amide"
+    ],
     "molecularWeightProfile": "high",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Hyaluronic Acid",
+      "Acetyl Hyaluronate",
+      "Sodium Hyaluronate"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-hadalabo-serum",
     "brand": "Hada Labo",
     "name": "Gokujyun Alpha Whitening Serum",
     "category": "Serum",
-    "ingredients": ["tranexamic_acid", "hyaluronic_acid", "alpha_arbutin", "vitamin_c"],
+    "ingredients": [
+      "tranexamic_acid",
+      "hyaluronic_acid",
+      "alpha_arbutin",
+      "vitamin_c"
+    ],
     "safetyRating": 4,
     "pH": 5.8,
     "solubility": "aqueous",
-    "functionalGroups": ["amino_acid", "glycosaminoglycan", "glycoside", "ascorbic_acid"],
+    "functionalGroups": [
+      "amino_acid",
+      "glycosaminoglycan",
+      "glycoside",
+      "ascorbic_acid"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "Tranexamic Acid",
+      "Hyaluronic Acid",
+      "Alpha Arbutin"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-hadalabo-moisturizer",
     "brand": "Hada Labo",
     "name": "Gokujyun Perfect Gel Moisturizer",
     "category": "Moisturizer",
-    "ingredients": ["hyaluronic_acid", "squalane", "ceramide_np", "glycerin"],
+    "ingredients": [
+      "hyaluronic_acid",
+      "squalane",
+      "ceramide_np",
+      "glycerin"
+    ],
     "safetyRating": 5,
     "pH": 5.8,
     "solubility": "amphiphilic",
-    "functionalGroups": ["glycosaminoglycan", "triterpene", "ceramide", "polyol"],
+    "functionalGroups": [
+      "glycosaminoglycan",
+      "triterpene",
+      "ceramide",
+      "polyol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Hyaluronic Acid",
+      "Squalane",
+      "Ceramide NP"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-hadalabo-sunscreen",
     "brand": "Hada Labo",
     "name": "UV White Gel SPF 50 PA++++",
     "category": "Sunscreen",
-    "ingredients": ["uv_filters", "hyaluronic_acid", "vitamin_c", "tocopherol"],
+    "ingredients": [
+      "uv_filters",
+      "hyaluronic_acid",
+      "vitamin_c",
+      "tocopherol"
+    ],
     "safetyRating": 4,
     "pH": 6.2,
     "solubility": "amphiphilic",
-    "functionalGroups": ["triazine", "glycosaminoglycan", "ascorbic_acid", "phenol"],
+    "functionalGroups": [
+      "triazine",
+      "glycosaminoglycan",
+      "ascorbic_acid",
+      "phenol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "UV Filters",
+      "Hyaluronic Acid",
+      "Vitamin C"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-g2g-cleanser",
     "brand": "Glad2Glow",
     "name": "Centella Purifying Gel Cleanser",
     "category": "Cleanser",
-    "ingredients": ["centella_asiatica", "panthenol", "allantoin", "tea_tree_oil"],
+    "ingredients": [
+      "centella_asiatica",
+      "panthenol",
+      "allantoin",
+      "tea_tree_oil"
+    ],
     "safetyRating": 5,
     "pH": 5.2,
     "solubility": "aqueous",
-    "functionalGroups": ["triterpenoid", "alcohol", "urea_derivative", "phenol"],
+    "functionalGroups": [
+      "triterpenoid",
+      "alcohol",
+      "urea_derivative",
+      "phenol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Centella Asiatica",
+      "Panthenol",
+      "Allantoin"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-g2g-toner",
     "brand": "Glad2Glow",
     "name": "Centella Allantoin Soothing Toner",
     "category": "Toner",
-    "ingredients": ["centella_asiatica", "allantoin", "hyaluronic_acid", "glycerin"],
+    "ingredients": [
+      "centella_asiatica",
+      "allantoin",
+      "hyaluronic_acid",
+      "glycerin"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["triterpenoid", "urea_derivative", "glycosaminoglycan", "polyol"],
+    "functionalGroups": [
+      "triterpenoid",
+      "urea_derivative",
+      "glycosaminoglycan",
+      "polyol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Centella Asiatica",
+      "Allantoin",
+      "Hyaluronic Acid"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-g2g-serum",
     "brand": "Glad2Glow",
     "name": "Centella Hyalu-Cica Brightening Serum",
     "category": "Serum",
-    "ingredients": ["centella_asiatica", "niacinamide", "hyaluronic_acid", "alpha_arbutin"],
+    "ingredients": [
+      "centella_asiatica",
+      "niacinamide",
+      "hyaluronic_acid",
+      "alpha_arbutin"
+    ],
     "safetyRating": 5,
     "pH": 5.8,
     "solubility": "aqueous",
-    "functionalGroups": ["triterpenoid", "pyridine_carboxamide", "glycosaminoglycan", "glycoside"],
+    "functionalGroups": [
+      "triterpenoid",
+      "pyridine_carboxamide",
+      "glycosaminoglycan",
+      "glycoside"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Centella Asiatica",
+      "Niacinamide",
+      "Hyaluronic Acid"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-g2g-moisturizer",
     "brand": "Glad2Glow",
     "name": "Centella Allantoin Soothing Gel Moisturizer",
     "category": "Moisturizer",
-    "ingredients": ["centella_asiatica", "allantoin", "glycerin", "panthenol"],
+    "ingredients": [
+      "centella_asiatica",
+      "allantoin",
+      "glycerin",
+      "panthenol"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "amphiphilic",
-    "functionalGroups": ["triterpenoid", "urea_derivative", "polyol", "alcohol"],
+    "functionalGroups": [
+      "triterpenoid",
+      "urea_derivative",
+      "polyol",
+      "alcohol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Centella Asiatica",
+      "Allantoin",
+      "Glycerin"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-g2g-sunscreen",
     "brand": "Glad2Glow",
     "name": "Ultra Light Sunscreen SPF 50 PA++++",
     "category": "Sunscreen",
-    "ingredients": ["uv_filters", "niacinamide", "tocopherol", "bis_ethylhexyloxyphenol_methoxyphenyl_triazine"],
+    "ingredients": [
+      "uv_filters",
+      "niacinamide",
+      "tocopherol",
+      "bis_ethylhexyloxyphenol_methoxyphenyl_triazine"
+    ],
     "safetyRating": 4,
     "pH": 6.2,
     "solubility": "lipophilic",
-    "functionalGroups": ["triazine", "phenol", "pyridine_carboxamide"],
+    "functionalGroups": [
+      "triazine",
+      "phenol",
+      "pyridine_carboxamide"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "UV Filters",
+      "Niacinamide",
+      "Tocopherol"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-lrp-cleanser",
     "brand": "La Roche-Posay",
     "name": "Toleriane Hydrating Gentle Cleanser",
     "category": "Cleanser",
-    "ingredients": ["glycerin", "ceramide_np", "niacinamide", "thermal_spring_water"],
+    "ingredients": [
+      "glycerin",
+      "ceramide_np",
+      "niacinamide",
+      "thermal_spring_water"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["polyol", "ceramide", "pyridine_carboxamide"],
+    "functionalGroups": [
+      "polyol",
+      "ceramide",
+      "pyridine_carboxamide"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Glycerin",
+      "Ceramide NP",
+      "Niacinamide"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-lrp-toner",
     "brand": "La Roche-Posay",
     "name": "Effaclar Clarifying Toner",
     "category": "Toner",
-    "ingredients": ["salicylic_acid", "glycolic_acid", "thermal_spring_water", "glycerin"],
+    "ingredients": [
+      "salicylic_acid",
+      "glycolic_acid",
+      "thermal_spring_water",
+      "glycerin"
+    ],
     "safetyRating": 3,
     "pH": 4.2,
     "solubility": "aqueous",
-    "functionalGroups": ["beta_hydroxy_acid", "alpha_hydroxy_acid", "polyol"],
+    "functionalGroups": [
+      "beta_hydroxy_acid",
+      "alpha_hydroxy_acid",
+      "polyol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Salicylic Acid",
+      "Glycolic Acid",
+      "Thermal Spring Water"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-lrp-serum",
     "brand": "La Roche-Posay",
     "name": "Effaclar Duo+ Corrective Serum",
     "category": "Serum",
-    "ingredients": ["niacinamide", "salicylic_acid", "lha", "ceramide_np"],
+    "ingredients": [
+      "niacinamide",
+      "salicylic_acid",
+      "lha",
+      "ceramide_np"
+    ],
     "safetyRating": 4,
-    "pH": 5.0,
+    "pH": 5,
     "solubility": "amphiphilic",
-    "functionalGroups": ["pyridine_carboxamide", "beta_hydroxy_acid", "ceramide"],
+    "functionalGroups": [
+      "pyridine_carboxamide",
+      "beta_hydroxy_acid",
+      "ceramide"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Niacinamide",
+      "Salicylic Acid",
+      "LHA"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-lrp-moisturizer",
     "brand": "La Roche-Posay",
     "name": "Cicaplast Baume B5+",
     "category": "Moisturizer",
-    "ingredients": ["panthenol", "madecassoside", "zinc_gluconate", "shea_butter"],
+    "ingredients": [
+      "panthenol",
+      "madecassoside",
+      "zinc_gluconate",
+      "shea_butter"
+    ],
     "safetyRating": 5,
     "pH": 5.8,
     "solubility": "amphiphilic",
-    "functionalGroups": ["alcohol", "triterpenoid", "metal_salt", "triglyceride"],
+    "functionalGroups": [
+      "alcohol",
+      "triterpenoid",
+      "metal_salt",
+      "triglyceride"
+    ],
     "molecularWeightProfile": "high",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Panthenol",
+      "Madecassoside",
+      "Zinc Gluconate"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-lrp-sunscreen",
     "brand": "La Roche-Posay",
     "name": "Anthelios UVMune 400 SPF 50+",
     "category": "Sunscreen",
-    "ingredients": ["mexoryl_400", "uv_filters", "thermal_spring_water", "tocopherol"],
+    "ingredients": [
+      "mexoryl_400",
+      "uv_filters",
+      "thermal_spring_water",
+      "tocopherol"
+    ],
     "safetyRating": 5,
     "pH": 6.2,
     "solubility": "lipophilic",
-    "functionalGroups": ["triazine", "phenol", "salicylate"],
+    "functionalGroups": [
+      "triazine",
+      "phenol",
+      "salicylate"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "Mexoryl 400",
+      "UV Filters",
+      "Thermal Spring Water"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-axisy-cleanser",
     "brand": "Axis-Y",
     "name": "Sunday Morning Refreshing Cleansing Foam",
     "category": "Cleanser",
-    "ingredients": ["glycerin", "green_tea_extract", "allantoin", "centella_asiatica"],
+    "ingredients": [
+      "glycerin",
+      "green_tea_extract",
+      "allantoin",
+      "centella_asiatica"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["polyol", "catechin", "urea_derivative", "triterpenoid"],
+    "functionalGroups": [
+      "polyol",
+      "catechin",
+      "urea_derivative",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Glycerin",
+      "Green Tea Extract",
+      "Allantoin"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-axisy-toner",
     "brand": "Axis-Y",
     "name": "Daily Purifying Treatment Toner",
     "category": "Toner",
-    "ingredients": ["centella_asiatica", "niacinamide", "hyaluronic_acid", "tea_tree_oil"],
+    "ingredients": [
+      "centella_asiatica",
+      "niacinamide",
+      "hyaluronic_acid",
+      "tea_tree_oil"
+    ],
     "safetyRating": 4,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["triterpenoid", "pyridine_carboxamide", "glycosaminoglycan", "phenol"],
+    "functionalGroups": [
+      "triterpenoid",
+      "pyridine_carboxamide",
+      "glycosaminoglycan",
+      "phenol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Centella Asiatica",
+      "Niacinamide",
+      "Hyaluronic Acid"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-axisy-serum",
     "brand": "Axis-Y",
     "name": "Dark Spot Correcting Glow Serum",
     "category": "Serum",
-    "ingredients": ["niacinamide", "squalane", "licorice_root_extract", "hyaluronic_acid"],
+    "ingredients": [
+      "niacinamide",
+      "squalane",
+      "licorice_root_extract",
+      "hyaluronic_acid"
+    ],
     "safetyRating": 5,
     "pH": 5.8,
     "solubility": "amphiphilic",
-    "functionalGroups": ["pyridine_carboxamide", "triterpene", "flavonoid", "glycosaminoglycan"],
+    "functionalGroups": [
+      "pyridine_carboxamide",
+      "triterpene",
+      "flavonoid",
+      "glycosaminoglycan"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "5% Niacinamide",
+      "Squalane",
+      "Papaya Extract"
+    ],
+    "howToUse": "Apply a small amount to your face after toning. Spot treat dark areas."
   },
   {
     "id": "prod-axisy-moisturizer",
     "brand": "Axis-Y",
     "name": "Artichoke Intensive Skin Barrier Ampoule",
     "category": "Moisturizer",
-    "ingredients": ["artichoke_extract", "ceramide_np", "hyaluronic_acid", "allantoin"],
+    "ingredients": [
+      "artichoke_extract",
+      "ceramide_np",
+      "hyaluronic_acid",
+      "allantoin"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "amphiphilic",
-    "functionalGroups": ["ceramide", "glycosaminoglycan", "urea_derivative"],
+    "functionalGroups": [
+      "ceramide",
+      "glycosaminoglycan",
+      "urea_derivative"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Artichoke Extract",
+      "Ceramide NP",
+      "Hyaluronic Acid"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-axisy-sunscreen",
     "brand": "Axis-Y",
     "name": "Complete No-Stress Physical Sunscreen SPF 50+",
     "category": "Sunscreen",
-    "ingredients": ["zinc_oxide", "titanium_dioxide", "niacinamide", "centella_asiatica"],
+    "ingredients": [
+      "zinc_oxide",
+      "titanium_dioxide",
+      "niacinamide",
+      "centella_asiatica"
+    ],
     "safetyRating": 5,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "lipophilic",
-    "functionalGroups": ["metal_oxide", "pyridine_carboxamide", "triterpenoid"],
+    "functionalGroups": [
+      "metal_oxide",
+      "pyridine_carboxamide",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "high",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "Zinc Oxide",
+      "Titanium Dioxide",
+      "Niacinamide"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-boj-cleanser",
     "brand": "Beauty of Joseon",
     "name": "Green Plum Refreshing Cleanser",
     "category": "Cleanser",
-    "ingredients": ["prunus_mume_extract", "glycerin", "allantoin", "centella_asiatica"],
+    "ingredients": [
+      "prunus_mume_extract",
+      "glycerin",
+      "allantoin",
+      "centella_asiatica"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["organic_acid", "polyol", "urea_derivative", "triterpenoid"],
+    "functionalGroups": [
+      "organic_acid",
+      "polyol",
+      "urea_derivative",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Prunus Mume Extract",
+      "Glycerin",
+      "Allantoin"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-boj-toner",
     "brand": "Beauty of Joseon",
     "name": "Ginseng Essence Water",
     "category": "Toner",
-    "ingredients": ["panax_ginseng_extract", "hyaluronic_acid", "niacinamide", "glycerin"],
+    "ingredients": [
+      "panax_ginseng_extract",
+      "hyaluronic_acid",
+      "niacinamide",
+      "glycerin"
+    ],
     "safetyRating": 5,
     "pH": 5.8,
     "solubility": "aqueous",
-    "functionalGroups": ["saponin", "glycosaminoglycan", "pyridine_carboxamide", "polyol"],
+    "functionalGroups": [
+      "saponin",
+      "glycosaminoglycan",
+      "pyridine_carboxamide",
+      "polyol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Panax Ginseng Extract",
+      "Hyaluronic Acid",
+      "Niacinamide"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-boj-serum",
     "brand": "Beauty of Joseon",
     "name": "Glow Serum Propolis + Niacinamide",
     "category": "Serum",
-    "ingredients": ["propolis_extract", "niacinamide", "hyaluronic_acid", "centella_asiatica"],
+    "ingredients": [
+      "propolis_extract",
+      "niacinamide",
+      "hyaluronic_acid",
+      "centella_asiatica"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "amphiphilic",
-    "functionalGroups": ["flavonoid", "pyridine_carboxamide", "glycosaminoglycan", "triterpenoid"],
+    "functionalGroups": [
+      "flavonoid",
+      "pyridine_carboxamide",
+      "glycosaminoglycan",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Propolis Extract",
+      "Niacinamide",
+      "Hyaluronic Acid"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-boj-moisturizer",
     "brand": "Beauty of Joseon",
     "name": "Dynasty Cream",
     "category": "Moisturizer",
-    "ingredients": ["rice_bran_water", "niacinamide", "squalane", "ceramide_np"],
+    "ingredients": [
+      "rice_bran_water",
+      "niacinamide",
+      "squalane",
+      "ceramide_np"
+    ],
     "safetyRating": 5,
     "pH": 5.8,
     "solubility": "amphiphilic",
-    "functionalGroups": ["polysaccharide", "pyridine_carboxamide", "triterpene", "ceramide"],
+    "functionalGroups": [
+      "polysaccharide",
+      "pyridine_carboxamide",
+      "triterpene",
+      "ceramide"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Rice Bran Water",
+      "Niacinamide",
+      "Squalane"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-boj-sunscreen",
     "brand": "Beauty of Joseon",
     "name": "Relief Sun Rice + Probiotics SPF 50",
     "category": "Sunscreen",
-    "ingredients": ["rice_extract", "niacinamide", "probiotic_lysate", "uv_filters"],
+    "ingredients": [
+      "rice_extract",
+      "niacinamide",
+      "probiotic_lysate",
+      "uv_filters"
+    ],
     "safetyRating": 5,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "amphiphilic",
-    "functionalGroups": ["polysaccharide", "pyridine_carboxamide", "peptide"],
+    "functionalGroups": [
+      "polysaccharide",
+      "pyridine_carboxamide",
+      "peptide"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "Rice Extract",
+      "Niacinamide",
+      "Probiotic Lysate"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-somemymi-cleanser",
     "brand": "Some By Mi",
     "name": "AHA-BHA-PHA 30 Days Miracle Cleansing Bar",
     "category": "Cleanser",
-    "ingredients": ["salicylic_acid", "glycolic_acid", "lactobionic_acid", "tea_tree_oil"],
+    "ingredients": [
+      "salicylic_acid",
+      "glycolic_acid",
+      "lactobionic_acid",
+      "tea_tree_oil"
+    ],
     "safetyRating": 3,
     "pH": 4.5,
     "solubility": "aqueous",
-    "functionalGroups": ["beta_hydroxy_acid", "alpha_hydroxy_acid", "polyhydroxy_acid", "phenol"],
+    "functionalGroups": [
+      "beta_hydroxy_acid",
+      "alpha_hydroxy_acid",
+      "polyhydroxy_acid",
+      "phenol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Salicylic Acid",
+      "Glycolic Acid",
+      "Lactobionic Acid"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-somemymi-toner",
     "brand": "Some By Mi",
     "name": "AHA-BHA-PHA 30 Days Miracle Toner",
     "category": "Toner",
-    "ingredients": ["salicylic_acid", "glycolic_acid", "lactobionic_acid", "tea_tree_oil", "niacinamide"],
+    "ingredients": [
+      "salicylic_acid",
+      "glycolic_acid",
+      "lactobionic_acid",
+      "tea_tree_oil",
+      "niacinamide"
+    ],
     "safetyRating": 3,
-    "pH": 4.0,
+    "pH": 4,
     "solubility": "aqueous",
-    "functionalGroups": ["beta_hydroxy_acid", "alpha_hydroxy_acid", "polyhydroxy_acid", "phenol", "pyridine_carboxamide"],
+    "functionalGroups": [
+      "beta_hydroxy_acid",
+      "alpha_hydroxy_acid",
+      "polyhydroxy_acid",
+      "phenol",
+      "pyridine_carboxamide"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Salicylic Acid",
+      "Glycolic Acid",
+      "Lactobionic Acid"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-somemymi-serum",
     "brand": "Some By Mi",
     "name": "AHA-BHA-PHA 30 Days Miracle Serum",
     "category": "Serum",
-    "ingredients": ["niacinamide", "centella_asiatica", "salicylic_acid", "glycolic_acid", "tea_tree_oil"],
+    "ingredients": [
+      "niacinamide",
+      "centella_asiatica",
+      "salicylic_acid",
+      "glycolic_acid",
+      "tea_tree_oil"
+    ],
     "safetyRating": 3,
-    "pH": 5.0,
+    "pH": 5,
     "solubility": "aqueous",
-    "functionalGroups": ["pyridine_carboxamide", "triterpenoid", "beta_hydroxy_acid", "alpha_hydroxy_acid", "phenol"],
+    "functionalGroups": [
+      "pyridine_carboxamide",
+      "triterpenoid",
+      "beta_hydroxy_acid",
+      "alpha_hydroxy_acid",
+      "phenol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Niacinamide",
+      "Centella Asiatica",
+      "Salicylic Acid"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-somemymi-moisturizer",
     "brand": "Some By Mi",
     "name": "AHA-BHA-PHA 30 Days Miracle Cream",
     "category": "Moisturizer",
-    "ingredients": ["salicylic_acid", "glycolic_acid", "lactobionic_acid", "centella_asiatica", "niacinamide"],
+    "ingredients": [
+      "salicylic_acid",
+      "glycolic_acid",
+      "lactobionic_acid",
+      "centella_asiatica",
+      "niacinamide"
+    ],
     "safetyRating": 4,
     "pH": 5.5,
     "solubility": "amphiphilic",
-    "functionalGroups": ["beta_hydroxy_acid", "alpha_hydroxy_acid", "polyhydroxy_acid", "triterpenoid", "ceramide", "pyridine_carboxamide", "phenol"],
+    "functionalGroups": [
+      "beta_hydroxy_acid",
+      "alpha_hydroxy_acid",
+      "polyhydroxy_acid",
+      "triterpenoid",
+      "ceramide",
+      "pyridine_carboxamide",
+      "phenol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Salicylic Acid",
+      "Glycolic Acid",
+      "Lactobionic Acid"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-somemymi-sunscreen",
     "brand": "Some By Mi",
     "name": "Truecica Aqua Calming Sun Cream SPF 50+",
     "category": "Sunscreen",
-    "ingredients": ["centella_asiatica", "uv_filters", "niacinamide", "tocopherol"],
+    "ingredients": [
+      "centella_asiatica",
+      "uv_filters",
+      "niacinamide",
+      "tocopherol"
+    ],
     "safetyRating": 4,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "amphiphilic",
-    "functionalGroups": ["triterpenoid", "triazine", "pyridine_carboxamide", "phenol"],
+    "functionalGroups": [
+      "triterpenoid",
+      "triazine",
+      "pyridine_carboxamide",
+      "phenol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "Centella Asiatica",
+      "UV Filters",
+      "Niacinamide"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-innisfree-cleanser",
     "brand": "Innisfree",
     "name": "Green Tea Amino Acid Cleansing Foam",
     "category": "Cleanser",
-    "ingredients": ["green_tea_extract", "amino_acid_surfactant", "glycerin", "centella_asiatica"],
+    "ingredients": [
+      "green_tea_extract",
+      "amino_acid_surfactant",
+      "glycerin",
+      "centella_asiatica"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["catechin", "polyol", "triterpenoid"],
+    "functionalGroups": [
+      "catechin",
+      "polyol",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Green Tea Extract",
+      "Amino Acid Surfactant",
+      "Glycerin"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-innisfree-toner",
     "brand": "Innisfree",
     "name": "Green Tea Hyaluronic Acid Toner",
     "category": "Toner",
-    "ingredients": ["green_tea_extract", "hyaluronic_acid", "panthenol", "glycerin"],
+    "ingredients": [
+      "green_tea_extract",
+      "hyaluronic_acid",
+      "panthenol",
+      "glycerin"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["catechin", "glycosaminoglycan", "alcohol", "polyol"],
+    "functionalGroups": [
+      "catechin",
+      "glycosaminoglycan",
+      "alcohol",
+      "polyol"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Green Tea Extract",
+      "Hyaluronic Acid",
+      "Panthenol"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-innisfree-serum",
     "brand": "Innisfree",
     "name": "Black Tea Youth Enhancing Ampoule",
     "category": "Serum",
-    "ingredients": ["black_tea_extract", "niacinamide", "adenosine", "hyaluronic_acid"],
+    "ingredients": [
+      "black_tea_extract",
+      "niacinamide",
+      "adenosine",
+      "hyaluronic_acid"
+    ],
     "safetyRating": 5,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "aqueous",
-    "functionalGroups": ["polyphenol", "pyridine_carboxamide", "nucleoside", "glycosaminoglycan"],
+    "functionalGroups": [
+      "polyphenol",
+      "pyridine_carboxamide",
+      "nucleoside",
+      "glycosaminoglycan"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "Black Tea Extract",
+      "Niacinamide",
+      "Adenosine"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-innisfree-moisturizer",
     "brand": "Innisfree",
     "name": "Super Volcanic Pore Clay Mask 2X",
     "category": "Moisturizer",
-    "ingredients": ["kaolin", "bentonite", "volcanic_ash", "lactic_acid", "centella_asiatica"],
+    "ingredients": [
+      "kaolin",
+      "bentonite",
+      "volcanic_ash",
+      "lactic_acid",
+      "centella_asiatica"
+    ],
     "safetyRating": 3,
     "pH": 5.8,
     "solubility": "aqueous",
-    "functionalGroups": ["silicate", "mineral_oxide", "alpha_hydroxy_acid", "triterpenoid"],
+    "functionalGroups": [
+      "silicate",
+      "mineral_oxide",
+      "alpha_hydroxy_acid",
+      "triterpenoid"
+    ],
     "molecularWeightProfile": "high",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Kaolin",
+      "Bentonite",
+      "Volcanic Ash"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-innisfree-sunscreen",
     "brand": "Innisfree",
     "name": "Daily UV Defense Sunscreen SPF 36",
     "category": "Sunscreen",
-    "ingredients": ["uv_filters", "green_tea_extract", "tocopherol", "sunflower_seed_oil"],
+    "ingredients": [
+      "uv_filters",
+      "green_tea_extract",
+      "tocopherol",
+      "sunflower_seed_oil"
+    ],
     "safetyRating": 4,
     "pH": 6.2,
     "solubility": "lipophilic",
-    "functionalGroups": ["triazine", "catechin", "phenol", "triglyceride"],
+    "functionalGroups": [
+      "triazine",
+      "catechin",
+      "phenol",
+      "triglyceride"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "UV Filters",
+      "Green Tea Extract",
+      "Tocopherol"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   },
   {
     "id": "prod-cerave-cleanser",
     "brand": "CeraVe",
     "name": "Hydrating Facial Cleanser",
     "category": "Cleanser",
-    "ingredients": ["ceramide_np", "ceramide_ap", "ceramide_eop", "hyaluronic_acid", "glycerin"],
+    "ingredients": [
+      "ceramide_np",
+      "ceramide_ap",
+      "ceramide_eop",
+      "hyaluronic_acid",
+      "glycerin"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["ceramide", "carboxylic_acid", "polyol"],
+    "functionalGroups": [
+      "ceramide",
+      "carboxylic_acid",
+      "polyol"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Ceramide NP",
+      "Ceramide AP",
+      "Ceramide EOP"
+    ],
+    "howToUse": "Massage onto damp skin, then rinse thoroughly with lukewarm water."
   },
   {
     "id": "prod-cerave-toner",
     "brand": "CeraVe",
     "name": "Hydrating Toner",
     "category": "Toner",
-    "ingredients": ["niacinamide", "ceramide_np", "hyaluronic_acid", "allantoin"],
+    "ingredients": [
+      "niacinamide",
+      "ceramide_np",
+      "hyaluronic_acid",
+      "allantoin"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "aqueous",
-    "functionalGroups": ["pyridine_carboxamide", "ceramide", "glycosaminoglycan", "urea_derivative"],
+    "functionalGroups": [
+      "pyridine_carboxamide",
+      "ceramide",
+      "glycosaminoglycan",
+      "urea_derivative"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "All-Day"
+    "applicationSequence": "All-Day",
+    "keyActives": [
+      "Niacinamide",
+      "Ceramide NP",
+      "Hyaluronic Acid"
+    ],
+    "howToUse": "Dispense onto palms or a cotton pad and pat gently into cleansed skin."
   },
   {
     "id": "prod-cerave-serum",
     "brand": "CeraVe",
     "name": "Skin Renewing Retinol Serum",
     "category": "Serum",
-    "ingredients": ["retinol", "ceramide_np", "hyaluronic_acid", "niacinamide"],
+    "ingredients": [
+      "retinol",
+      "ceramide_np",
+      "hyaluronic_acid",
+      "niacinamide"
+    ],
     "safetyRating": 3,
     "pH": 5.5,
     "solubility": "lipophilic",
-    "functionalGroups": ["retinoid", "ceramide", "glycosaminoglycan", "pyridine_carboxamide"],
+    "functionalGroups": [
+      "retinoid",
+      "ceramide",
+      "glycosaminoglycan",
+      "pyridine_carboxamide"
+    ],
     "molecularWeightProfile": "low",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Retinol",
+      "Ceramide NP",
+      "Hyaluronic Acid"
+    ],
+    "howToUse": "Apply a few drops to clean skin and gently press until absorbed."
   },
   {
     "id": "prod-cerave-moisturizer",
     "brand": "CeraVe",
     "name": "Moisturizing Cream",
     "category": "Moisturizer",
-    "ingredients": ["ceramide_np", "ceramide_ap", "ceramide_eop", "hyaluronic_acid", "petrolatum"],
+    "ingredients": [
+      "ceramide_np",
+      "ceramide_ap",
+      "ceramide_eop",
+      "hyaluronic_acid",
+      "petrolatum"
+    ],
     "safetyRating": 5,
     "pH": 5.5,
     "solubility": "lipophilic",
-    "functionalGroups": ["ceramide", "glycosaminoglycan", "hydrocarbon"],
+    "functionalGroups": [
+      "ceramide",
+      "glycosaminoglycan",
+      "hydrocarbon"
+    ],
     "molecularWeightProfile": "high",
-    "applicationSequence": "PM"
+    "applicationSequence": "PM",
+    "keyActives": [
+      "Ceramide NP",
+      "Ceramide AP",
+      "Ceramide EOP"
+    ],
+    "howToUse": "Smooth evenly over your face as the final step in your routine."
   },
   {
     "id": "prod-cerave-sunscreen",
     "brand": "CeraVe",
     "name": "AM Facial Moisturizing Lotion SPF 30",
     "category": "Sunscreen",
-    "ingredients": ["uv_filters", "ceramide_np", "niacinamide", "hyaluronic_acid"],
+    "ingredients": [
+      "uv_filters",
+      "ceramide_np",
+      "niacinamide",
+      "hyaluronic_acid"
+    ],
     "safetyRating": 5,
-    "pH": 6.0,
+    "pH": 6,
     "solubility": "amphiphilic",
-    "functionalGroups": ["triazine", "ceramide", "pyridine_carboxamide", "glycosaminoglycan"],
+    "functionalGroups": [
+      "triazine",
+      "ceramide",
+      "pyridine_carboxamide",
+      "glycosaminoglycan"
+    ],
     "molecularWeightProfile": "medium",
-    "applicationSequence": "AM"
+    "applicationSequence": "AM",
+    "keyActives": [
+      "UV Filters",
+      "Ceramide NP",
+      "Niacinamide"
+    ],
+    "howToUse": "Apply liberally as the last step of your morning routine. Reapply as needed."
   }
 ]

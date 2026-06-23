@@ -288,6 +288,9 @@ export default function Home() {
       router.push('/product-base');
     } else {
       localStorage.setItem('dermasyntax_onboarded', 'true');
+      localStorage.setItem('selectedSkinType', skinType ?? '');
+      // Send out a silent signal to update the header instantly
+      window.dispatchEvent(new Event('skinTypeChanged'));
       setIsOnboarded(true);
     }
   };
@@ -416,7 +419,7 @@ export default function Home() {
                               "group-hover/deck:opacity-40 group-hover:!opacity-100",
                               "bg-white dark:bg-[#0c0c0e] border-zinc-800 dark:border-white/10 shadow-[4px_4px_0px_0px_rgba(9,9,11,1)] dark:shadow-none text-zinc-800 dark:text-zinc-100",
                               "group-hover:-translate-y-8 group-hover:translate-x-3 group-hover:scale-[1.02] group-hover:z-50 group-hover:border-zinc-400 dark:group-hover:border-white/30",
-                              isCurrent && "!border-slate-500 dark:!border-slate-400 !bg-white dark:!bg-[#1a1a1a]/90 !ring-1 !ring-slate-500/30 !z-50 !scale-[1.02] !opacity-100"
+                              isCurrent && "!border-slate-500 dark:!border-slate-400 !bg-white dark:!bg-[#1a1a1a] !ring-1 !ring-slate-500/30 !z-50 !scale-[1.02] !opacity-100"
                             )}
                           >
                             {/* Top Heading Anchor Segment */}

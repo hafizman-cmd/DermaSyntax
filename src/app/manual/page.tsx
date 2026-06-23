@@ -9,44 +9,44 @@ type Mode = 'ingredient' | 'product';
 const INGREDIENT_STEPS = [
   {
     index: 'STEP 01',
-    title: 'Define Matrix',
+    title: 'Choose Skin Profile',
     description:
-      'Select your baseline skin type (Oily, Dry, Sensitive, Normal, or Combination) to instantly calibrate the engine\'s pH tolerance windows and safety parameters.',
+      'Select your skin type (Oily, Dry, Sensitive, Normal, or Combination) so the system can tailor its safety checks and ingredient guidance to your skin\u2019s needs.',
     detail:
-      'The matrix selector calibrates pH tolerance windows and barrier permeability thresholds based on your skin profile. This ensures all subsequent validation passes use safety parameters tailored to your specific skin needs.',
+      'Picking your skin type tells the system how much tolerance your skin has for active ingredients. Sensitive skin receives stricter warnings, while oily or combination skin allows more flexibility with stronger actives.',
     accent: 'text-emerald-400',
     accentBorder: 'border-emerald-400/30',
     accentBg: 'bg-emerald-400/10',
   },
   {
     index: 'STEP 02',
-    title: 'Molecular Input',
+    title: 'Select Raw Actives',
     description:
-      'Search for your target active chemical compounds in the Ingredient Arsenal, then drag and drop them directly into your AM or PM routine slots.',
+      'When building by ingredient, you are picking the pure active compound (like Retinol or Salicylic Acid). Search the Ingredient Arsenal and drag your chosen actives into your AM or PM routine slots.',
     detail:
-      'Use the search bar to query ingredients by name or functional category. Drag and drop active compounds from the catalog directly into your AM or PM routine tracks to build your custom formulation stack.',
+      'Use the search bar to find ingredients by name or by what they do. Drag and drop each active from the catalog into your morning (AM) or evening (PM) routine to build your personal skincare stack.',
     accent: 'text-blue-400',
     accentBorder: 'border-blue-400/30',
     accentBg: 'bg-blue-400/10',
   },
   {
     index: 'STEP 03',
-    title: 'Compiler Validation',
+    title: 'Review Compatibility',
     description:
-      'Trigger the system compiler to cross-examine your custom formula layout, automatically identifying pH clashes, active ingredient neutralizations, or layer errors.',
+      'The system automatically reviews your routine and flags any clashes between actives, pH mismatches, or layering mistakes. If it flags a routine conflict, use one product in the morning (AM) and the other at night (PM), or alternate them on different days.',
     detail:
-      'Diagnostic output is color-coded for quick scanning: red for chemical conflicts requiring immediate action, amber for irritation warnings, blue for informational notes, and green for validated safe combinations.',
+      'Results are color-coded for quick reading: red marks chemical conflicts you should fix right away, amber warns about possible irritation, blue shares helpful notes, and green confirms safe, compatible pairings.',
     accent: 'text-amber-400',
     accentBorder: 'border-amber-400/30',
     accentBg: 'bg-amber-400/10',
   },
   {
     index: 'STEP 04',
-    title: 'Sequence Output',
+    title: 'Set Application Order',
     description:
-      'Lock in your configuration to generate your optimal application timeline, sequenced precisely from thinnest molecular weight to thickest.',
+      'Lock in your routine to get a clear application order. Always apply thin, water-based serums first, followed by thicker emulsions, and finish with heavy creams or oils to lock everything in.',
     detail:
-      'Export your final routine via the Export Panel. The Barrier Health gauge provides a real-time safety score reflecting the overall stability and compatibility of your personalized formulation.',
+      'Export your final routine via the Export Panel. The Barrier Health gauge gives you a real-time safety score that reflects how stable and skin-friendly your complete routine is.',
     accent: 'text-rose-400',
     accentBorder: 'border-rose-400/30',
     accentBg: 'bg-rose-400/10',
@@ -56,44 +56,44 @@ const INGREDIENT_STEPS = [
 const PRODUCT_STEPS = [
   {
     index: 'STEP 01',
-    title: 'Inventory Import',
+    title: 'Find Your Products',
     description:
-      'Filter and locate your commercial skincare brands from the system catalog, then click to initialize them into the scanning chambers.',
+      'This mode lets you build a routine using complete, branded skincare products from your cabinet. Search the catalog by brand or category, then click to load them into the analyzer.',
     detail:
-      'Each product entry is pre-loaded with brand, category, pH levels, solubility data, and molecular weight profiles so you can make informed comparisons without manual data entry.',
+      'Each product in the catalog comes pre-loaded with its brand, category, pH level, texture, and full ingredient list, so you can compare options without typing anything in yourself.',
     accent: 'text-cyan-400',
     accentBorder: 'border-cyan-400/30',
     accentBg: 'bg-cyan-400/10',
   },
   {
     index: 'STEP 02',
-    title: 'Chassis Mapping',
+    title: 'Compare Side by Side',
     description:
-      'Load your selected commercial products into opposing Analysis Chambers (A and B) to compare active overlaps, shared fillers, or potential barrier irritants.',
+      'Load your selected products into the two Analysis Chambers (A and B) to compare them side by side, checking for shared ingredients, overlapping actives, or potential irritants.',
     detail:
-      'Each Analysis Chamber displays the full ingredient list, pH reading, and molecular profile of the loaded product. Filter by brand to quickly locate products in the registry for side-by-side evaluation.',
+      'Each chamber shows the full ingredient list, pH reading, and texture profile of the loaded product. Filter by brand to quickly find products in the catalog and compare them head-to-head.',
     accent: 'text-purple-400',
     accentBorder: 'border-purple-400/30',
     accentBg: 'bg-purple-400/10',
   },
   {
     index: 'STEP 03',
-    title: 'Layering Logic',
+    title: 'Review Routine Order',
     description:
-      'Review the automated sequencing model, which organizes your real-world products into a functional order based on vehicle emulsion density (Serums vs. Creams).',
+      'The system automatically arranges your real-world products into a sensible application order based on their texture, from lightweight serums to richer creams.',
     detail:
-      'Unlike the Ingredient Base compiler which works with individual compounds, the Product Base module evaluates actual commercial formulations with their full ingredient concentrations and vehicle systems.',
+      'Unlike the Ingredient Base mode, which works with single raw actives, the Product Base mode looks at the complete, finished products you actually use, including all their ingredients and concentrations.',
     accent: 'text-pink-400',
     accentBorder: 'border-pink-400/30',
     accentBg: 'bg-pink-400/10',
   },
   {
     index: 'STEP 04',
-    title: 'Tolerance Threshold',
+    title: 'Check for Overload',
     description:
-      'Export your final diagnostic report to evaluate your complete barrier safety index, active ingredient delivery depths, and usage safety parameters.',
+      'The system automatically reads the concentrations inside your products. If you use a toner, serum, and cream that all contain Niacinamide, it will warn you if the combined total is high enough to cause redness or skin flaking.',
     detail:
-      'CONFLICT flags chemical incompatibilities requiring separation. CAUTION indicates irritation risks requiring monitored usage. SAFE confirms no detected conflicts between the paired products.',
+      'CONFLICT means two products contain ingredients that should not be used together, CAUTION means there is a mild irritation risk worth monitoring, and SAFE confirms the paired products work well together with no conflicts.',
     accent: 'text-orange-400',
     accentBorder: 'border-orange-400/30',
     accentBg: 'bg-orange-400/10',
@@ -223,8 +223,8 @@ export default function ManualPage() {
               </h1>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
                 {mode === 'ingredient'
-                  ? 'A step-by-step workflow for building and validating skincare formulations from individual active compounds using the Ingredient Base compiler engine.'
-                  : 'A step-by-step workflow for cross-product molecular forensics using the Product Base Intersect Lab analyzer module.'}
+                  ? 'Welcome to the DERMASYNTAX Manual. This guide explains how our system automatically organizes your skincare steps based on product thickness (texture) and ingredient compatibility, keeping your skin barrier healthy and irritation-free. In Ingredient Base mode, you build your routine from individual raw actives.'
+                  : 'Welcome to the DERMASYNTAX Manual. This guide explains how our system automatically organizes your skincare steps based on product thickness (texture) and ingredient compatibility, keeping your skin barrier healthy and irritation-free. In Product Base mode, you build your routine using complete, branded skincare products.'}
               </p>
               <div className="border-b border-zinc-200 dark:border-zinc-800 pt-4">
                 <span className="text-[8px] font-mono tracking-widest text-zinc-600 dark:text-zinc-500 uppercase">

@@ -10,4 +10,7 @@ export interface Product {
   functionalGroups: string[];
   molecularWeightProfile: "low" | "medium" | "high";
   applicationSequence: "AM" | "PM" | "All-Day";
+  benefits?: string[];
+  keyActives?: string[];
+  howToUse?: string;
 }

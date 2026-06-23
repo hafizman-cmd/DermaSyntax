@@ -438,9 +438,23 @@ export function sanitizeProductData(rawData: unknown): Product {
     new Set(ingredients.flatMap((ingredient) => getFunctionalGroup(ingredient)))
   );
 
+  const keyActives = extractArray(rawData, [
+    "keyActives",
+    "key_actives",
+    "keyIngredients",
+    "key_ingredients",
+  ]).filter((item): item is string => typeof item === "string");
+
+  const howToUse = extractString(rawData, [
+    "howToUse",
+    "how_to_use",
+    "usage",
+    "directions",
+  ]);
+
   const id = generateProductId(rawData, name, brand);
 
-  return {
+  const result: Product = {
     id,
     name: name || "Untitled Product",
     brand: brand || "Unknown Brand",
@@ -467,4 +481,13 @@ export function sanitizeProductData(rawData: unknown): Product {
         (rawData as Record<string, unknown>)?.timeOfUse
     ),
   };
+
+  if (keyActives.length > 0) {
+    result.keyActives = keyActives;
+  }
+  if (howToUse) {
+    result.howToUse = howToUse;
+  }
+
+  return result;
 }

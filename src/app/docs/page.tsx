@@ -291,13 +291,12 @@ export default function DocsPage() {
 
             {/* ── SECTION 01: SYSTEM OVERVIEW ── */}
             <section id="system-overview" className="scroll-mt-24 space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] font-mono font-bold tracking-wider text-emerald-400">01</span>
-                <div className="h-px flex-1 bg-emerald-400/20" />
+              <div>
+                <span className="font-mono text-xl md:text-2xl font-black tracking-wider text-emerald-500 dark:text-emerald-400 select-none block mb-1">01</span>
+                <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
+                  System Overview
+                </h2>
               </div>
-              <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
-                System Overview
-              </h2>
 
               <div className="rounded-xl border-2 border-zinc-800 dark:border-white/10 bg-white dark:bg-[#161616]/70 backdrop-blur-xl shadow-sm dark:shadow-none p-6 space-y-4">
                 <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
@@ -329,13 +328,12 @@ export default function DocsPage() {
 
             {/* ── SECTION 02: EPIDERMAL MATRIX TAXONOMY ── */}
             <section id="epidermal-matrix" className="scroll-mt-24 space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] font-mono font-bold tracking-wider text-rose-400">02</span>
-                <div className="h-px flex-1 bg-rose-400/20" />
+              <div>
+                <span className="font-mono text-xl md:text-2xl font-black tracking-wider text-rose-500 dark:text-rose-400 select-none block mb-1">02</span>
+                <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
+                  Epidermal Matrix Taxonomy
+                </h2>
               </div>
-              <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
-                Epidermal Matrix Taxonomy
-              </h2>
 
               <div className="rounded-xl border-2 border-zinc-800 dark:border-white/10 bg-white dark:bg-[#161616]/70 backdrop-blur-xl shadow-sm dark:shadow-none p-6 space-y-4">
                 <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
@@ -373,13 +371,12 @@ export default function DocsPage() {
 
             {/* ── SECTION 03: MOLECULAR COMPATIBILITY PROTOCOL ── */}
             <section id="molecular-compatibility" className="scroll-mt-24 space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] font-mono font-bold tracking-wider text-blue-400">03</span>
-                <div className="h-px flex-1 bg-blue-400/20" />
+              <div>
+                <span className="font-mono text-xl md:text-2xl font-black tracking-wider text-blue-500 dark:text-blue-400 select-none block mb-1">03</span>
+                <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
+                  Molecular Compatibility Protocol
+                </h2>
               </div>
-              <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
-                Molecular Compatibility Protocol
-              </h2>
 
               <div className="rounded-xl border-2 border-zinc-800 dark:border-white/10 bg-white dark:bg-[#161616]/70 backdrop-blur-xl shadow-sm dark:shadow-none p-6 space-y-4">
                 <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
@@ -410,13 +407,12 @@ export default function DocsPage() {
 
             {/* ── SECTION 04: API & TELEMETRY SCHEMA ── */}
             <section id="api-telemetry" className="scroll-mt-24 space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] font-mono font-bold tracking-wider text-cyan-400">04</span>
-                <div className="h-px flex-1 bg-cyan-400/20" />
+              <div>
+                <span className="font-mono text-xl md:text-2xl font-black tracking-wider text-cyan-500 dark:text-cyan-400 select-none block mb-1">04</span>
+                <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
+                  API &amp; Telemetry Schema
+                </h2>
               </div>
-              <h2 className="text-lg font-black tracking-wider text-zinc-900 dark:text-zinc-50 uppercase font-mono">
-                API &amp; Telemetry Schema
-              </h2>
 
               <div className="rounded-xl border-2 border-zinc-800 dark:border-white/10 bg-white dark:bg-[#161616]/70 backdrop-blur-xl shadow-sm dark:shadow-none p-6 space-y-4">
                 <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
