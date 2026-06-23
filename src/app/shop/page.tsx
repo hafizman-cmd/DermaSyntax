@@ -185,6 +185,7 @@ const getOfficialBrandUrl = (brand: string): string => {
 
 export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeGoal, setActiveGoal] = React.useState<string | null>(null);
 
   // Pull the calibrated skin profile from the Zustand routine store (the
   // canonical holder of the onboarding selection) inside an effect so the
@@ -197,15 +198,28 @@ export default function ShopPage() {
     }
   }, []);
 
-  // Normalize the query once — lowercase + trim permanently fixes the case
-  // mismatch and stray-whitespace dropouts that were breaking the filter.
-  const normalizedQuery = searchQuery.toLowerCase().trim();
-
-  const filteredProducts = productCatalog.filter(p =>
-    p.name.toLowerCase().includes(normalizedQuery) ||
-    p.brand.toLowerCase().includes(normalizedQuery) ||
-    (p.category && p.category.toLowerCase().includes(normalizedQuery))
-  );
+  const filteredProducts = productCatalog.filter(product => {
+    // 1. Text Search Box Validation
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase());
+    // 2. Button Goal Validation
+    let matchesGoal = true;
+    if (activeGoal) {
+      const targetKeywords =
+        activeGoal === 'pores' ? ['pore', 'salicylic', 'bha', 'cleanser', 'breakout'] :
+        activeGoal === 'hydration' ? ['hydrat', 'moisture', 'water', 'hyaluronic', 'dry'] :
+        activeGoal === 'barrier' ? ['barrier', 'ceramide', 'soothe', 'sensitive', 'calm'] :
+        ['aging', 'retinol', 'wrinkle', 'brighten', 'vitamin c'];
+      matchesGoal = targetKeywords.some(keyword =>
+        product.name.toLowerCase().includes(keyword) ||
+        product.category.toLowerCase().includes(keyword) ||
+        product.benefits?.some(b => b.toLowerCase().includes(keyword))
+      );
+    }
+    return matchesSearch && matchesGoal;
+  });
 
   const groupedByBrand: { [key: string]: CatalogProduct[] } = {};
   filteredProducts.forEach(product => {
@@ -256,6 +270,42 @@ export default function ShopPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full max-w-md font-mono text-xs bg-zinc-100 dark:bg-[#0c0c0e] border-2 border-zinc-800 dark:border-white/10 rounded-xl px-4 py-3 outline-none tracking-wider text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500 dark:placeholder:text-zinc-600 pointer-events-auto"
               />
+            </div>
+
+            {/* HORIZONTAL QUICK GOAL SHORTCUTS TRACK */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 scrollbar-none w-full clear-both pointer-events-auto">
+              <button
+                onClick={() => setActiveGoal(null)}
+                className={`font-mono text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all select-none whitespace-nowrap ${
+                  activeGoal === null
+                    ? 'bg-zinc-950 text-white border-zinc-950 dark:bg-zinc-100 dark:text-zinc-950 dark:border-zinc-100'
+                    : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400 dark:bg-[#0c0c0e] dark:text-zinc-400 dark:border-zinc-800'
+                }`}
+              >
+                // ALL PRODUCTS
+              </button>
+
+              {[
+                { id: 'pores', label: '🧼 CLEAR PORES', keywords: ['pore', 'salicylic', 'bha', 'cleanser', 'breakout'] },
+                { id: 'hydration', label: '💧 DEEP HYDRATION', keywords: ['hydrat', 'moisture', 'water', 'hyaluronic', 'dry'] },
+                { id: 'barrier', label: '🛡️ BARRIER REPAIR', keywords: ['barrier', 'ceramide', 'soothe', 'sensitive', 'calm'] },
+                { id: 'aging', label: '⏳ ANTI-AGING', keywords: ['aging', 'retinol', 'wrinkle', 'brighten', 'vitamin c'] }
+              ].map((goal) => {
+                const isCurrent = activeGoal === goal.id;
+                return (
+                  <button
+                    key={goal.id}
+                    onClick={() => setActiveGoal(isCurrent ? null : goal.id)}
+                    className={`font-mono text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all select-none whitespace-nowrap ${
+                      isCurrent
+                        ? 'bg-emerald-600 text-white border-emerald-600 dark:bg-emerald-500 dark:text-zinc-950 dark:border-emerald-500 shadow-sm'
+                        : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 dark:bg-[#0c0c0e] dark:text-zinc-400 dark:border-zinc-800'
+                    }`}
+                  >
+                    {goal.label}
+                  </button>
+                );
+              })}
             </div>
 
             {/* ALPHABETICAL BRAND-GROUPED SECTIONS */}
