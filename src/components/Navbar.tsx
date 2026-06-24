@@ -9,9 +9,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
-  { label: 'MANUAL', href: '/manual' },
-  { label: 'DOCUMENTATION', href: '/docs' },
-  { label: 'SHOP', href: '/shop' },
+  { label: 'MANUAL', href: '#manual-section' },
+  { label: 'DOCUMENTATION', href: '#doc-section' },
+  { label: 'SHOP', href: '#shop-section' },
 ] as const;
 
 interface NavbarProps {

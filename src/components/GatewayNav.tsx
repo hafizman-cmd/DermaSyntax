@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 import AnimatedThemeToggler from './AnimatedThemeToggler';
 
 const NAV_LINKS = [
-  { label: 'MANUAL', href: '/manual' },
-  { label: 'DOCUMENTATION', href: '/docs' },
-  { label: 'SHOP', href: '/shop' },
+  { label: 'MANUAL', href: '#manual-section' },
+  { label: 'DOCUMENTATION', href: '#doc-section' },
+  { label: 'SHOP', href: '#shop-section' },
 ] as const;
 
 interface GatewayNavProps {
@@ -41,17 +41,25 @@ export default function GatewayNav({
 
   return (
     <header className="fixed top-0 left-0 right-0 w-full h-16 z-50 flex items-center justify-between px-8 bg-zinc-50/70 dark:bg-[#121212]/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
-      <Link
-        href="/"
+      <a
+        href="#hero-section"
         onClick={(e) => {
           e.preventDefault();
-          localStorage.removeItem('dermasyntax_onboarded');
-          window.location.href = '/';
+
+          // Try scrolling the inner container first, fallback to the main window
+          const scrollContainer = document.querySelector('.overflow-y-auto');
+          if (scrollContainer) {
+            scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          // Cleanly update the browser URL hash without causing a page jump
+          window.history.pushState(null, '', window.location.pathname);
         }}
-        className="text-[10px] uppercase tracking-[0.25em] font-medium text-zinc-600 dark:text-zinc-400 select-none hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors"
+        className="font-mono text-[10px] uppercase tracking-[0.25em] font-medium text-zinc-600 dark:text-zinc-400 select-none hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors cursor-pointer"
       >
         {logoLabel}
-      </Link>
+      </a>
 
       <nav className="flex items-center">
         <div className="hidden lg:flex items-center space-x-4 font-mono text-[10px] tracking-widest text-zinc-500 dark:text-zinc-500 mr-6 border-r border-zinc-200 dark:border-zinc-800 pr-6">

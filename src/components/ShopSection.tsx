@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import GatewayNav from "@/components/GatewayNav";
-import type { Product } from "@/types/product";
-import { sanitizeProductData } from "@/lib/data-adapter";
-import productsData from "@/data/products.json";
-import { useRoutineStore } from "@/store/useRoutineStore";
+import React, { useState, useEffect } from 'react';
+import type { Product } from '@/types/product';
+import { sanitizeProductData } from '@/lib/data-adapter';
+import productsData from '@/data/products.json';
+import { useRoutineStore } from '@/store/useRoutineStore';
 
 // Bind to the canonical product registry (same source as /api/products route).
 // Run the same sanitizer the API uses so the client view mirrors engine output.
@@ -32,6 +31,44 @@ const productCatalog: CatalogProduct[] = products.map((p) => ({
   suitableSkinTypes: SKIN_PROFILE_MATRIX[p.id] ?? [],
 }));
 
+// Simple assetType inference — falls back to TUBE_CREAM when no signal matches.
+function inferAssetType(product: Product): string {
+  const name = product.name.toLowerCase();
+  const category = product.category.toLowerCase();
+  if (name.includes("serum") || category.includes("serum")) return "SERUM_DROPPER";
+  if (
+    name.includes("cleanser") ||
+    name.includes("cleansing") ||
+    category.includes("cleanser")
+  ) {
+    return "PUMP_FLUID";
+  }
+  if (name.includes("toner") || category.includes("toner")) return "TONER_BOTTLE";
+  return "TUBE_CREAM";
+}
+
+// Domain router — maps each brand to its official web address. Falls back to a
+// directed Google search for the brand's official store when no canonical entry exists.
+const getOfficialBrandUrl = (brand: string): string => {
+  const domains: { [key: string]: string } = {
+    "skintific": "https://www.skintific.com",
+    "cosrx": "https://www.cosrx.com",
+    "the ordinary": "https://theordinary.com",
+    "obagi": "https://www.obagi.com",
+    "cerave": "https://www.cerave.com",
+    "la roche-posay": "https://www.laroche-posay.us",
+    "paula's choice": "https://www.paulaschoice.com",
+    "the inkey list": "https://www.theinkeylist.com",
+    "axis-y": "https://www.axis-y.com/",
+    "glad2glow": "https://glad2glow.com/",
+    "hada labo": "https://hadalabo.com.my/",
+    "innisfree": "https://my.innisfree.com/",
+    "some by mi": "https://thesomebymi.com/"
+  };
+  const key = brand.toLowerCase().trim();
+  return domains[key] || `https://www.google.com/search?q=${encodeURIComponent(brand + ' official store')}`;
+};
+
 function ProductCard({
   product,
   activeProfile,
@@ -53,10 +90,8 @@ function ProductCard({
           ? '[transform:rotateY(180deg)_translateY(-16px)] shadow-xl'
           : '[transform:rotateY(0deg)_translateY(0px)]'
       }`}>
-
         {/* ================= FRONT SIDE PANEL ================= */}
         <div className="absolute inset-0 w-full h-full border-2 border-zinc-900 dark:border-white/10 bg-white dark:bg-[#0c0c0e] p-4 rounded-xl flex flex-col justify-between [backface-visibility:hidden] z-20">
-
           {/* Top Static Outline Sketch Container */}
           <div className="w-full h-28 bg-zinc-100 dark:bg-zinc-900 rounded-lg flex flex-col items-center justify-center border border-dashed border-zinc-300 dark:border-zinc-800/80">
             <div className="w-8 h-14 border border-zinc-400 dark:border-zinc-700 rounded-sm relative flex flex-col justify-between p-1">
@@ -101,9 +136,9 @@ function ProductCard({
         </div>
         {/* ================= BACK SIDE PANEL ================= */}
         <div className="absolute inset-0 w-full h-full border-2 border-zinc-900 dark:border-white/20 bg-zinc-50 dark:bg-[#121214] text-zinc-900 dark:text-zinc-100 p-4 rounded-xl flex flex-col justify-between [transform:rotateY(180deg)] [backface-visibility:hidden] z-10 shadow-lg">
-              {/* Top Content Scroll Container */}
+          {/* Top Content Scroll Container */}
           <div className="flex-1 flex flex-col justify-start overflow-hidden text-left">
-              {/* Section 1: Target Benefits Checklist */}
+            {/* Section 1: Target Benefits Checklist */}
             <span className="font-mono text-[8px] font-bold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase block mb-1.5">// TARGET BENEFITS</span>
             <ul className="space-y-1 mb-3">
               {product.benefits?.map((benefit, bIdx) => (
@@ -145,47 +180,9 @@ function ProductCard({
   );
 }
 
-// Simple assetType inference — falls back to TUBE_CREAM when no signal matches.
-function inferAssetType(product: Product): string {
-  const name = product.name.toLowerCase();
-  const category = product.category.toLowerCase();
-  if (name.includes("serum") || category.includes("serum")) return "SERUM_DROPPER";
-  if (
-    name.includes("cleanser") ||
-    name.includes("cleansing") ||
-    category.includes("cleanser")
-  ) {
-    return "PUMP_FLUID";
-  }
-  if (name.includes("toner") || category.includes("toner")) return "TONER_BOTTLE";
-  return "TUBE_CREAM";
-}
-
-// Domain router — maps each brand to its official web address. Falls back to a
-// directed Google search for the brand's official store when no canonical entry exists.
-const getOfficialBrandUrl = (brand: string): string => {
-  const domains: { [key: string]: string } = {
-    "skintific": "https://www.skintific.com",
-    "cosrx": "https://www.cosrx.com",
-    "the ordinary": "https://theordinary.com",
-    "obagi": "https://www.obagi.com",
-    "cerave": "https://www.cerave.com",
-    "la roche-posay": "https://www.laroche-posay.us",
-    "paula's choice": "https://www.paulaschoice.com",
-    "the inkey list": "https://www.theinkeylist.com",
-    "axis-y": "https://www.axis-y.com/",
-    "glad2glow": "https://glad2glow.com/",
-    "hada labo": "https://hadalabo.com.my/",
-    "innisfree": "https://my.innisfree.com/",
-    "some by mi": "https://thesomebymi.com/"
-  };
-  const key = brand.toLowerCase().trim();
-  return domains[key] || `https://www.google.com/search?q=${encodeURIComponent(brand + ' official store')}`;
-};
-
-export default function ShopPage() {
+export default function ShopSection({ visibleSections }: { visibleSections?: Record<string, boolean> }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeGoal, setActiveGoal] = React.useState<string | null>(null);
+  const [activeGoal, setActiveGoal] = useState<string | null>(null);
 
   // Pull the calibrated skin profile from the Zustand routine store (the
   // canonical holder of the onboarding selection) inside an effect so the
@@ -232,112 +229,125 @@ export default function ShopPage() {
   const sortedBrands = Object.keys(groupedByBrand).sort((a, b) => a.localeCompare(b));
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#121212] text-zinc-800 dark:text-zinc-200 antialiased transition-colors duration-500">
-      {/* ── FIXED GATEWAY TOP NAVIGATION BAR (z-50 keeps theme toggle above sticky search) ── */}
-      <GatewayNav statusLabel="SHOP_READY" logoLabel="DERMASYNTAX // SHOP_v1.0.4" />
+    <div className="mx-auto max-w-7xl w-full px-6 md:px-12 space-y-6">
+      {/* PAGE HEADINGS */}
+      <div className="border-b border-zinc-200 dark:border-zinc-800 pb-6">
+        <span className="font-mono text-[10px] tracking-widest text-zinc-500 dark:text-zinc-500 uppercase">
+          // CERTIFIED SOURCE LIST
+        </span>
+        <h2 className="text-2xl font-bold tracking-tight mt-1 text-zinc-900 dark:text-zinc-50">
+          CANONICAL PRODUCT CATALOG
+        </h2>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-2xl">
+          Verified formulation index mapped against the canonical product database. Procure directly via authorized brand stores.
+        </p>
+        <div className="mt-3 flex items-center gap-3 text-[9px] font-mono tracking-widest text-zinc-500 dark:text-zinc-500 uppercase">
+          <span>REGISTRY // {productCatalog.length} SKUs</span>
+          <span className="text-zinc-300 dark:text-zinc-700">|</span>
+          <span>BRANDS // {new Set(productCatalog.map((p) => p.brand)).size}</span>
+          <span className="text-zinc-300 dark:text-zinc-700">|</span>
+          <span>SYNC // NOMINAL</span>
+        </div>
+      </div>
 
-      {/* ── MAIN SPLIT LAYOUT (mirrors docs/manual page flow) ── */}
-      <div className="flex pt-16">
-        <main className="flex-1 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-16">
+      {/* SEARCH FILTER CONTROL */}
+      <div className="py-2 w-full">
+        <input
+          type="text"
+          placeholder="SEARCH BY INGREDIENT, BRAND, OR COMPONENT CATEGORY..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full max-w-md font-mono text-xs bg-zinc-100 dark:bg-[#0c0c0e] border-2 border-zinc-800 dark:border-white/10 rounded-xl px-4 py-3 outline-none tracking-wider text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500 dark:placeholder:text-zinc-600"
+        />
+      </div>
 
-            {/* PAGE HEADINGS */}
-            <div className="border-b border-zinc-200 dark:border-zinc-800 pb-6 mb-8">
-              <span className="font-mono text-[10px] tracking-widest text-zinc-500 dark:text-zinc-500 uppercase">
-                // CERTIFIED SOURCE LIST
-              </span>
-              <h1 className="text-2xl font-bold tracking-tight mt-1 text-zinc-900 dark:text-zinc-50">
-                CANONICAL PRODUCT CATALOG
-              </h1>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-2xl">
-                Verified formulation index mapped against the canonical product database. Procure directly via authorized brand stores.
-              </p>
-              <div className="mt-3 flex items-center gap-3 text-[9px] font-mono tracking-widest text-zinc-500 dark:text-zinc-500 uppercase">
-                <span>REGISTRY // {productCatalog.length} SKUs</span>
-                <span className="text-zinc-300 dark:text-zinc-700">|</span>
-                <span>BRANDS // {new Set(productCatalog.map((p) => p.brand)).size}</span>
-                <span className="text-zinc-300 dark:text-zinc-700">|</span>
-                <span>SYNC // NOMINAL</span>
-              </div>
-            </div>
+      {/* HORIZONTAL QUICK GOAL SHORTCUTS TRACK */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-3 w-full clear-both pointer-events-auto">
+        <button
+          onClick={() => setActiveGoal(null)}
+          className={`font-mono text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all select-none whitespace-nowrap ${
+            activeGoal === null
+              ? 'bg-zinc-950 text-white border-zinc-950 dark:bg-zinc-100 dark:text-zinc-950 dark:border-zinc-100'
+              : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400 dark:bg-[#0c0c0e] dark:text-zinc-400 dark:border-zinc-800'
+          }`}
+        >
+          // ALL PRODUCTS
+        </button>
 
-            {/* STICKY SEARCH FILTER CONTROL — wrapper is fully transparent so no black bar blocks the page; the input itself keeps pointer events + sharp borders */}
-            <div className="sticky top-16 z-30 bg-transparent py-4 mb-6 w-full pointer-events-none">
-              <input
-                type="text"
-                placeholder="SEARCH BY INGREDIENT, BRAND, OR COMPONENT CATEGORY..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full max-w-md font-mono text-xs bg-zinc-100 dark:bg-[#0c0c0e] border-2 border-zinc-800 dark:border-white/10 rounded-xl px-4 py-3 outline-none tracking-wider text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500 dark:placeholder:text-zinc-600 pointer-events-auto"
-              />
-            </div>
+        {[
+          { id: 'pores', label: '🧼 CLEAR PORES' },
+          { id: 'hydration', label: '💧 DEEP HYDRATION' },
+          { id: 'barrier', label: '🛡️ BARRIER REPAIR' },
+          { id: 'aging', label: '⏳ ANTI-AGING' }
+        ].map((goal) => {
+          const isCurrent = activeGoal === goal.id;
+          return (
+            <button
+              key={goal.id}
+              onClick={() => setActiveGoal(isCurrent ? null : goal.id)}
+              className={`font-mono text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all select-none whitespace-nowrap ${
+                isCurrent
+                  ? 'bg-emerald-600 text-white border-emerald-600 dark:bg-emerald-500 dark:text-zinc-950 dark:border-emerald-500 shadow-sm'
+                  : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 dark:bg-[#0c0c0e] dark:text-zinc-400 dark:border-zinc-800'
+              }`}
+            >
+              {goal.label}
+            </button>
+          );
+        })}
+      </div>
 
-            {/* HORIZONTAL QUICK GOAL SHORTCUTS TRACK */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 scrollbar-none w-full clear-both pointer-events-auto">
-              <button
-                onClick={() => setActiveGoal(null)}
-                className={`font-mono text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all select-none whitespace-nowrap ${
-                  activeGoal === null
-                    ? 'bg-zinc-950 text-white border-zinc-950 dark:bg-zinc-100 dark:text-zinc-950 dark:border-zinc-100'
-                    : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400 dark:bg-[#0c0c0e] dark:text-zinc-400 dark:border-zinc-800'
-                }`}
-              >
-                // ALL PRODUCTS
-              </button>
-
-              {[
-                { id: 'pores', label: '🧼 CLEAR PORES', keywords: ['pore', 'salicylic', 'bha', 'cleanser', 'breakout'] },
-                { id: 'hydration', label: '💧 DEEP HYDRATION', keywords: ['hydrat', 'moisture', 'water', 'hyaluronic', 'dry'] },
-                { id: 'barrier', label: '🛡️ BARRIER REPAIR', keywords: ['barrier', 'ceramide', 'soothe', 'sensitive', 'calm'] },
-                { id: 'aging', label: '⏳ ANTI-AGING', keywords: ['aging', 'retinol', 'wrinkle', 'brighten', 'vitamin c'] }
-              ].map((goal) => {
-                const isCurrent = activeGoal === goal.id;
+      {/* ALPHABETICAL BRAND-GROUPED SECTIONS */}
+      {sortedBrands.map((brand, idx) => {
+        const brandProducts = groupedByBrand[brand];
+        return (
+          <section key={brand} className="mb-4">
+            {idx > 0 && <hr className="border-t border-zinc-200 dark:border-zinc-900 my-12 clear-both" />}
+            <h3 className="text-xs font-mono font-bold tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 mt-8 uppercase">
+              // BRAND // {brand}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {brandProducts.map((product, pIdx) => {
+                const cardKey = `product-card-${product.id}`;
+                const isCardVisible = visibleSections?.[cardKey];
                 return (
-                  <button
-                    key={goal.id}
-                    onClick={() => setActiveGoal(isCurrent ? null : goal.id)}
-                    className={`font-mono text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all select-none whitespace-nowrap ${
-                      isCurrent
-                        ? 'bg-emerald-600 text-white border-emerald-600 dark:bg-emerald-500 dark:text-zinc-950 dark:border-emerald-500 shadow-sm'
-                        : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 dark:bg-[#0c0c0e] dark:text-zinc-400 dark:border-zinc-800'
-                    }`}
+                  <div
+                    key={product.id}
+                    data-card-key={cardKey}
+                    className="shop-card-motion-trigger w-full min-h-[340px]"
                   >
-                    {goal.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* ALPHABETICAL BRAND-GROUPED SECTIONS */}
-            {sortedBrands.map((brand, idx) => {
-              const brandProducts = groupedByBrand[brand];
-              return (
-                <section key={brand} className="mb-4">
-                  {idx > 0 && <hr className="border-t border-zinc-200 dark:border-zinc-900 my-12 clear-both" />}
-                  <h2 className="text-xs font-mono font-bold tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 mt-8 uppercase">
-                    // BRAND // {brand}
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {brandProducts.map((product) => (
+                    <div
+                      className={`w-full h-full will-change-[transform,opacity] transition-all duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        isCardVisible
+                          ? 'opacity-100 translate-y-0 scale-100 blur-none'
+                          : 'opacity-0 translate-y-32 scale-95 blur-sm'
+                      }`}
+                      style={{ transitionDelay: `${(pIdx % 4) * 100}ms` }}
+                    >
                       <ProductCard
-                        key={product.id}
                         product={product}
                         activeProfile={activeProfile}
                       />
-                    ))}
+                    </div>
                   </div>
-                </section>
-              );
-            })}
-
-            {/* COMPLIANCE DISCLOSURE FOOTER */}
-            <div className="mt-16 border-t border-zinc-200 dark:border-zinc-900 pt-6 text-[10px] font-mono text-zinc-500 dark:text-zinc-500">
-              <span>
-                [ NOTICE // TRANSPARENCY MANUAL ] — DERMASYNTAX REPLICA IS A RESEARCH TAXONOMY MATRIX. OUTBOUND EXTERNAL HYPERLINKS ARE DIRECTED TO RESPECTIVE INTELLECTUAL TRADEMARK OWNERS FOR NOMINATIVE USE CASES ONLY.
-              </span>
+                );
+              })}
             </div>
-          </div>
-        </main>
+          </section>
+        );
+      })}
+
+      {sortedBrands.length === 0 && (
+        <div className="flex flex-col items-center justify-center p-12 text-center text-zinc-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-extrabold font-mono">
+          No products match the current filter matrix.
+        </div>
+      )}
+
+      {/* COMPLIANCE DISCLOSURE FOOTER */}
+      <div className="mt-8 border-t border-zinc-200 dark:border-zinc-900 pt-6 text-[10px] font-mono text-zinc-500 dark:text-zinc-500">
+        <span>
+          [ NOTICE // TRANSPARENCY MANUAL ] — DERMASYNTAX REPLICA IS A RESEARCH TAXONOMY MATRIX. OUTBOUND EXTERNAL HYPERLINKS ARE DIRECTED TO RESPECTIVE INTELLECTUAL TRADEMARK OWNERS FOR NOMINATIVE USE CASES ONLY.
+        </span>
       </div>
     </div>
   );

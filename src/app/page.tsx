@@ -18,6 +18,9 @@ import ExportPanel from '@/components/ExportPanel';
 import { SplineScene } from '@/components/SplineScene';
 import AnimatedThemeToggler from '@/components/AnimatedThemeToggler';
 import GatewayNav from '@/components/GatewayNav';
+import ManualSection from '@/components/ManualSection';
+import DocumentationSection from '@/components/DocumentationSection';
+import ShopSection from '@/components/ShopSection';
 
 const checkConflicts = (ingredients: string[]) => {
   const hasRetinol = ingredients.some(i => /\bretinol\b/i.test(i) || /\bretinoid\b/i.test(i));
@@ -168,6 +171,56 @@ export default function Home() {
     }
   }, []);
 
+  const [visibleSections, setVisibleSections] = React.useState<Record<string, boolean>>({});
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleScrollCheck = () => {
+      const updatedStates: Record<string, boolean> = { ...visibleSections };
+      let changed = false;
+
+      // 1. Monitor major section milestone triggers
+      const sections = ["manual-section", "doc-section", "shop-section"];
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const pos = el.getBoundingClientRect();
+          if (pos.top < window.innerHeight * 0.65 && !visibleSections[id]) {
+            updatedStates[id] = true;
+            changed = true;
+          }
+        }
+      });
+
+      // 2. Independently check EVERY single individual shop card element by its data key
+      const cardElements = document.querySelectorAll(".shop-card-motion-trigger");
+      cardElements.forEach((el) => {
+        const cardKey = el.getAttribute("data-card-key");
+        if (cardKey) {
+          const pos = el.getBoundingClientRect();
+          if (pos.top < window.innerHeight * 0.75 && !visibleSections[cardKey]) {
+            updatedStates[cardKey] = true;
+            changed = true;
+          }
+        }
+      });
+
+      if (changed) {
+        setVisibleSections(updatedStates);
+      }
+    };
+
+    const scrollContainer = document.querySelector('.overflow-y-auto') || window;
+    handleScrollCheck();
+    scrollContainer.addEventListener("scroll", handleScrollCheck, { passive: true });
+    window.addEventListener("resize", handleScrollCheck);
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", handleScrollCheck);
+      window.removeEventListener("resize", handleScrollCheck);
+    };
+  }, [visibleSections]);
+
   // Compiler execution toggle state controlling main routing benchmarks
   const [compilerMode, setCompilerMode] = React.useState<'ingredients' | 'products'>('ingredients');
 
@@ -296,7 +349,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden bg-zinc-50 text-zinc-800 dark:bg-[#121212] dark:text-zinc-100 antialiased select-none transition-colors duration-500">
+    <div className="relative flex flex-col min-h-screen bg-zinc-50 text-zinc-800 dark:bg-[#121212] dark:text-zinc-100 antialiased select-none transition-colors duration-500">
 
       {/* GLOBAL BACKGROUND CANVAS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -321,13 +374,32 @@ export default function Home() {
             {/* ── FIXED GATEWAY TOP NAVIGATION BAR ── */}
             <GatewayNav />
 
+            {/* ── FIRST-VIEWPORT HERO WRAPPER (locks hero + 3D to initial screen) ── */}
+            <div id="hero-section" className="w-full h-screen relative bg-white dark:bg-[#0c0c0e] overflow-hidden">
+            {/* BULLETPROOF WATERMARK REMOVAL SHIELD */}
+            <style dangerouslySetInnerHTML={{__html: `
+              a[href*="spline.design"],
+              a[href*="spline"],
+              [class*="spline"][class*="logo"],
+              #logo,
+              spline-viewer::part(logo),
+              spline-viewer::after {
+                display: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+                width: 0px !important;
+                height: 0px !important;
+                overflow: hidden !important;
+              }
+            `}} />
             {/* ── HIGH-END UNIFIED PRESENTATION CONSOLE ── */}
             <motion.div
               key="onboarding"
               initial={{ opacity: 1 }}
               exit={{ opacity: 0, scale: 0.98, y: 5 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex flex-col flex-1 items-center justify-center lg:items-start h-full w-full max-w-[1400px] mx-auto min-h-0 px-6 pt-20 md:px-12 md:pb-12 pb-24 overflow-y-auto lg:overflow-visible custom-scrollbar"
+              className="relative flex flex-col items-center justify-center lg:items-start h-full w-full max-w-[1400px] mx-auto px-6 pt-20 md:px-12 md:pb-12 pb-24 overflow-visible custom-scrollbar"
             >
 
               {/* Invisible dismiss background overlay */}
@@ -479,21 +551,26 @@ export default function Home() {
 
             </motion.div>
 
-            {/* ── FLOATING OVERLAY: PERFECTLY BALANCED VIEWPORT DECK ── */}
+            {/* ── PRODUCTION-MATCHED ROBOT CONTAINER ── */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
-              className="hidden md:flex absolute right-[-15%] bottom-0 w-[80%] h-full items-end justify-center pointer-events-auto z-10 overflow-visible shrink-0"
+              className="hidden md:flex absolute -right-[5vw] bottom-0 w-full md:w-[60vw] h-full pointer-events-none z-0 flex items-end justify-end overflow-visible select-none"
             >
               {/* Ambient lighting ring anchor */}
               <div className="absolute -z-10 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100 via-zinc-100 to-transparent dark:from-emerald-950/20 dark:via-transparent dark:to-transparent rounded-full blur-3xl opacity-80 dark:opacity-40 pointer-events-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full transform translate-y-[13%] object-contain filter brightness-[1.03] contrast-[0.97] dark:brightness-100 dark:contrast-100 transition-all duration-300"
-              />
+              <div className="w-full h-full flex items-end justify-end relative bottom-0 right-0 overflow-visible transform translate-x-[4vw] translate-y-[8vh]">
+                <div className="w-full h-full overflow-visible flex items-end justify-end [&_a]:!hidden [&_a]:!opacity-0 [&_a]:!pointer-events-none">
+                  <SplineScene
+                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                    className="w-full h-full object-contain filter brightness-[1.03] contrast-[0.97] dark:brightness-100 dark:contrast-100 transition-all duration-300"
+                  />
+                </div>
+              </div>
             </motion.div>
+            </div>
 
             {/* ── CLINICAL REALISM GATEWAY FOOTER ── */}
             <footer className="fixed bottom-0 left-0 right-0 w-full py-6 px-8 flex items-end justify-between z-40 select-none pointer-events-none">
@@ -504,6 +581,42 @@ export default function Home() {
                 &copy; 2026 DERMASYNTAX // SYS_REF: BUILD_V1.0.4
               </span>
             </footer>
+
+            {/* ================= SECTION: USER MANUAL ================= */}
+            <section
+              id="manual-section"
+              className="print:hidden w-full py-24 border-t border-zinc-200 dark:border-zinc-900 clear-both bg-white dark:bg-[#0c0c0e] px-6 md:px-12"
+            >
+              <div className="max-w-6xl mx-auto">
+                <div className={`will-change-transform transition-all duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  visibleSections['manual-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+                }`}>
+                  <ManualSection />
+                </div>
+              </div>
+            </section>
+            {/* ================= SECTION: SYSTEM DOCUMENTATION ================= */}
+            <section
+              id="doc-section"
+              className="print:hidden w-full py-24 border-t border-zinc-200 dark:border-zinc-900 clear-both bg-white dark:bg-[#0c0c0e] px-6 md:px-12"
+            >
+              <div className="max-w-6xl mx-auto">
+                <div className={`will-change-transform transition-all duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  visibleSections['doc-section'] ? 'opacity-100 scale-100 blur-none' : 'opacity-0 scale-95 blur-sm'
+                }`}>
+                  <DocumentationSection />
+                </div>
+              </div>
+            </section>
+            {/* ================= SECTION: PRODUCT SHOP ================= */}
+            <section
+              id="shop-section"
+              className="print:hidden w-full py-24 border-t border-zinc-200 dark:border-zinc-900 clear-both bg-white dark:bg-[#0c0c0e] px-6 md:px-12 min-h-[500px]"
+            >
+              <div className="max-w-7xl mx-auto">
+                <ShopSection visibleSections={visibleSections} />
+              </div>
+            </section>
           </>
         ) : (
 
@@ -513,17 +626,17 @@ export default function Home() {
             initial={{ opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 flex flex-col min-h-screen lg:h-screen w-full"
+            className="relative z-10 flex flex-col min-h-screen w-full"
           >
             {/* Root page manages onboarding gatekeeping via localStorage; header link requires no manual interceptor */}
             <div className="print:hidden">
               <Navbar />
             </div>
 
-            <main className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden p-4 lg:p-8 gap-6 lg:gap-8 custom-scrollbar">
+            <main className="flex flex-col lg:flex-row flex-1 p-4 lg:p-8 gap-6 lg:gap-8">
 
               {/* 🧪 INGREDIENT ARSENAL — GLASSMORPHIC LUXURY LAB PANEL */}
-              <section className="print:hidden flex w-full lg:w-80 shrink-0 flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-md shadow-sm p-5 transition-all duration-500 text-zinc-800 dark:text-zinc-100">
+              <section className="print:hidden col-span-1 h-fit sticky top-24 flex w-full lg:w-80 shrink-0 flex-col rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.03] backdrop-blur-md shadow-sm p-5 transition-all duration-500 text-zinc-800 dark:text-zinc-100">
                 <div className="mb-4">
                   <div className="flex items-center justify-between">
                     <h2 className="text-xs font-black tracking-widest text-zinc-900 dark:text-zinc-400 uppercase">
@@ -569,7 +682,8 @@ export default function Home() {
                   })}
                 </div>
 
-                <div className="flex-1 overflow-y-auto max-h-[400px] lg:max-h-none px-1.5 py-1 custom-scrollbar">
+                {/* RESTORED SCROLL-CONTAINED INGREDIENT LIST CARD DECK */}
+                <div className="flex flex-col gap-3 overflow-y-auto max-h-[calc(100vh-320px)] pr-1 scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-800">
                   {searchQuery.trim() ? (
                     <>
                       <div className="mb-2 flex items-center gap-1.5">
